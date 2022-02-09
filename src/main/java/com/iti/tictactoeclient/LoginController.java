@@ -14,7 +14,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 
-public class Controller implements Initializable {
+public class LoginController implements Initializable {
 
     @FXML
     private Button LoginButton;
@@ -59,6 +59,7 @@ public class Controller implements Initializable {
     @FXML
     public void onLoginButtonClick() {
      // use invalidtxt to show a msg in case of invalid data
+        invaliduserTxt.setText("");
     }
     @FXML
     public void onResetButtonClick() {
