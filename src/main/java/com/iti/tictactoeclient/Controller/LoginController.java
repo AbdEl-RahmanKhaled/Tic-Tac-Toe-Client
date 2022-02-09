@@ -1,4 +1,4 @@
-package com.iti.tictactoeclient;
+package com.iti.tictactoeclient.Controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -63,7 +63,8 @@ public class LoginController implements Initializable {
     }
     @FXML
     public void onResetButtonClick() {
-
+        usernameText.clear();
+        PasswordTxt.clear();
     }
 
 

@@ -60,7 +60,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.iti.tictactoeclient/com.iti.tictactoeclient.Login</mainClass>
+                            <mainClass>com.iti.tictactoeclient/com.iti.tictactoeclient.Main</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
