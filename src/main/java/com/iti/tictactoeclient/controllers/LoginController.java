@@ -1,4 +1,4 @@
-package com.iti.tictactoeclient.Controller;
+package com.iti.tictactoeclient.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
