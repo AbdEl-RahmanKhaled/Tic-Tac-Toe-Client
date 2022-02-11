@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to right, #b92b27, #1565c0);;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iti.tictactoeclient.controllers.RegisterController">
+   <children>
+      <AnchorPane layoutX="168.0" layoutY="102.0" prefHeight="265.0" prefWidth="265.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+         <children>
+            <Button fx:id="RegiterButton" layoutX="54.0" layoutY="202.0" mnemonicParsing="false" onAction="#onActionRegister" prefHeight="30.0" prefWidth="158.0" style="-fx-background-radius: 20;" text="Register" />
+            <TextField fx:id="UserNameTxt" layoutX="55.0" layoutY="85.0" promptText="User Name" />
+            <TextField fx:id="FirstNameTxt" layoutX="56.0" layoutY="118.0" promptText="First Name" />
+            <PasswordField fx:id="PasswordTxt" layoutX="57.0" layoutY="154.0" promptText="Password" />
+         </children>
+      </AnchorPane>
+      <ImageView fx:id="backgroundimg" fitHeight="121.0" fitWidth="200.0" layoutX="215.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../images/7.png" />
+         </image>
+      </ImageView>
+   </children>
+</Pane>
