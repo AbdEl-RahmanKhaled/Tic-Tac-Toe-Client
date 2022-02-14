@@ -1,9 +1,7 @@
 package com.iti.tictactoeclient.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -11,7 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import com.iti.tictactoeclient.Main;
+import com.iti.tictactoeclient.TicTacToeClient;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -50,11 +48,11 @@ public class LoginController implements Initializable {
         // use invalidtxt to show a msg in case of invalid data
         invaliduserTxt.setText("");
         // if true
-        Main.openHomeView();
+        TicTacToeClient.openHomeView();
     }
     @FXML
     public void onRegisterButtonClick() throws IOException {
-        Main.openRegisterView();
+        TicTacToeClient.openRegisterView();
     }
 
 }

@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class Main extends Application {
+public class TicTacToeClient extends Application {
     private static Stage mainStage;
     public static RegisterController registerController;
     public static HomeController homeController;
@@ -20,7 +20,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(TicTacToeClient.class.getResource("Login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
         mainStage = stage;
@@ -32,7 +32,7 @@ public class Main extends Application {
 
     public static void openRegisterView() {
         try {
-            FXMLLoader fxmlLoaderrigister = new FXMLLoader(Main.class.getResource("Register.fxml"));
+            FXMLLoader fxmlLoaderrigister = new FXMLLoader(TicTacToeClient.class.getResource("Register.fxml"));
             Scene sceneRegist = new Scene(fxmlLoaderrigister.load());
             registerController = fxmlLoaderrigister.getController();
             mainStage.hide();
@@ -47,7 +47,7 @@ public class Main extends Application {
 
     public static void openHomeView() {
         try {
-            FXMLLoader fxmlLoaderHome = new FXMLLoader(Main.class.getResource("Home.fxml"));
+            FXMLLoader fxmlLoaderHome = new FXMLLoader(TicTacToeClient.class.getResource("Home.fxml"));
             Scene sceneHome = new Scene(fxmlLoaderHome.load());
             homeController = fxmlLoaderHome.getController();
             mainStage.hide();
@@ -62,7 +62,7 @@ public class Main extends Application {
 
     public static void openGameView() {
         try {
-            FXMLLoader fxmlLoaderGame = new FXMLLoader(Main.class.getResource("Game.fxml"));
+            FXMLLoader fxmlLoaderGame = new FXMLLoader(TicTacToeClient.class.getResource("Game.fxml"));
             Scene sceneHome = new Scene(fxmlLoaderGame.load());
             gameController = fxmlLoaderGame.getController();
             mainStage.hide();
@@ -76,7 +76,7 @@ public class Main extends Application {
     }
     public static void openloginView() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Login.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(TicTacToeClient.class.getResource("Login.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             loginController = fxmlLoader.getController();
             mainStage.hide();
