@@ -1,6 +1,6 @@
 package com.iti.tictactoeclient.controllers;
 
-import com.iti.tictactoeclient.Main;
+import com.iti.tictactoeclient.TicTacToeClient;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -32,7 +32,7 @@ public class RegisterController implements Initializable {
 
     @FXML
     protected void onActionRegister() {
-        Main.openloginView();
+        TicTacToeClient.openloginView();
     }
 
     @FXML

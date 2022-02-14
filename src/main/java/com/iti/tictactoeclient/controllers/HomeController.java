@@ -1,6 +1,6 @@
 package com.iti.tictactoeclient.controllers;
 
-import com.iti.tictactoeclient.Main;
+import com.iti.tictactoeclient.TicTacToeClient;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -37,17 +37,17 @@ public class HomeController implements Initializable {
     private Button VsCompButton;
     @FXML
     public void InviteButton() {
-        Main.openGameView();
+        TicTacToeClient.openGameView();
 
     }
     @FXML
     public void ComputerButton() {
-        Main.openGameView();
+        TicTacToeClient.openGameView();
 
     }
     @FXML
     public void LogoutButton() {
-    Main.openloginView();
+    TicTacToeClient.openloginView();
 
     }
     @FXML
