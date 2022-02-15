@@ -36,6 +36,10 @@ public class HomeController implements Initializable {
     @FXML
     private Button VsCompButton;
     @FXML
+    private Label playernamelabel;
+    @FXML
+    private Label ScoreLabel;
+    @FXML
     public void InviteButton() {
         TicTacToeClient.openGameView();
 
