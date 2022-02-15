@@ -7,9 +7,55 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to right, #b92b27, #1565c0);;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iti.tictactoeclient.controllers.HomeController">
    <children>
+      <Label layoutX="54.0" layoutY="240.0" prefHeight="24.0" prefWidth="85.0" text="Score:">
+         <textFill>
+            <LinearGradient endX="0.41666664499225037" endY="1.0" startX="0.3825757584788583">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.03759999945759773" green="0.9399999976158142" blue="0.7883036136627197" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.7768396735191345" green="0.7799999713897705" blue="0.046799998730421066" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="54.0" layoutY="192.0" prefHeight="24.0" prefWidth="85.0" text="Player name :">
+         <textFill>
+            <LinearGradient endX="0.41666664499225037" endY="1.0" startX="0.3825757584788583">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.03759999945759773" green="0.9399999976158142" blue="0.7883036136627197" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.7768396735191345" green="0.7799999713897705" blue="0.046799998730421066" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
       <ImageView fx:id="backgroundimg" fitHeight="121.0" fitWidth="200.0" layoutX="36.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../../../images/7.png" />
@@ -22,10 +68,70 @@
         </columns>
       </TableView>
       <Button fx:id="LogoutButton" layoutX="472.0" layoutY="428.0" mnemonicParsing="false" onAction="#LogoutButton" text="LogOut" />
-      <Button fx:id="InviteButton" layoutX="36.0" layoutY="302.0" mnemonicParsing="false" onAction="#InviteButton" prefHeight="25.0" prefWidth="85.0" text="Invite player" />
-      <Button fx:id="VsCompButton" layoutX="144.0" layoutY="302.0" mnemonicParsing="false" onAction="#ComputerButton" text="Vs Computer" />
-      <Label fx:id="UserNameLabl" layoutX="79.0" layoutY="193.0" prefHeight="25.0" prefWidth="85.0" text="Player" />
-      <Label fx:id="ScoreLabl" layoutX="79.0" layoutY="242.0" prefHeight="25.0" prefWidth="56.0" text="Score:" />
-      <Label layoutX="357.0" layoutY="37.0" prefHeight="17.0" prefWidth="130.0" text="Choose player" />
+      <Button fx:id="InviteButton" layoutX="36.0" layoutY="331.0" mnemonicParsing="false" onAction="#InviteButton" prefHeight="25.0" prefWidth="85.0" text="Invite player" />
+      <Button fx:id="VsCompButton" layoutX="144.0" layoutY="331.0" mnemonicParsing="false" onAction="#ComputerButton" text="Vs Computer" />
+      <Label fx:id="ChoosePlayers" layoutX="353.0" layoutY="41.0" text="Choose Players ">
+         <textFill>
+            <LinearGradient endX="0.41666664499225037" endY="1.0" startX="0.3825757584788583">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.03759999945759773" green="0.9399999976158142" blue="0.7883036136627197" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.7768396735191345" green="0.7799999713897705" blue="0.046799998730421066" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="playernamelabel" layoutX="151.0" layoutY="192.0" prefHeight="24.0" prefWidth="85.0">
+         <textFill>
+            <LinearGradient endX="0.41666664499225037" endY="1.0" startX="0.3825757584788583">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.03759999945759773" green="0.9399999976158142" blue="0.7883036136627197" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.7768396735191345" green="0.7799999713897705" blue="0.046799998730421066" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="ScoreLabel" layoutX="144.0" layoutY="240.0" prefHeight="24.0" prefWidth="85.0">
+         <textFill>
+            <LinearGradient endX="0.41666664499225037" endY="1.0" startX="0.3825757584788583">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.03759999945759773" green="0.9399999976158142" blue="0.7883036136627197" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.7768396735191345" green="0.7799999713897705" blue="0.046799998730421066" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -20,6 +21,8 @@ import java.util.ResourceBundle;
 
 public class GameController implements Initializable {
     public static GameController gameController;
+    @FXML
+    private Label Player1vsplayer2label;
 
     @FXML
     private ImageView backgroundimg;
@@ -61,8 +64,7 @@ public class GameController implements Initializable {
         File backfile = new File("images/7.png");
         Image background = new Image(backfile.toURI().toString());
         backgroundimg.setImage(background);
-
-
+        ChatArea.setEditable(false);
     }
 
     @FXML

@@ -7,8 +7,10 @@ import com.iti.tictactoeclient.controllers.RegisterController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 
 public class TicTacToeClient extends Application {
@@ -22,11 +24,13 @@ public class TicTacToeClient extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(TicTacToeClient.class.getResource("Login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-
+        File iconfile = new File("images/7.png");
+        Image icon = new Image(iconfile.toURI().toString());
         mainStage = stage;
         stage.setTitle("Login");
         stage.setResizable(false);
         stage.setScene(scene);
+        stage.getIcons().add(icon);
         stage.show();
     }
 
@@ -38,6 +42,9 @@ public class TicTacToeClient extends Application {
             mainStage.hide();
             mainStage.setScene(sceneRegist);
             mainStage.setTitle("Register");
+            File iconfile = new File("images/7.png");
+            Image icon = new Image(iconfile.toURI().toString());
+            mainStage.getIcons().add(icon);
             mainStage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -53,6 +60,9 @@ public class TicTacToeClient extends Application {
             mainStage.hide();
             mainStage.setScene(sceneHome);
             mainStage.setTitle("Home");
+            File iconfile = new File("images/7.png");
+            Image icon = new Image(iconfile.toURI().toString());
+            mainStage.getIcons().add(icon);
             mainStage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -68,6 +78,9 @@ public class TicTacToeClient extends Application {
             mainStage.hide();
             mainStage.setScene(sceneHome);
             mainStage.setTitle("TicTacToe");
+            File iconfile = new File("images/7.png");
+            Image icon = new Image(iconfile.toURI().toString());
+            mainStage.getIcons().add(icon);
             mainStage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -82,6 +95,9 @@ public class TicTacToeClient extends Application {
             mainStage.hide();
             mainStage.setScene(scene);
             mainStage.setTitle("login");
+            File iconfile = new File("images/7.png");
+            Image icon = new Image(iconfile.toURI().toString());
+            mainStage.getIcons().add(icon);
             mainStage.show();
 
         } catch (IOException e) {
