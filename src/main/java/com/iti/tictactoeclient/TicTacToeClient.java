@@ -60,7 +60,7 @@ public class TicTacToeClient extends Application {
             mainStage.hide();
             mainStage.setScene(sceneHome);
             mainStage.setTitle("Home");
-            File iconfile = new File("images/7.png");
+            File iconfile = new File("images/88.png");
             Image icon = new Image(iconfile.toURI().toString());
             mainStage.getIcons().add(icon);
             mainStage.show();
@@ -95,7 +95,7 @@ public class TicTacToeClient extends Application {
             mainStage.hide();
             mainStage.setScene(scene);
             mainStage.setTitle("login");
-            File iconfile = new File("images/7.png");
+            File iconfile = new File("images/88.png");
             Image icon = new Image(iconfile.toURI().toString());
             mainStage.getIcons().add(icon);
             mainStage.show();
