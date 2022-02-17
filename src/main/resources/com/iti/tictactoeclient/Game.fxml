@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.PerspectiveTransform?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -22,6 +23,9 @@
          <image>
             <Image url="@../../../../../../images/7.png" />
          </image>
+         <effect>
+            <DropShadow blurType="TWO_PASS_BOX" height="73.99" radius="54.989999999999995" width="147.97" />
+         </effect>
       </ImageView>
       <GridPane gridLinesVisible="true" layoutX="31.0" layoutY="148.0" prefHeight="246.0" prefWidth="347.0" style="-fx-background-color: white; -fx-border-color: red; -fx-border-width: 4;">
         <columnConstraints>

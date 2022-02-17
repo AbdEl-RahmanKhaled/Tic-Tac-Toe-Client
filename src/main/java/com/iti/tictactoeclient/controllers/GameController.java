@@ -1,6 +1,8 @@
 package com.iti.tictactoeclient.controllers;
 
 import com.iti.tictactoeclient.TicTacToeClient;
+import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
@@ -65,6 +68,14 @@ public class GameController implements Initializable {
         Image background = new Image(backfile.toURI().toString());
         backgroundimg.setImage(background);
         ChatArea.setEditable(false);
+
+        ScaleTransition scale = new ScaleTransition();
+        scale.setNode(backgroundimg);
+        scale.setDuration(Duration.millis(1000));
+        scale.setCycleCount(2);
+        scale.setByX(1.2);
+        scale.setAutoReverse(true);
+        scale.play();
     }
 
     @FXML
