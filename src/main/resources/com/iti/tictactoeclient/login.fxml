@@ -4,6 +4,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -20,6 +22,13 @@
                <image>
                   <Image url="@../../../../../../images/7.png" />
                </image>
+               <effect>
+                  <DropShadow blurType="TWO_PASS_BOX" height="0.0" radius="36.4925" width="147.97">
+                     <input>
+                        <Bloom threshold="1.0" />
+                     </input>
+                  </DropShadow>
+               </effect>
             </ImageView>
             <Button fx:id="RegisterButton" layoutX="51.0" layoutY="236.0" mnemonicParsing="false" onAction="#onRegisterButtonClick" prefHeight="30.0" prefWidth="158.0" style="-fx-background-radius: 20;" text="Register" />
             <Label fx:id="invaliduserTxt" layoutX="57.0" layoutY="159.0" prefHeight="26.0" prefWidth="151.0" style="-fx-color: red;" textAlignment="CENTER" textFill="#ff0202" wrapText="true" />
