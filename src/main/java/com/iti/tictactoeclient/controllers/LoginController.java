@@ -1,5 +1,9 @@
 package com.iti.tictactoeclient.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.iti.tictactoeclient.helpers.ServerListener;
+import com.iti.tictactoeclient.models.Credentials;
+import com.iti.tictactoeclient.requests.LoginReq;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,10 +33,10 @@ public class LoginController implements Initializable {
     @FXML
     private Button RegisterButton;
     @FXML
-    private TextField usernameText;
+    private TextField UserNameTxt;
     @FXML
     private PasswordField PasswordTxt;
-    // if the user data is invalied
+
     @FXML
     private Label invaliduserTxt;
     @FXML
@@ -40,7 +44,7 @@ public class LoginController implements Initializable {
 
     // to load img
     @FXML
-    public void initialize (URL url, ResourceBundle resourceBundle){
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         File backfile = new File("images/7.png");
         Image background = new Image(backfile.toURI().toString());
         backgroundimg.setImage(background);
@@ -58,10 +62,21 @@ public class LoginController implements Initializable {
     @FXML
     public void onLoginButton() {
         // use invalidtxt to show a msg in case of invalid data
-        invaliduserTxt.setText("Go Away !");
+        Credentials credentials = new Credentials();
+        credentials.setUserName(UserNameTxt.getText());
+        credentials.setPassword(PasswordTxt.getText());
+        LoginReq loginReq = new LoginReq(credentials);
+        try {
+            String jRequest = TicTacToeClient.mapper.writeValueAsString(loginReq);
+            ServerListener.sendRequest(jRequest);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
         // if true
-        TicTacToeClient.openHomeView();
+//        TicTacToeClient.openHomeView();
     }
+
     @FXML
     public void onRegisterButtonClick() throws IOException {
         TicTacToeClient.openRegisterView();

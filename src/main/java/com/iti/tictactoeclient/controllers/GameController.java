@@ -60,7 +60,7 @@ public class GameController implements Initializable {
     }
     @FXML
     protected void onActionExite() {
-     TicTacToeClient.openHomeView();
+//     TicTacToeClient.openHomeView();
     }
     @FXML
     public void initialize (URL url, ResourceBundle resourceBundle){

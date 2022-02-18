@@ -14,11 +14,15 @@ module com.iti.tictactoeclient {
     requires javafx.fxml;
     requires com.fasterxml.jackson.annotation;
     requires java.sql;
+    requires org.json;
+    requires com.fasterxml.jackson.databind;
 
 
     opens com.iti.tictactoeclient to javafx.fxml;
     exports com.iti.tictactoeclient;
     exports com.iti.tictactoeclient.controllers;
     opens com.iti.tictactoeclient.controllers to javafx.fxml;
+    exports com.iti.tictactoeclient.requests to com.fasterxml.jackson.databind;
+    exports com.iti.tictactoeclient.models to com.fasterxml.jackson.databind;
 }
 

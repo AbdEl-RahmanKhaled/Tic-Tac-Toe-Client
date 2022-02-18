@@ -31,7 +31,7 @@ public class Request {
     }
 
     public String getAction() {
-        return action;
+        return this.action;
     }
 
     public void setAction(String action) {
