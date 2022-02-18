@@ -111,6 +111,12 @@
             <artifactId>controlsfx</artifactId>
             <version>11.1.1</version>
         </dependency>
+    <dependencies>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
