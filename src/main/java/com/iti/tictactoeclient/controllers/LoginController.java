@@ -14,7 +14,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.TransferMode;
 import javafx.stage.Stage;
 import com.iti.tictactoeclient.TicTacToeClient;
 import javafx.util.Duration;
@@ -26,7 +25,7 @@ import java.util.ResourceBundle;
 
 
 public class LoginController implements Initializable {
-    private static final ObjectMapper mapper = new ObjectMapper();
+
     private Stage stage;
 
     @FXML
@@ -39,6 +38,7 @@ public class LoginController implements Initializable {
     private PasswordField PasswordTxt;
 
     // if the user data is invalied
+    // if the user data is invalid
     @FXML
     private Label invaliduserTxt;
     @FXML
@@ -47,10 +47,11 @@ public class LoginController implements Initializable {
 
     // to load img
     @FXML
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize (URL url, ResourceBundle resourceBundle){
         File backfile = new File("images/7.png");
         Image background = new Image(backfile.toURI().toString());
         backgroundimg.setImage(background);
+
         TranslateTransition transition = new TranslateTransition();
         transition.setNode(backgroundimg);
         transition.setCycleCount(2);

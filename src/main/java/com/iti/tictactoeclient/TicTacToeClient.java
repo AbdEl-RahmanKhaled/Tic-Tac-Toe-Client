@@ -4,7 +4,6 @@ import com.iti.tictactoeclient.controllers.GameController;
 import com.iti.tictactoeclient.controllers.HomeController;
 import com.iti.tictactoeclient.controllers.LoginController;
 import com.iti.tictactoeclient.controllers.RegisterController;
-import com.iti.tictactoeclient.helpers.ServerListener;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,10 +19,12 @@ public class TicTacToeClient extends Application {
     public static HomeController homeController;
     public static GameController gameController;
     public static LoginController loginController;
+    private static final ServerListener serverListener = new ServerListener();
 
     @Override
-    public void init() {
-        ServerListener serverListener = new ServerListener();
+    public void init() throws Exception {
+        super.init();
+        serverListener.setDaemon(true);
         serverListener.start();
     }
 
@@ -41,11 +42,12 @@ public class TicTacToeClient extends Application {
         stage.show();
     }
 
-    public static void openRegisterView() {
+    public static void openRegisterView(String message) {
         try {
             FXMLLoader fxmlLoaderrigister = new FXMLLoader(TicTacToeClient.class.getResource("Register.fxml"));
             Scene sceneRegist = new Scene(fxmlLoaderrigister.load());
             registerController = fxmlLoaderrigister.getController();
+            registerController.setLabel(message);
             mainStage.hide();
             mainStage.setScene(sceneRegist);
             mainStage.setTitle("Register");
