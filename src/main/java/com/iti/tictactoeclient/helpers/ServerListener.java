@@ -64,9 +64,13 @@ public class ServerListener extends Thread {
     }
 
     public static void sendRequest(String json) {
-        printStream.println(json);
-    }
+        try {
+            printStream.println(json);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
+    }
 
 
     interface IAction {
