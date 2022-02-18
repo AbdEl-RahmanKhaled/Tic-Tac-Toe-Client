@@ -4,6 +4,7 @@ import com.iti.tictactoeclient.controllers.GameController;
 import com.iti.tictactoeclient.controllers.HomeController;
 import com.iti.tictactoeclient.controllers.LoginController;
 import com.iti.tictactoeclient.controllers.RegisterController;
+import com.iti.tictactoeclient.helpers.ServerListener;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -19,6 +20,14 @@ public class TicTacToeClient extends Application {
     public static HomeController homeController;
     public static GameController gameController;
     public static LoginController loginController;
+    private static final ServerListener serverListener = new ServerListener();
+
+    @Override
+    public void init() throws Exception {
+        super.init();
+        serverListener.setDaemon(true);
+        serverListener.start();
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
