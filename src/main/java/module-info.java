@@ -18,9 +18,12 @@ module com.iti.tictactoeclient {
     requires org.json;
 
 
-    opens com.iti.tictactoeclient to javafx.fxml;
+    opens com.iti.tictactoeclient;
     exports com.iti.tictactoeclient;
     exports com.iti.tictactoeclient.controllers;
     opens com.iti.tictactoeclient.controllers to javafx.fxml;
+    opens com.iti.tictactoeclient.models;
+    exports com.iti.tictactoeclient.requests;
+    exports com.iti.tictactoeclient.responses;
 }
 

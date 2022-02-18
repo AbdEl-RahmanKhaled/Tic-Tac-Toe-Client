@@ -2,11 +2,9 @@ package com.iti.tictactoeclient.helpers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.iti.tictactoeclient.TicTacToeClient;
 import com.iti.tictactoeclient.responses.LoginRes;
 import com.iti.tictactoeclient.responses.Response;
-import javafx.fxml.FXML;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -20,13 +18,13 @@ import java.util.Objects;
 
 public class ServerListener extends Thread{
     private static final ObjectMapper mapper = new ObjectMapper();
-    private Socket clientSocket;
     private static PrintStream printStream;
     private BufferedReader dataInputStream;
-    private Map<String, IAction> actions;
+    private Map<String, IType> types;
 
-    public ServerListener(){
+    public ServerListener(Socket clientSocket){
         try {
+            initTypes();
             dataInputStream = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             printStream = new PrintStream(clientSocket.getOutputStream());
         } catch (IOException e) {
@@ -35,9 +33,10 @@ public class ServerListener extends Thread{
 
     }
 
-    private void initActions() {
-        actions = new HashMap<>();
-        actions.put(Response.RESPONSE_LOGIN, this::Login);
+    private void initTypes() {
+        types = new HashMap<>();
+        types.put(Response.RESPONSE_LOGIN, this::Login);
+        types.put(Response.RESPONSE_SIGN_UP, this::signUpRes);
     }
 
     @Override
@@ -46,13 +45,10 @@ public class ServerListener extends Thread{
             try {
                 String jResponse = dataInputStream.readLine();
                 JSONObject json = new JSONObject(jResponse);
-                String serverAction = (String) json.get("action");
-                actions.get(serverAction).handleAction(jResponse);
+                String responseType = (String) json.get("type");
+                types.get(responseType).handleAction(jResponse);
             } catch (Exception e) {
-                System.out.println("Stopped");
-                //dropConnection();
-                //System.out.println("No. of Clients: " + clients.size());
-                break;
+                e.printStackTrace();
             }
         }
 
@@ -72,11 +68,27 @@ public class ServerListener extends Thread{
         }
     }
 
+    private void signUpRes(String json) {
+        try {
+            Response signUpRes = mapper.readValue(json, Response.class);
+            if (Objects.equals(signUpRes.getStatus(), Response.STATUS_OK)){
+                TicTacToeClient.openLoginView("");
+            }
+            else
+            {
+                TicTacToeClient.openRegisterView(signUpRes.getMessage());
+            }
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public static void fireRequest(String json){
         printStream.println(json);
     }
 
-    interface IAction {
+    interface IType {
         void handleAction(String json);
     }
 

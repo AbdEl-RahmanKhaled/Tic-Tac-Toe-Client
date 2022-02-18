@@ -4,26 +4,34 @@ import com.iti.tictactoeclient.controllers.GameController;
 import com.iti.tictactoeclient.controllers.HomeController;
 import com.iti.tictactoeclient.controllers.LoginController;
 import com.iti.tictactoeclient.controllers.RegisterController;
+import com.iti.tictactoeclient.helpers.ServerListener;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
+import java.net.Socket;
 
 public class TicTacToeClient extends Application {
+    private Socket clientSocket;
     private static Stage mainStage;
     public static RegisterController registerController;
     public static HomeController homeController;
     public static GameController gameController;
     public static LoginController loginController;
-    private static final ServerListener serverListener = new ServerListener();
+    private static ServerListener serverListener;
 
     @Override
     public void init() throws Exception {
         super.init();
+        clientSocket=new Socket("127.0.0.1", 5000);
+        serverListener = new ServerListener(clientSocket);
         serverListener.setDaemon(true);
         serverListener.start();
     }
@@ -44,12 +52,13 @@ public class TicTacToeClient extends Application {
 
     public static void openRegisterView(String message) {
         try {
-            FXMLLoader fxmlLoaderrigister = new FXMLLoader(TicTacToeClient.class.getResource("Register.fxml"));
-            Scene sceneRegist = new Scene(fxmlLoaderrigister.load());
-            registerController = fxmlLoaderrigister.getController();
+            FXMLLoader fxmlLoaderRegister = new FXMLLoader(TicTacToeClient.class.getResource("Register.fxml"));
+            Scene sceneRegister = new Scene(fxmlLoaderRegister.load());
+            registerController = fxmlLoaderRegister.getController();
             registerController.setLabel(message);
             mainStage.hide();
-            mainStage.setScene(sceneRegist);
+            mainStage.setScene(sceneRegister);
+
             mainStage.setTitle("Register");
             File iconfile = new File("images/7.png");
             Image icon = new Image(iconfile.toURI().toString());
@@ -66,13 +75,16 @@ public class TicTacToeClient extends Application {
             FXMLLoader fxmlLoaderHome = new FXMLLoader(TicTacToeClient.class.getResource("Home.fxml"));
             Scene sceneHome = new Scene(fxmlLoaderHome.load());
             homeController = fxmlLoaderHome.getController();
-            mainStage.hide();
-            mainStage.setScene(sceneHome);
-            mainStage.setTitle("Home");
-            File iconfile = new File("images/88.png");
-            Image icon = new Image(iconfile.toURI().toString());
-            mainStage.getIcons().add(icon);
-            mainStage.show();
+            Platform.runLater(() -> {
+                mainStage.hide();
+                mainStage.setScene(sceneHome);
+                mainStage.setTitle("Home");
+                File iconfile = new File("images/88.png");
+                Image icon = new Image(iconfile.toURI().toString());
+                mainStage.getIcons().add(icon);
+                mainStage.show();
+            });
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -103,13 +115,16 @@ public class TicTacToeClient extends Application {
             Scene scene = new Scene(fxmlLoader.load());
             loginController = fxmlLoader.getController();
             loginController.setLabel(message);
-            mainStage.hide();
-            mainStage.setScene(scene);
-            mainStage.setTitle("login");
-            File iconfile = new File("images/88.png");
-            Image icon = new Image(iconfile.toURI().toString());
-            mainStage.getIcons().add(icon);
-            mainStage.show();
+            Platform.runLater(() -> {
+                mainStage.hide();
+                mainStage.setScene(scene);
+                mainStage.setTitle("login");
+                File iconfile = new File("images/88.png");
+                Image icon = new Image(iconfile.toURI().toString());
+                mainStage.getIcons().add(icon);
+                mainStage.show();
+            });
+
 
         } catch (IOException e) {
             e.printStackTrace();

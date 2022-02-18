@@ -22,6 +22,7 @@ import java.util.ResourceBundle;
 
 public class RegisterController implements Initializable {
 
+    private static final ObjectMapper mapper = new ObjectMapper();
     @FXML
     private ImageView backgroundimg;
 
@@ -40,11 +41,7 @@ public class RegisterController implements Initializable {
     @FXML
     private Label invalidinput;
 
-    public void setLabel(String msg){
-        invalidinput.setText(msg);
-    }
-
-    private static final ObjectMapper mapper = new ObjectMapper();
+    @FXML
     protected void onActionRegister() {
         User user = new User();
         user.setName(FirstNameTxt.getText());
@@ -75,5 +72,9 @@ public class RegisterController implements Initializable {
         rotateTransition.setAutoReverse(true);
         rotateTransition.play();
 
+    }
+
+    public void setLabel(String msg){
+        invalidinput.setText(msg);
     }
 }

@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
 
 
 public class LoginController implements Initializable {
-
+    private static final ObjectMapper mapper = new ObjectMapper();
     private Stage stage;
 
     @FXML
@@ -33,7 +33,7 @@ public class LoginController implements Initializable {
     @FXML
     private Button RegisterButton;
     @FXML
-    private TextField usernameText;
+    private TextField UserNameTxt;
     @FXML
     private PasswordField PasswordTxt;
 
@@ -67,7 +67,7 @@ public class LoginController implements Initializable {
 
         try {
             LoginReq loginReq = new LoginReq();
-            Credentials credentials=new Credentials(usernameText.getText(), PasswordTxt.getText());
+            Credentials credentials=new Credentials(UserNameTxt.getText(), PasswordTxt.getText());
             loginReq.setCredentials(credentials);
             String jRequest = mapper.writeValueAsString(loginReq);
             ServerListener.fireRequest(jRequest);
@@ -78,7 +78,7 @@ public class LoginController implements Initializable {
 
     @FXML
     public void onRegisterButtonClick() throws IOException {
-        TicTacToeClient.openRegisterView();
+        TicTacToeClient.openRegisterView("");
     }
 
     public void setLabel(String msg){
