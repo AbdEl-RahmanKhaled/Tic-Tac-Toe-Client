@@ -2,7 +2,6 @@ package com.iti.tictactoeclient.controllers;
 
 import com.iti.tictactoeclient.TicTacToeClient;
 import javafx.animation.FadeTransition;
-import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -54,7 +53,7 @@ public class HomeController implements Initializable {
     }
     @FXML
     public void LogoutButton() {
-    TicTacToeClient.openloginView();
+    TicTacToeClient.openLoginView();
 
     }
     @FXML

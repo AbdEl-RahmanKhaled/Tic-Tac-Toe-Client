@@ -2,7 +2,6 @@ package com.iti.tictactoeclient.controllers;
 
 import com.iti.tictactoeclient.TicTacToeClient;
 import javafx.animation.RotateTransition;
-import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -35,7 +34,7 @@ public class RegisterController implements Initializable {
 
     @FXML
     protected void onActionRegister() {
-        TicTacToeClient.openloginView();
+        TicTacToeClient.openLoginView();
     }
 
     @FXML

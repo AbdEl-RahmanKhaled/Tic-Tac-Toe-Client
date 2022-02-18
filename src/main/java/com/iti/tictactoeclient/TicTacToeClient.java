@@ -87,7 +87,7 @@ public class TicTacToeClient extends Application {
         }
 
     }
-    public static void openloginView() {
+    public static void openLoginView() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(TicTacToeClient.class.getResource("Login.fxml"));
             Scene scene = new Scene(fxmlLoader.load());

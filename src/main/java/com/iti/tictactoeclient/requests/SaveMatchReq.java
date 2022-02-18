@@ -4,26 +4,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.iti.tictactoeclient.models.Match;
 import com.iti.tictactoeclient.models.Position;
 
-
 import java.util.List;
 
-public class AcceptToPauseReq extends Request {
+public class SaveMatchReq extends Request {
     private Match match;
     private List<Position> positions;
 
-    public AcceptToPauseReq() {
-        this.action = ACTION_ACCEPT_TO_PAUSE;
+    public SaveMatchReq() {
+        this.action = ACTION_SAVE_MATCH;
     }
 
-    public AcceptToPauseReq(Match match, List<Position> positions) {
-        this.action = ACTION_ACCEPT_TO_PAUSE;
+    public SaveMatchReq(Match match, List<Position> positions) {
+        this.action = ACTION_SAVE_MATCH;
         this.match = match;
         this.positions = positions;
     }
 
-    public AcceptToPauseReq(@JsonProperty("action") String action,
-                            @JsonProperty("match") Match match,
-                            @JsonProperty("positions") List<Position> positions) {
+    public SaveMatchReq(@JsonProperty("action") String action,
+                        @JsonProperty("match") Match match,
+                        @JsonProperty("positions") List<Position> positions) {
         super(action);
         this.match = match;
         this.positions = positions;

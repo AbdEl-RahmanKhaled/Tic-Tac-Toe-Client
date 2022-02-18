@@ -12,6 +12,8 @@
 module com.iti.tictactoeclient {
     requires javafx.controls;
     requires javafx.fxml;
+    requires com.fasterxml.jackson.annotation;
+    requires java.sql;
 
 
     opens com.iti.tictactoeclient to javafx.fxml;
