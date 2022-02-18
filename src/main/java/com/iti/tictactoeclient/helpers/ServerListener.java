@@ -47,7 +47,6 @@ public class ServerListener extends Thread {
 
     private void initActions() {
         actionMap = new HashMap<>();
-        actionMap.put(Response.RESPONSE_LOGIN, this::loginResponse);
     }
 
     @Override
@@ -69,16 +68,6 @@ public class ServerListener extends Thread {
     }
 
 
-    private void loginResponse(String json) {
-//        System.out.println(json);
-//        try {
-//            LoginRes loginRes = TicTacToeClient.mapper.readValue(json, LoginRes.class);
-        Platform.runLater(TicTacToeClient::openHomeView);
-
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//        }
-    }
 
     interface IAction {
         void handleAction(String json);
