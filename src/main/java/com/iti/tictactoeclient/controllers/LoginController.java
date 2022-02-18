@@ -9,7 +9,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.TransferMode;
 import javafx.stage.Stage;
 import com.iti.tictactoeclient.TicTacToeClient;
 import javafx.util.Duration;
@@ -32,7 +31,7 @@ public class LoginController implements Initializable {
     private TextField usernameText;
     @FXML
     private PasswordField PasswordTxt;
-    // if the user data is invalied
+    // if the user data is invalid
     @FXML
     private Label invaliduserTxt;
     @FXML
@@ -64,7 +63,7 @@ public class LoginController implements Initializable {
     }
     @FXML
     public void onRegisterButtonClick() throws IOException {
-        TicTacToeClient.openRegisterView();
+        TicTacToeClient.openRegisterView("");
     }
 
 }

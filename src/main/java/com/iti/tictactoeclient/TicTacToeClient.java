@@ -43,11 +43,12 @@ public class TicTacToeClient extends Application {
         stage.show();
     }
 
-    public static void openRegisterView() {
+    public static void openRegisterView(String message) {
         try {
             FXMLLoader fxmlLoaderrigister = new FXMLLoader(TicTacToeClient.class.getResource("Register.fxml"));
             Scene sceneRegist = new Scene(fxmlLoaderrigister.load());
             registerController = fxmlLoaderrigister.getController();
+            registerController.setLabel(message);
             mainStage.hide();
             mainStage.setScene(sceneRegist);
             mainStage.setTitle("Register");
@@ -96,7 +97,7 @@ public class TicTacToeClient extends Application {
         }
 
     }
-    public static void openLoginView() {
+    public static void openLoginView(String s) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(TicTacToeClient.class.getResource("Login.fxml"));
             Scene scene = new Scene(fxmlLoader.load());

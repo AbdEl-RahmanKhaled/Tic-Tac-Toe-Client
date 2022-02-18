@@ -53,7 +53,7 @@ public class HomeController implements Initializable {
     }
     @FXML
     public void LogoutButton() {
-    TicTacToeClient.openLoginView();
+    TicTacToeClient.openLoginView("");
 
     }
     @FXML
