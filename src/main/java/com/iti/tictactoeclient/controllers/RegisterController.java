@@ -34,7 +34,7 @@ public class RegisterController implements Initializable {
 
     @FXML
     protected void onActionRegister() {
-        TicTacToeClient.openLoginView();
+        TicTacToeClient.openLoginView("");
     }
 
     @FXML

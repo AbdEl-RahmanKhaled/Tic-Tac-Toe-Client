@@ -5,6 +5,21 @@ public class User extends Credentials {
     private String name;
     private int points;
 
+    public User(){}
+
+    public User(int u_id, String name, int points) {
+        this.u_id = u_id;
+        this.name = name;
+        this.points = points;
+    }
+
+    public User(String username, String password, int u_id, String name, int points) {
+        super(username, password);
+        this.u_id = u_id;
+        this.name = name;
+        this.points = points;
+    }
+
     public void setId(int Id) {
         u_id = Id;
     }

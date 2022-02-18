@@ -1,5 +1,10 @@
 package com.iti.tictactoeclient.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.iti.tictactoeclient.helpers.ServerListener;
+import com.iti.tictactoeclient.models.Credentials;
+import com.iti.tictactoeclient.requests.LoginReq;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,7 +26,7 @@ import java.util.ResourceBundle;
 
 
 public class LoginController implements Initializable {
-
+    private static final ObjectMapper mapper = new ObjectMapper();
     private Stage stage;
 
     @FXML
@@ -32,19 +37,20 @@ public class LoginController implements Initializable {
     private TextField usernameText;
     @FXML
     private PasswordField PasswordTxt;
+
     // if the user data is invalied
     @FXML
     private Label invaliduserTxt;
     @FXML
     private ImageView backgroundimg;
 
+
     // to load img
     @FXML
-    public void initialize (URL url, ResourceBundle resourceBundle){
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         File backfile = new File("images/7.png");
         Image background = new Image(backfile.toURI().toString());
         backgroundimg.setImage(background);
-
         TranslateTransition transition = new TranslateTransition();
         transition.setNode(backgroundimg);
         transition.setCycleCount(2);
@@ -57,14 +63,25 @@ public class LoginController implements Initializable {
 
     @FXML
     public void onLoginButton() {
-        // use invalidtxt to show a msg in case of invalid data
-        invaliduserTxt.setText("Go Away !");
-        // if true
-        TicTacToeClient.openHomeView();
+
+        try {
+            LoginReq loginReq = new LoginReq();
+            Credentials credentials=new Credentials(usernameText.getText(), PasswordTxt.getText());
+            loginReq.setCredentials(credentials);
+            String jRequest = mapper.writeValueAsString(loginReq);
+            ServerListener.fireRequest(jRequest);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
+
     @FXML
     public void onRegisterButtonClick() throws IOException {
         TicTacToeClient.openRegisterView();
+    }
+
+    public void setLabel(String msg){
+        invaliduserTxt.setText(msg);
     }
 
 }
