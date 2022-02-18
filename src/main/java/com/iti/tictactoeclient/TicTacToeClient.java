@@ -82,6 +82,7 @@ public class TicTacToeClient extends Application {
         Image icon = new Image(iconfile.toURI().toString());
         mainStage.getIcons().add(icon);
         mainStage.show();
+        homeController.showAnimation();
     }
 
     public static void openGameView() {

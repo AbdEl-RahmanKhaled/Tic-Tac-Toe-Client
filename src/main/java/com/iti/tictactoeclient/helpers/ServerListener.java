@@ -54,6 +54,7 @@ public class ServerListener extends Thread {
         while (true) {
             try {
                 String sMessage = bufferedReader.readLine();
+                System.out.println(sMessage);
                 JSONObject json = new JSONObject(sMessage);
                 String serverType = (String) json.get("type");
                 actionMap.get(serverType).handleAction(sMessage);

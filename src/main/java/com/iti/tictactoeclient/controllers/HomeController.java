@@ -39,18 +39,25 @@ public class HomeController implements Initializable {
         TicTacToeClient.openGameView();
 
     }
+
     @FXML
     public void ComputerButton() {
         TicTacToeClient.openGameView();
 
     }
+
     @FXML
     public void LogoutButton() {
 //    TicTacToeClient.openLoginView();
 
     }
+
     @FXML
-    public void initialize (URL url, ResourceBundle resourceBundle){
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+//        showAnimation();
+    }
+
+    public void showAnimation() {
         File backfile = new File("images/7.png");
         Image background = new Image(backfile.toURI().toString());
         imgLogo.setImage(background);
