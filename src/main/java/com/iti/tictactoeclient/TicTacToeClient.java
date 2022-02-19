@@ -217,6 +217,8 @@ public class TicTacToeClient extends Application {
 
     public static void openLoginView() {
         mainStage.hide();
+    public static void openLoginView() {
+        Platform.runLater(() -> { mainStage.hide();
         mainStage.setScene(sceneLogin);
         mainStage.setTitle("login");
         File iconfile = new File("images/7.png");

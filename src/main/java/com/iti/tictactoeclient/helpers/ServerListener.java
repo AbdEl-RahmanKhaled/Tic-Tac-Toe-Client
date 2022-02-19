@@ -37,6 +37,7 @@ public class ServerListener extends Thread {
     public ServerListener() {
         running = true;
         initTypes();
+        initConnection();
     }
 
     private void initConnection() {
@@ -197,6 +198,16 @@ public class ServerListener extends Thread {
             running = false;
             socket.close();
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void signUpRes(String json) {
+        try {
+            Response signUpRes = TicTacToeClient.mapper.readValue(json, Response.class);
+            Platform.runLater(() ->TicTacToeClient.registerController.signUpValidation(signUpRes));
+            System.out.println("Filed to connect1");
+        } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
     }
