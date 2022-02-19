@@ -60,6 +60,9 @@ public class RegisterController implements Initializable {
 
     @FXML
     public void initialize (URL url, ResourceBundle resourceBundle){
+    }
+
+    public void showAnimation(){
         File backfile = new File("images/7.png");
         Image background = new Image(backfile.toURI().toString());
         backgroundimg.setImage(background);

@@ -1,6 +1,7 @@
 package com.iti.tictactoeclient.controllers;
 
 import com.iti.tictactoeclient.TicTacToeClient;
+import com.iti.tictactoeclient.models.PlayerFullInfo;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,9 +14,12 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
+    private PlayerFullInfo playerFullInfo;
+    private Map<Integer,PlayerFullInfo> playerFullInfoMap;
 
     @FXML
     private ImageView backgroundimg;
@@ -58,6 +62,9 @@ public class HomeController implements Initializable {
     }
     @FXML
     public void initialize (URL url, ResourceBundle resourceBundle){
+    }
+
+    public void showAnimation(){
         File backfile = new File("images/7.png");
         Image background = new Image(backfile.toURI().toString());
         backgroundimg.setImage(background);
@@ -70,6 +77,9 @@ public class HomeController implements Initializable {
         fade.setToValue(0);
         fade.setAutoReverse(true);
         fade.play();
+    }
+
+    public static void successLogin(Map<Integer,PlayerFullInfo> playerFullInfoMap, PlayerFullInfo playerFullInfo){
 
     }
 

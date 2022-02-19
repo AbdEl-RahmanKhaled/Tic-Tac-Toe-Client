@@ -3,6 +3,8 @@ package com.iti.tictactoeclient.helpers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iti.tictactoeclient.TicTacToeClient;
+import com.iti.tictactoeclient.controllers.HomeController;
+import com.iti.tictactoeclient.controllers.LoginController;
 import com.iti.tictactoeclient.responses.LoginRes;
 import com.iti.tictactoeclient.responses.Response;
 import org.json.JSONObject;
@@ -17,7 +19,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class ServerListener extends Thread{
-    private static final ObjectMapper mapper = new ObjectMapper();
+    public static ObjectMapper mapper = new ObjectMapper();
     private static PrintStream printStream;
     private BufferedReader dataInputStream;
     private Map<String, IType> types;
@@ -57,12 +59,7 @@ public class ServerListener extends Thread{
     private void Login(String json){
         try {
             LoginRes loginRes = mapper.readValue(json, LoginRes.class);
-            if(Objects.equals(loginRes.getStatus(), Response.STATUS_OK)){
-                TicTacToeClient.openHomeView();
-            }
-            else{
-                TicTacToeClient.openLoginView(loginRes.getMessage());
-            }
+            LoginController.handleResponse(loginRes);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

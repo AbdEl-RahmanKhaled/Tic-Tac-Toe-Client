@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iti.tictactoeclient.helpers.ServerListener;
 import com.iti.tictactoeclient.models.Credentials;
 import com.iti.tictactoeclient.requests.LoginReq;
+import com.iti.tictactoeclient.responses.LoginRes;
+import com.iti.tictactoeclient.responses.Response;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,6 +23,7 @@ import javafx.util.Duration;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 
@@ -51,7 +54,6 @@ public class LoginController implements Initializable {
         File backfile = new File("images/7.png");
         Image background = new Image(backfile.toURI().toString());
         backgroundimg.setImage(background);
-
         TranslateTransition transition = new TranslateTransition();
         transition.setNode(backgroundimg);
         transition.setCycleCount(2);
@@ -59,7 +61,19 @@ public class LoginController implements Initializable {
         transition.setAutoReverse(true);
         transition.setDuration(Duration.millis(1000));
         transition.play();
+    }
 
+    public void showAnimation(){
+        File backfile = new File("images/7.png");
+        Image background = new Image(backfile.toURI().toString());
+        backgroundimg.setImage(background);
+        TranslateTransition transition = new TranslateTransition();
+        transition.setNode(backgroundimg);
+        transition.setCycleCount(2);
+        transition.setByX(200);
+        transition.setAutoReverse(true);
+        transition.setDuration(Duration.millis(1000));
+        transition.play();
     }
 
     @FXML
@@ -79,6 +93,16 @@ public class LoginController implements Initializable {
     @FXML
     public void onRegisterButtonClick() throws IOException {
         TicTacToeClient.openRegisterView("");
+    }
+
+    public static void handleResponse(LoginRes loginRes){
+        if(Objects.equals(loginRes.getStatus(), Response.STATUS_OK)){
+            HomeController.successLogin(loginRes.getPlayerFullInfoMap(),loginRes.getPlayerFullInfo());
+            TicTacToeClient.openHomeView();
+        }
+        else{
+            TicTacToeClient.openLoginView(loginRes.getMessage());
+        }
     }
 
     public void setLabel(String msg){

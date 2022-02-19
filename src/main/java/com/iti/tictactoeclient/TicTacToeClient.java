@@ -21,6 +21,7 @@ import java.net.Socket;
 public class TicTacToeClient extends Application {
     private Socket clientSocket;
     private static Stage mainStage;
+    private static Scene sceneRegister, sceneHome, sceneGame, sceneLogin;
     public static RegisterController registerController;
     public static HomeController homeController;
     public static GameController gameController;
@@ -30,6 +31,7 @@ public class TicTacToeClient extends Application {
     @Override
     public void init() throws Exception {
         super.init();
+        initViews();
         clientSocket=new Socket("127.0.0.1", 5000);
         serverListener = new ServerListener(clientSocket);
         serverListener.setDaemon(true);
@@ -48,33 +50,51 @@ public class TicTacToeClient extends Application {
         stage.setScene(scene);
         stage.getIcons().add(icon);
         stage.show();
+
     }
 
-    public static void openRegisterView(String message) {
+    private void initViews(){
         try {
-            FXMLLoader fxmlLoaderRegister = new FXMLLoader(TicTacToeClient.class.getResource("Register.fxml"));
-            Scene sceneRegister = new Scene(fxmlLoaderRegister.load());
-            registerController = fxmlLoaderRegister.getController();
-            registerController.setLabel(message);
-            mainStage.hide();
-            mainStage.setScene(sceneRegister);
+            // Register view
+            FXMLLoader fxmlLoaderrigister = new FXMLLoader(TicTacToeClient.class.getResource("Register.fxml"));
+            sceneRegister = new Scene(fxmlLoaderrigister.load());
+            registerController = fxmlLoaderrigister.getController();
 
-            mainStage.setTitle("Register");
-            File iconfile = new File("images/7.png");
-            Image icon = new Image(iconfile.toURI().toString());
-            mainStage.getIcons().add(icon);
-            mainStage.show();
+            // Home view
+            FXMLLoader fxmlLoaderHome = new FXMLLoader(TicTacToeClient.class.getResource("Home.fxml"));
+            sceneHome = new Scene(fxmlLoaderHome.load());
+            homeController = fxmlLoaderHome.getController();
+
+            // Game View
+            FXMLLoader fxmlLoaderGame = new FXMLLoader(TicTacToeClient.class.getResource("Game.fxml"));
+            sceneGame = new Scene(fxmlLoaderGame.load());
+            gameController = fxmlLoaderGame.getController();
+
+            // Login View
+            FXMLLoader fxmlLoader = new FXMLLoader(TicTacToeClient.class.getResource("Login.fxml"));
+            sceneLogin = new Scene(fxmlLoader.load());
+            loginController = fxmlLoader.getController();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+
+    }
+
+    public static void openRegisterView(String message) {
+        registerController.setLabel(message);
+        mainStage.hide();
+        mainStage.setScene(sceneRegister);
+        mainStage.setTitle("Register");
+        File iconfile = new File("images/7.png");
+        Image icon = new Image(iconfile.toURI().toString());
+        mainStage.getIcons().add(icon);
+        mainStage.show();
+        registerController.showAnimation();
+
     }
 
     public static void openHomeView() {
-        try {
-            FXMLLoader fxmlLoaderHome = new FXMLLoader(TicTacToeClient.class.getResource("Home.fxml"));
-            Scene sceneHome = new Scene(fxmlLoaderHome.load());
-            homeController = fxmlLoaderHome.getController();
             Platform.runLater(() -> {
                 mainStage.hide();
                 mainStage.setScene(sceneHome);
@@ -83,52 +103,37 @@ public class TicTacToeClient extends Application {
                 Image icon = new Image(iconfile.toURI().toString());
                 mainStage.getIcons().add(icon);
                 mainStage.show();
+                homeController.showAnimation();
             });
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
     }
 
     public static void openGameView() {
-        try {
-            FXMLLoader fxmlLoaderGame = new FXMLLoader(TicTacToeClient.class.getResource("Game.fxml"));
-            Scene sceneHome = new Scene(fxmlLoaderGame.load());
-            gameController = fxmlLoaderGame.getController();
             mainStage.hide();
-            mainStage.setScene(sceneHome);
+            mainStage.setScene(sceneGame);
             mainStage.setTitle("TicTacToe");
             File iconfile = new File("images/7.png");
             Image icon = new Image(iconfile.toURI().toString());
             mainStage.getIcons().add(icon);
             mainStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            gameController.showAnimation();
 
     }
 
     public static void openLoginView(String message) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(TicTacToeClient.class.getResource("Login.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
-            loginController = fxmlLoader.getController();
-            loginController.setLabel(message);
             Platform.runLater(() -> {
+                loginController.setLabel(message);
                 mainStage.hide();
-                mainStage.setScene(scene);
+                mainStage.setScene(sceneLogin);
                 mainStage.setTitle("login");
                 File iconfile = new File("images/88.png");
                 Image icon = new Image(iconfile.toURI().toString());
                 mainStage.getIcons().add(icon);
                 mainStage.show();
+                loginController.showAnimation();
             });
 
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
     }
 
