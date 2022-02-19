@@ -58,14 +58,6 @@ public class PlayerFullInfo extends Player{
     public void setInGame(boolean inGame) {
         this.inGame = inGame;
     }
-
-    public int getPoints() {
-        return points;
-    }
-
-    public void setPoints(int points) {
-        this.points = points;
-    }
 }
 
 

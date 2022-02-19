@@ -83,14 +83,24 @@ public class LoginController implements Initializable {
 
         try {
             LoginReq loginReq = new LoginReq();
-            Credentials credentials = new Credentials(UserNameTxt.getText(), PasswordTxt.getText());
-            loginReq.setCredentials(credentials);
-            String jRequest = mapper.writeValueAsString(loginReq);
-            ServerListener.sendRequest(jRequest);
+            String username=UserNameTxt.getText().trim();
+            String password=PasswordTxt.getText().trim();
+            if(validInput(username,password)){
+                invaliduserTxt.setText("Enter Your Data!");
+            }
+            else{
+                UserNameTxt.setText("");
+                PasswordTxt.setText("");
+                Credentials credentials=new Credentials(username, password);
+                loginReq.setCredentials(credentials);
+                String jRequest = mapper.writeValueAsString(loginReq);
+                ServerListener.sendRequest(jRequest);
+            }
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
     }
+
 
     @FXML
     public void onRegisterButtonClick() throws IOException {
@@ -104,6 +114,10 @@ public class LoginController implements Initializable {
         } else {
             invaliduserTxt.setText(loginRes.getMessage());
         }
+    }
+
+    private boolean validInput(String username, String password){
+       return (username.equals("") || password.equals(""));
     }
 
 }
