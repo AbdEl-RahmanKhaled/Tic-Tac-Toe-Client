@@ -59,8 +59,8 @@ public class ServerListener extends Thread{
     private void Login(String json){
         try {
             LoginRes loginRes = mapper.readValue(json, LoginRes.class);
-            LoginController.handleResponse(loginRes);
-        } catch (JsonProcessingException e) {
+            TicTacToeClient.loginController.handleResponse(loginRes);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

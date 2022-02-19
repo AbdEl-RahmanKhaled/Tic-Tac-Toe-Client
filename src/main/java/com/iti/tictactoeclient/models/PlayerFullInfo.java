@@ -28,6 +28,14 @@ public class PlayerFullInfo extends Player{
         inGame = false;
     }
 
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
     public String getName() {
         return name;
     }

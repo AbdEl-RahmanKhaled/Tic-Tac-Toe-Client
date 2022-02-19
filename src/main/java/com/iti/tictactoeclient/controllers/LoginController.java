@@ -8,6 +8,7 @@ import com.iti.tictactoeclient.requests.LoginReq;
 import com.iti.tictactoeclient.responses.LoginRes;
 import com.iti.tictactoeclient.responses.Response;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -81,10 +82,17 @@ public class LoginController implements Initializable {
 
         try {
             LoginReq loginReq = new LoginReq();
-            Credentials credentials=new Credentials(UserNameTxt.getText(), PasswordTxt.getText());
-            loginReq.setCredentials(credentials);
-            String jRequest = mapper.writeValueAsString(loginReq);
-            ServerListener.fireRequest(jRequest);
+            String username=UserNameTxt.getText();
+            String password=PasswordTxt.getText();
+            if(username.equals("") || password.equals("")){
+                invaliduserTxt.setText("Enter Your Data!");
+            }
+            else{
+                Credentials credentials=new Credentials(username, password);
+                loginReq.setCredentials(credentials);
+                String jRequest = mapper.writeValueAsString(loginReq);
+                ServerListener.fireRequest(jRequest);
+            }
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -95,13 +103,15 @@ public class LoginController implements Initializable {
         TicTacToeClient.openRegisterView("");
     }
 
-    public static void handleResponse(LoginRes loginRes){
+    public void handleResponse(LoginRes loginRes){
         if(Objects.equals(loginRes.getStatus(), Response.STATUS_OK)){
             HomeController.fromLogin(loginRes.getPlayerFullInfo(),loginRes.getPlayerFullInfoMap());
             TicTacToeClient.openHomeView();
         }
         else{
             TicTacToeClient.openLoginView(loginRes.getMessage());
+            invaliduserTxt.setText(" from same view");
+
         }
     }
 
