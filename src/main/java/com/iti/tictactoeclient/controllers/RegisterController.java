@@ -26,6 +26,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static com.iti.tictactoeclient.TicTacToeClient.mapper;
+import static com.iti.tictactoeclient.TicTacToeClient.registerController;
 
 public class RegisterController implements Initializable {
 
@@ -52,34 +53,54 @@ public class RegisterController implements Initializable {
     }
 
     private static final ObjectMapper mapper = new ObjectMapper();
+    String regex = "^[A-Za-z]$";
+    Pattern pattern = Pattern.compile(regex);
+
+
+
 
     @FXML
     protected void onActionRegister() {
-        User user = new User();
-        private int flag = 0;
-        user.setName(FirstNameTxt.getText());
-        if (user.getName().matches(String.valueOf(-9))) {
-            invalidinput.setText("invalid name");
-            flag = 1;
-        }
-        user.setUserName(UserNameTxt.getText());
-        if (user.getUserName().matches(String.valueOf(-9))) {
-            invalidinput.setText("invalid username");
-            flag = 1;
-        }
-        user.setPassword(PasswordTxt.getText());
-        if (flag == 0) {
+        if (isValidateInput()) {
+            User user = new User();
             SignUpReq signUpReq = new SignUpReq();
             signUpReq.setUser(user);
             try {
                 String jRequest = mapper.writeValueAsString(signUpReq);
                 ServerListener.sendRequest(jRequest);
-                System.out.println("Filed to connect2");
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
         }
+        else
+        {
+            System.out.println("not valdiated !");
+            invalidinput.setText("invalid input , try again!");
+        }
+    }
 
+    private boolean isValidateInput() {
+        Matcher matcher1 = pattern.matcher(UserNameTxt.getText());
+        Matcher matcher2 = pattern.matcher(FirstNameTxt.getText());
+        Matcher matcher3 = pattern.matcher(PasswordTxt.getText());
+        if (UserNameTxt.getText().equals("") || !matcher1.matches()) {
+            System.out.println("1");
+            String s1 = UserNameTxt.getText().trim();
+            invalidinput.setText("Invalid username!");
+            return true;
+        }
+        if (FirstNameTxt.getText().equals("") || !matcher2.matches()) {
+            System.out.println("2");
+            String s2 = FirstNameTxt.getText().trim();
+            invalidinput.setText("Invalid name!");
+            return true;
+        } if (PasswordTxt.getText().equals("") || !matcher3.matches()) {
+            System.out.println("3");
+            String s3 = PasswordTxt.getText().trim();
+            invalidinput.setText("Invalid Password!");
+            return true;
+        }
+            return false;
     }
 
     @FXML
@@ -98,7 +119,7 @@ public class RegisterController implements Initializable {
 
     public static void signUpValidation(Response signUpRes) {
         if (Objects.equals(signUpRes.getStatus(), Response.STATUS_OK)) {
-            TicTacToeClient.openLoginView("");
+            TicTacToeClient.openLoginView();
             System.out.println("Filed to connect4");
         } else {
             TicTacToeClient.openRegisterView(signUpRes.getMessage());

@@ -92,7 +92,7 @@ public class TicTacToeClient extends Application {
         mainStage.show();
     }
 
-    public static void openLoginView(String s) {
+    public static void openLoginView() {
         Platform.runLater(() -> { mainStage.hide();
         mainStage.setScene(sceneLogin);
         mainStage.setTitle("login");
