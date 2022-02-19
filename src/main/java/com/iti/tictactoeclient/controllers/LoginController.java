@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iti.tictactoeclient.helpers.ServerListener;
 import com.iti.tictactoeclient.models.Credentials;
+import com.iti.tictactoeclient.models.PlayerFullInfo;
 import com.iti.tictactoeclient.requests.LoginReq;
 import com.iti.tictactoeclient.responses.LoginRes;
 import com.iti.tictactoeclient.responses.Response;
@@ -51,7 +52,7 @@ public class LoginController implements Initializable {
 
     // to load img
     @FXML
-    public void initialize (URL url, ResourceBundle resourceBundle){
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         File backfile = new File("images/7.png");
         Image background = new Image(backfile.toURI().toString());
         backgroundimg.setImage(background);
@@ -64,7 +65,7 @@ public class LoginController implements Initializable {
         transition.play();
     }
 
-    public void showAnimation(){
+    public void showAnimation() {
         File backfile = new File("images/7.png");
         Image background = new Image(backfile.toURI().toString());
         backgroundimg.setImage(background);
@@ -82,17 +83,10 @@ public class LoginController implements Initializable {
 
         try {
             LoginReq loginReq = new LoginReq();
-            String username=UserNameTxt.getText();
-            String password=PasswordTxt.getText();
-            if(username.equals("") || password.equals("")){
-                invaliduserTxt.setText("Enter Your Data!");
-            }
-            else{
-                Credentials credentials=new Credentials(username, password);
-                loginReq.setCredentials(credentials);
-                String jRequest = mapper.writeValueAsString(loginReq);
-                ServerListener.fireRequest(jRequest);
-            }
+            Credentials credentials = new Credentials(UserNameTxt.getText(), PasswordTxt.getText());
+            loginReq.setCredentials(credentials);
+            String jRequest = mapper.writeValueAsString(loginReq);
+            ServerListener.sendRequest(jRequest);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -100,23 +94,16 @@ public class LoginController implements Initializable {
 
     @FXML
     public void onRegisterButtonClick() throws IOException {
-        TicTacToeClient.openRegisterView("");
+        TicTacToeClient.openRegisterView();
     }
 
-    public void handleResponse(LoginRes loginRes){
-        if(Objects.equals(loginRes.getStatus(), Response.STATUS_OK)){
-            HomeController.fromLogin(loginRes.getPlayerFullInfo(),loginRes.getPlayerFullInfoMap());
+    public void handleResponse(LoginRes loginRes) {
+        if (Objects.equals(loginRes.getStatus(), Response.STATUS_OK)) {
             TicTacToeClient.openHomeView();
+            TicTacToeClient.homeController.fromLogin(loginRes.getPlayerFullInfo(), loginRes.getPlayerFullInfoMap());
+        } else {
+            invaliduserTxt.setText(loginRes.getMessage());
         }
-        else{
-            TicTacToeClient.openLoginView(loginRes.getMessage());
-            invaliduserTxt.setText(" from same view");
-
-        }
-    }
-
-    public void setLabel(String msg){
-        invaliduserTxt.setText(msg);
     }
 
 }

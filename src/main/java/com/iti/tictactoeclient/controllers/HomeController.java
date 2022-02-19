@@ -5,9 +5,10 @@ import com.iti.tictactoeclient.models.PlayerFullInfo;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
@@ -18,59 +19,34 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
-    private PlayerFullInfo playerFullInfo;
-    private Map<Integer,PlayerFullInfo> playerFullInfoMap;
+
+    private Map<Integer, PlayerFullInfo> playersFullInfo;
+    private PlayerFullInfo myPlayerFullInfo;
 
     @FXML
-    private ImageView backgroundimg;
+    private ImageView imgLogo;
 
     @FXML
-    private Button InviteButton;
+    private TableView<PlayerFullInfo> tPlayers;
+    @FXML
+    private TableColumn<PlayerFullInfo, String> cPlayerName;
+    @FXML
+    private TableColumn<PlayerFullInfo, String> cStatus;
 
     @FXML
-    private Button LogoutButton;
+    private Label lblScore;
 
     @FXML
-    private TableView<?> PlayersTable;
+    private Label lblName;
 
-    @FXML
-    private Label ScoreLabl;
 
-    @FXML
-    private Label UserNameLabl;
-
-    @FXML
-    private Button VsCompButton;
-    @FXML
-    private Label playernamelabel;
-    @FXML
-    private Label ScoreLabel;
-    @FXML
-    public void InviteButton() {
-        TicTacToeClient.openGameView();
-
-    }
-    @FXML
-    public void ComputerButton() {
-        TicTacToeClient.openGameView();
-
-    }
-    @FXML
-    public void LogoutButton() {
-    TicTacToeClient.openLoginView("");
-
-    }
-    @FXML
-    public void initialize (URL url, ResourceBundle resourceBundle){
-    }
-
-    public void showAnimation(){
+    public void showAnimation() {
         File backfile = new File("images/7.png");
         Image background = new Image(backfile.toURI().toString());
-        backgroundimg.setImage(background);
+        imgLogo.setImage(background);
 
         FadeTransition fade = new FadeTransition();
-        fade.setNode(backgroundimg);
+        fade.setNode(imgLogo);
         fade.setDuration(Duration.millis(1000));
         fade.setCycleCount(2);
         fade.setFromValue(1);
@@ -79,8 +55,42 @@ public class HomeController implements Initializable {
         fade.play();
     }
 
-    public static void fromLogin( PlayerFullInfo playerFullInfo, Map<Integer,PlayerFullInfo> playerFullInfoMap){
+    @FXML
+    public void InviteButton() {
+        TicTacToeClient.openGameView();
 
+    }
+
+    @FXML
+    public void ComputerButton() {
+        TicTacToeClient.openGameView();
+
+    }
+
+    @FXML
+    public void LogoutButton() {
+//    TicTacToeClient.openLoginView();
+
+    }
+
+    @FXML
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+    }
+
+    public void fromLogin(PlayerFullInfo myPlayerFullInfo, Map<Integer, PlayerFullInfo> playersFullInfo) {
+        this.myPlayerFullInfo = myPlayerFullInfo;
+        this.playersFullInfo = playersFullInfo;
+        playersFullInfo.remove(myPlayerFullInfo.getDb_id());
+        System.out.println(playersFullInfo);
+        fillView();
+    }
+
+    private void fillView() {
+        cPlayerName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        cStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+        tPlayers.getItems().setAll(playersFullInfo.values());
+        lblName.setText(myPlayerFullInfo.getName());
+        lblScore.setText(String.valueOf(myPlayerFullInfo.getPoints()));
     }
 
 }

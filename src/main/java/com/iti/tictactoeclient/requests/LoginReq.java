@@ -17,7 +17,7 @@ public class LoginReq extends Request {
 
     public LoginReq(@JsonProperty("action") String action,
                     @JsonProperty("credentials") Credentials credentials) {
-        super(ACTION_LOGIN);
+        super(action);
         this.credentials = credentials;
     }
 

@@ -25,5 +25,7 @@ module com.iti.tictactoeclient {
     opens com.iti.tictactoeclient.models;
     exports com.iti.tictactoeclient.requests;
     exports com.iti.tictactoeclient.responses;
+    exports com.iti.tictactoeclient.models;
+    exports com.iti.tictactoeclient.notification;
 }
 
