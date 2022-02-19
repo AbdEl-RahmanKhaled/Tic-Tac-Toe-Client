@@ -60,8 +60,8 @@ public class GameController implements Initializable {
 
         try {
             Request askToPauseReq=new Request(Request.ACTION_ASK_TO_PAUSE);
-            String jRequest = ServerListener.mapper.writeValueAsString(askToPauseReq);
-            ServerListener.fireRequest(jRequest);
+            String jRequest = TicTacToeClient.mapper.writeValueAsString(askToPauseReq);
+            ServerListener.sendRequest(jRequest);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

@@ -37,13 +37,14 @@ public class TicTacToeClient extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(TicTacToeClient.class.getResource("Login.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        sceneLogin = new Scene(fxmlLoader.load());
+        loginController = fxmlLoader.getController();
         File iconfile = new File("images/7.png");
         Image icon = new Image(iconfile.toURI().toString());
         mainStage = stage;
         stage.setTitle("Login");
         stage.setResizable(false);
-        stage.setScene(scene);
+        stage.setScene(sceneLogin);
         stage.getIcons().add(icon);
         stage.show();
     }
@@ -64,11 +65,6 @@ public class TicTacToeClient extends Application {
             FXMLLoader fxmlLoaderGame = new FXMLLoader(TicTacToeClient.class.getResource("Game.fxml"));
             sceneGame = new Scene(fxmlLoaderGame.load());
             gameController = fxmlLoaderGame.getController();
-
-            // Login View
-            FXMLLoader fxmlLoader = new FXMLLoader(TicTacToeClient.class.getResource("Login.fxml"));
-            sceneLogin = new Scene(fxmlLoader.load());
-            loginController = fxmlLoader.getController();
         } catch (IOException e) {
             e.printStackTrace();
         }
