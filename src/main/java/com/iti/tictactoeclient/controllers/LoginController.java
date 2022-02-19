@@ -97,7 +97,7 @@ public class LoginController implements Initializable {
 
     public static void handleResponse(LoginRes loginRes){
         if(Objects.equals(loginRes.getStatus(), Response.STATUS_OK)){
-            HomeController.successLogin(loginRes.getPlayerFullInfoMap(),loginRes.getPlayerFullInfo());
+            HomeController.fromLogin(loginRes.getPlayerFullInfo(),loginRes.getPlayerFullInfoMap());
             TicTacToeClient.openHomeView();
         }
         else{

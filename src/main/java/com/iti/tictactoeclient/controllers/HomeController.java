@@ -79,7 +79,7 @@ public class HomeController implements Initializable {
         fade.play();
     }
 
-    public static void successLogin(Map<Integer,PlayerFullInfo> playerFullInfoMap, PlayerFullInfo playerFullInfo){
+    public static void fromLogin( PlayerFullInfo playerFullInfo, Map<Integer,PlayerFullInfo> playerFullInfoMap){
 
     }
 
