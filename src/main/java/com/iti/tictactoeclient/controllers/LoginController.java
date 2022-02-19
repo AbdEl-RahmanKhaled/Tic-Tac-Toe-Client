@@ -74,7 +74,7 @@ public class LoginController implements Initializable {
         }
 
         // if true
-        TicTacToeClient.openHomeView();
+//        TicTacToeClient.openHomeView();
     }
 
     @FXML

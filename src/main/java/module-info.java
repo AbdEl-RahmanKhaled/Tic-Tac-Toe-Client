@@ -19,10 +19,13 @@ module com.iti.tictactoeclient {
 
 
     opens com.iti.tictactoeclient to javafx.fxml;
+    opens com.iti.tictactoeclient.models to javafx.base;
     exports com.iti.tictactoeclient;
     exports com.iti.tictactoeclient.controllers;
     opens com.iti.tictactoeclient.controllers to javafx.fxml;
     exports com.iti.tictactoeclient.requests to com.fasterxml.jackson.databind;
     exports com.iti.tictactoeclient.models to com.fasterxml.jackson.databind;
+    exports com.iti.tictactoeclient.responses to com.fasterxml.jackson.databind;
+    exports com.iti.tictactoeclient.notification to com.fasterxml.jackson.databind;
 }
 

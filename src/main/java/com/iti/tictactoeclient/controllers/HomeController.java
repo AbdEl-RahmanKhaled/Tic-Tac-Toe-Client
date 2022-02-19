@@ -6,7 +6,9 @@ import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
@@ -18,7 +20,7 @@ import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
 
-    private static Map<Integer, PlayerFullInfo> playersFullInfo;
+    private Map<Integer, PlayerFullInfo> playersFullInfo;
     private PlayerFullInfo myPlayerFullInfo;
 
     @FXML
@@ -26,6 +28,10 @@ public class HomeController implements Initializable {
 
     @FXML
     private TableView<PlayerFullInfo> tPlayers;
+    @FXML
+    private TableColumn<PlayerFullInfo, String> cPlayerName;
+    @FXML
+    private TableColumn<PlayerFullInfo, String> cStatus;
 
     @FXML
     private Label lblScore;
@@ -33,6 +39,21 @@ public class HomeController implements Initializable {
     @FXML
     private Label lblName;
 
+
+    public void showAnimation() {
+        File backfile = new File("images/7.png");
+        Image background = new Image(backfile.toURI().toString());
+        imgLogo.setImage(background);
+
+        FadeTransition fade = new FadeTransition();
+        fade.setNode(imgLogo);
+        fade.setDuration(Duration.millis(1000));
+        fade.setCycleCount(2);
+        fade.setFromValue(1);
+        fade.setToValue(0);
+        fade.setAutoReverse(true);
+        fade.play();
+    }
 
     @FXML
     public void InviteButton() {
@@ -54,23 +75,22 @@ public class HomeController implements Initializable {
 
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        showAnimation();
     }
 
-    public void showAnimation() {
-        File backfile = new File("images/7.png");
-        Image background = new Image(backfile.toURI().toString());
-        imgLogo.setImage(background);
+    public void fromLogin(PlayerFullInfo myPlayerFullInfo, Map<Integer, PlayerFullInfo> playersFullInfo) {
+        this.myPlayerFullInfo = myPlayerFullInfo;
+        this.playersFullInfo = playersFullInfo;
+        playersFullInfo.remove(myPlayerFullInfo.getDb_id());
+        System.out.println(playersFullInfo);
+        fillView();
+    }
 
-        FadeTransition fade = new FadeTransition();
-        fade.setNode(imgLogo);
-        fade.setDuration(Duration.millis(1000));
-        fade.setCycleCount(2);
-        fade.setFromValue(1);
-        fade.setToValue(0);
-        fade.setAutoReverse(true);
-        fade.play();
-        System.out.println("here");
+    private void fillView() {
+        cPlayerName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        cStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+        tPlayers.getItems().setAll(playersFullInfo.values());
+        lblName.setText(myPlayerFullInfo.getName());
+        lblScore.setText(String.valueOf(myPlayerFullInfo.getPoints()));
     }
 
 }

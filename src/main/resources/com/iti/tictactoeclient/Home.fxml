@@ -61,8 +61,8 @@
       </ImageView>
       <TableView fx:id="tPlayers" layoutX="353.0" layoutY="66.0" prefHeight="300.0" prefWidth="227.0">
         <columns>
-          <TableColumn prefWidth="112.800048828125" text="Player" />
-          <TableColumn prefWidth="113.59991455078125" text="State" />
+          <TableColumn fx:id="cPlayerName" prefWidth="112.800048828125" text="Player" />
+          <TableColumn fx:id="cStatus" prefWidth="113.59991455078125" text="State" />
         </columns>
       </TableView>
       <Button fx:id="LogoutButton" layoutX="472.0" layoutY="428.0" mnemonicParsing="false" onAction="#LogoutButton" text="LogOut" />
@@ -89,7 +89,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lblPName" layoutX="151.0" layoutY="192.0" prefHeight="24.0" prefWidth="85.0">
+      <Label fx:id="lblName" layoutX="151.0" layoutY="192.0" prefHeight="24.0" prefWidth="85.0">
          <textFill>
             <LinearGradient endX="0.41666664499225037" endY="1.0" startX="0.3825757584788583">
                <stops>
