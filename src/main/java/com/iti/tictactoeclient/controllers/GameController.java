@@ -1,6 +1,11 @@
 package com.iti.tictactoeclient.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.iti.tictactoeclient.TicTacToeClient;
+import com.iti.tictactoeclient.helpers.ServerListener;
+import com.iti.tictactoeclient.requests.AskToResumeReq;
+import com.iti.tictactoeclient.requests.Request;
+import com.iti.tictactoeclient.responses.AskToPauseRes;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
@@ -53,6 +58,16 @@ public class GameController implements Initializable {
     @FXML
     protected void onActionPause() {
 
+        try {
+            Request askToPauseReq=new Request(Request.ACTION_ASK_TO_PAUSE);
+            String jRequest = ServerListener.mapper.writeValueAsString(askToPauseReq);
+            ServerListener.fireRequest(jRequest);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+
+
     }
     @FXML
     protected void onActionChatsender() {
@@ -64,6 +79,9 @@ public class GameController implements Initializable {
     }
     @FXML
     public void initialize (URL url, ResourceBundle resourceBundle){
+    }
+
+    public void showAnimation(){
         File backfile = new File("images/7.png");
         Image background = new Image(backfile.toURI().toString());
         backgroundimg.setImage(background);

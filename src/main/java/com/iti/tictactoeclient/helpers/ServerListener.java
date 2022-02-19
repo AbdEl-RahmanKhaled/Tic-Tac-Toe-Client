@@ -2,6 +2,7 @@ package com.iti.tictactoeclient.helpers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.iti.tictactoeclient.TicTacToeClient;
+import com.iti.tictactoeclient.controllers.LoginController;
 import com.iti.tictactoeclient.responses.LoginRes;
 import com.iti.tictactoeclient.responses.Response;
 import javafx.application.Platform;
@@ -20,11 +21,12 @@ public class ServerListener extends Thread {
     private static PrintStream printStream;
     private Socket socket;
     private BufferedReader bufferedReader;
-    private Map<String, IAction> actionMap;
+    private Map<String, IType> types;
 
     public ServerListener() {
 
-        initActions();
+        initTypes();
+        initConnection();
     }
 
     private void initConnection() {
@@ -44,10 +46,6 @@ public class ServerListener extends Thread {
         }
     }
 
-    private void initActions() {
-        actionMap = new HashMap<>();
-    }
-
     @Override
     public void run() {
         while (true) {
@@ -56,11 +54,17 @@ public class ServerListener extends Thread {
                 System.out.println(sMessage);
                 JSONObject json = new JSONObject(sMessage);
                 String serverType = (String) json.get("type");
-                actionMap.get(serverType).handleAction(sMessage);
+                types.get(serverType).handleAction(sMessage);
             } catch (Exception e) {
                 initConnection();
             }
         }
+    }
+
+    private void initTypes() {
+        types = new HashMap<>();
+        types.put(Response.RESPONSE_LOGIN, this::Login);
+//        types.put(Response.RESPONSE_SIGN_UP, this::signUpRes);
     }
 
     public static void sendRequest(String json) {
@@ -72,7 +76,16 @@ public class ServerListener extends Thread {
 
     }
 
-    interface IAction {
+    private void Login(String json){
+        try {
+            LoginRes loginRes = TicTacToeClient.mapper.readValue(json, LoginRes.class);
+            LoginController.handleResponse(loginRes);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    interface IType {
         void handleAction(String json);
     }
 }
