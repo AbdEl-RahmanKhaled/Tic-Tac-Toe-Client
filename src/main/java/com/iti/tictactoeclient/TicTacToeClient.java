@@ -7,6 +7,7 @@ import com.iti.tictactoeclient.controllers.LoginController;
 import com.iti.tictactoeclient.controllers.RegisterController;
 import com.iti.tictactoeclient.helpers.ServerListener;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -52,9 +53,9 @@ public class TicTacToeClient extends Application {
     private void initViews() {
         try {
             // Register view
-            FXMLLoader fxmlLoaderrigister = new FXMLLoader(TicTacToeClient.class.getResource("Register.fxml"));
-            sceneRegister = new Scene(fxmlLoaderrigister.load());
-            registerController = fxmlLoaderrigister.getController();
+            FXMLLoader fxmlLoaderRegister = new FXMLLoader(TicTacToeClient.class.getResource("Register.fxml"));
+            sceneRegister = new Scene(fxmlLoaderRegister.load());
+            registerController = fxmlLoaderRegister.getController();
 
             // Home view
             FXMLLoader fxmlLoaderHome = new FXMLLoader(TicTacToeClient.class.getResource("Home.fxml"));
@@ -91,24 +92,27 @@ public class TicTacToeClient extends Application {
         mainStage.show();
     }
 
-    public static void openLoginView() {
-        mainStage.hide();
+    public static void openLoginView(String s) {
+        Platform.runLater(() -> { mainStage.hide();
         mainStage.setScene(sceneLogin);
         mainStage.setTitle("login");
         File iconfile = new File("images/88.png");
         Image icon = new Image(iconfile.toURI().toString());
         mainStage.getIcons().add(icon);
         mainStage.show();
+    });
     }
 
-    public static void openRegisterView() {
-        mainStage.hide();
-        mainStage.setScene(sceneRegister);
-        mainStage.setTitle("Register");
-        File iconfile = new File("images/7.png");
-        Image icon = new Image(iconfile.toURI().toString());
-        mainStage.getIcons().add(icon);
-        mainStage.show();
+    public static void openRegisterView(String message) {
+        Platform.runLater(() -> {
+            mainStage.hide();
+            mainStage.setScene(sceneRegister);
+            mainStage.setTitle("Register");
+            File iconfile = new File("images/7.png");
+            Image icon = new Image(iconfile.toURI().toString());
+            mainStage.getIcons().add(icon);
+            mainStage.show();
+        });
     }
 
     public static void main(String[] args) {
