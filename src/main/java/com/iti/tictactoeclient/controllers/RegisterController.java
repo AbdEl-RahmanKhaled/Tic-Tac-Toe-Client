@@ -53,16 +53,16 @@ public class RegisterController implements Initializable {
     }
 
     private static final ObjectMapper mapper = new ObjectMapper();
-    String regex = "^[A-Za-z]$";
+    String regex = "^[a-z]+([_.][a-z0-9]+)*${4,}";
     Pattern pattern = Pattern.compile(regex);
-
-
-
 
     @FXML
     protected void onActionRegister() {
-        if (isValidateInput()) {
+        if (!isValidateInput()) {
             User user = new User();
+            user.setName(FirstNameTxt.getText());
+            user.setUserName(UserNameTxt.getText());
+            user.setPassword(PasswordTxt.getText());
             SignUpReq signUpReq = new SignUpReq();
             signUpReq.setUser(user);
             try {
@@ -71,40 +71,40 @@ public class RegisterController implements Initializable {
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
-        }
-        else
-        {
-            System.out.println("not valdiated !");
-            invalidinput.setText("invalid input , try again!");
+        } else {
+            System.out.println("not validated !");
         }
     }
 
     private boolean isValidateInput() {
         Matcher matcher1 = pattern.matcher(UserNameTxt.getText());
-        Matcher matcher2 = pattern.matcher(FirstNameTxt.getText());
-        Matcher matcher3 = pattern.matcher(PasswordTxt.getText());
         if (UserNameTxt.getText().equals("") || !matcher1.matches()) {
             System.out.println("1");
             String s1 = UserNameTxt.getText().trim();
             invalidinput.setText("Invalid username!");
             return true;
         }
-        if (FirstNameTxt.getText().equals("") || !matcher2.matches()) {
+        if (FirstNameTxt.getText().equals("")) {
             System.out.println("2");
             String s2 = FirstNameTxt.getText().trim();
             invalidinput.setText("Invalid name!");
             return true;
-        } if (PasswordTxt.getText().equals("") || !matcher3.matches()) {
+        }
+        if (PasswordTxt.getText().equals("") || PasswordTxt.getText().length() < 6) {
             System.out.println("3");
             String s3 = PasswordTxt.getText().trim();
             invalidinput.setText("Invalid Password!");
             return true;
         }
-            return false;
+        return false;
     }
 
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
+
+    public void showAnimation(){
         File backfile = new File("images/7.png");
         Image background = new Image(backfile.toURI().toString());
         backgroundimg.setImage(background);
@@ -117,7 +117,7 @@ public class RegisterController implements Initializable {
         rotateTransition.play();
     }
 
-    public static void signUpValidation(Response signUpRes) {
+    public void handleResponse(Response signUpRes) {
         if (Objects.equals(signUpRes.getStatus(), Response.STATUS_OK)) {
             TicTacToeClient.openLoginView();
             System.out.println("Filed to connect4");

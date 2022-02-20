@@ -90,6 +90,7 @@ public class TicTacToeClient extends Application {
         Image icon = new Image(iconfile.toURI().toString());
         mainStage.getIcons().add(icon);
         mainStage.show();
+        gameController.showAnimation();
     }
 
     public static void openLoginView() {
@@ -100,6 +101,7 @@ public class TicTacToeClient extends Application {
         Image icon = new Image(iconfile.toURI().toString());
         mainStage.getIcons().add(icon);
         mainStage.show();
+        loginController.showAnimation();
     });
     }
 
@@ -112,8 +114,10 @@ public class TicTacToeClient extends Application {
             Image icon = new Image(iconfile.toURI().toString());
             mainStage.getIcons().add(icon);
             mainStage.show();
+            registerController.showAnimation();
         });
     }
+
 
     public static void main(String[] args) {
         launch();

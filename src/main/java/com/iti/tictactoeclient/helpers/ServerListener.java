@@ -64,7 +64,7 @@ public class ServerListener extends Thread {
     private void initTypes() {
         types = new HashMap<>();
         types.put(Response.RESPONSE_LOGIN, this::Login);
-//        types.put(Response.RESPONSE_SIGN_UP, this::signUpRes);
+        types.put(Response.RESPONSE_SIGN_UP, this::signUpRes);
     }
 
     public static void sendRequest(String json) {
@@ -88,8 +88,8 @@ public class ServerListener extends Thread {
     private void signUpRes(String json) {
         try {
             Response signUpRes = TicTacToeClient.mapper.readValue(json, Response.class);
-            Platform.runLater(() ->TicTacToeClient.registerController.signUpValidation(signUpRes));
-            System.out.println("Filed to connect1");
+            Platform.runLater(() ->TicTacToeClient.registerController.handleResponse(signUpRes));
+            System.out.println("Failed to connect1");
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
