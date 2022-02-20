@@ -2,7 +2,8 @@ package com.iti.tictactoeclient.requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class UpdateInGameStatusReq extends Request{
+
+public class UpdateInGameStatusReq extends Request {
     private boolean inGame;
 
     public UpdateInGameStatusReq() {

@@ -28,4 +28,3 @@ public class SignUpReq extends Request {
         this.user = user;
     }
 }
-

@@ -15,11 +15,15 @@ public class Request {
     public static final String ACTION_SIGN_UP = "signup";
     public static final String ACTION_SAVE_MATCH = "saveMatch";
     public static final String ACTION_REJECT_TO_PAUSE = "rejectToPause";
+    public static final String ACTION_ACCEPT_TO_PAUSE = "rejectToPause";
     public static final String ACTION_SEND_MESSAGE = "sendMessage";
     public static final String ACTION_ASK_TO_RESUME = "askToResume";
     public static final String ACTION_REJECT_TO_RESUME = "rejectToResume";
     public static final String ACTION_ACCEPT_TO_RESUME = "acceptToResume";
     public static final String ACTION_GET_MATCH_HISTORY = "getMatchHistory";
+    public static final String ACTION_BACK_FROM_OFFLINE = "backFromOffline";
+
+
 
 
     public Request() {
@@ -31,7 +35,7 @@ public class Request {
     }
 
     public String getAction() {
-        return this.action;
+        return action;
     }
 
     public void setAction(String action) {

@@ -3,24 +3,22 @@ package com.iti.tictactoeclient.requests;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.iti.tictactoeclient.models.Player;
 
-public class AcceptInvitationReq extends Request {
+public class BackFromOfflineReq extends Request {
     private Player player;
 
-    public AcceptInvitationReq() {
-        super(ACTION_ACCEPT_INVITATION);
+    public BackFromOfflineReq() {
+        this.action = ACTION_BACK_FROM_OFFLINE;
     }
 
-    public AcceptInvitationReq(Player player) {
-        super(ACTION_ACCEPT_INVITATION);
+    public BackFromOfflineReq(Player player) {
         this.player = player;
+        this.action = ACTION_BACK_FROM_OFFLINE;
     }
 
-    public AcceptInvitationReq(@JsonProperty("action") String action,
-                               @JsonProperty("player") Player player) {
+    public BackFromOfflineReq(@JsonProperty("action") String action, @JsonProperty("player") Player player) {
         super(action);
         this.player = player;
     }
-
 
     public Player getPlayer() {
         return player;

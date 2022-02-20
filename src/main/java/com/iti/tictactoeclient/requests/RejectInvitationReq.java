@@ -28,4 +28,3 @@ public class RejectInvitationReq extends Request {
         this.player = player;
     }
 }
-

@@ -91,7 +91,7 @@ public class GameController implements Initializable {
         scale.setNode(backgroundimg);
         scale.setDuration(Duration.millis(1000));
         scale.setCycleCount(2);
-        scale.setByX(1.2);
+        scale.setByX(0.4);
         scale.setAutoReverse(true);
         scale.play();
     }
