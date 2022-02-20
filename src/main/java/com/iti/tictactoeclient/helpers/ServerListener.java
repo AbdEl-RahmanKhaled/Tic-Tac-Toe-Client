@@ -2,9 +2,11 @@ package com.iti.tictactoeclient.helpers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.iti.tictactoeclient.TicTacToeClient;
+import com.iti.tictactoeclient.models.Player;
 import com.iti.tictactoeclient.notification.GameInvitationNotification;
 import com.iti.tictactoeclient.notification.Notification;
 import com.iti.tictactoeclient.notification.UpdateStatusNotification;
+import com.iti.tictactoeclient.requests.BackFromOfflineReq;
 import com.iti.tictactoeclient.responses.LoginRes;
 import com.iti.tictactoeclient.responses.Response;
 import javafx.application.Platform;
@@ -38,6 +40,7 @@ public class ServerListener extends Thread {
             bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             printStream = new PrintStream(socket.getOutputStream());
             System.out.println("connected");
+            backFromOffline();
         } catch (Exception ex) {
             System.out.println("Filed to connect");
             try {
@@ -59,7 +62,7 @@ public class ServerListener extends Thread {
                 String serverType = (String) json.get("type");
                 types.get(serverType).handleAction(sMessage);
             } catch (Exception e) {
-                if(running) {
+                if (running) {
                     initConnection();
                 }
             }
@@ -108,6 +111,20 @@ public class ServerListener extends Thread {
             Platform.runLater(() -> TicTacToeClient.loginController.handleResponse(loginRes));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void backFromOffline(){
+        // if was logged in
+        if (TicTacToeClient.homeController.getMyPlayerFullInfo() != null) {
+            BackFromOfflineReq backFromOfflineReq = new BackFromOfflineReq(
+                    new Player(TicTacToeClient.homeController.getMyPlayerFullInfo()));
+            try {
+                String jRequest = TicTacToeClient.mapper.writeValueAsString(backFromOfflineReq);
+                sendRequest(jRequest);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
         }
     }
 

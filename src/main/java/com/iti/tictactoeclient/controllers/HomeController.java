@@ -30,6 +30,7 @@ import java.util.ResourceBundle;
 public class HomeController implements Initializable {
 
     private Map<Integer, PlayerFullInfo> playersFullInfo;
+
     private PlayerFullInfo myPlayerFullInfo;
     @FXML
     private ImageView imgLogo;
@@ -153,4 +154,7 @@ public class HomeController implements Initializable {
         fillTable();
     }
 
+    public PlayerFullInfo getMyPlayerFullInfo() {
+        return myPlayerFullInfo;
+    }
 }
