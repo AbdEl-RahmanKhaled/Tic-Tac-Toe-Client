@@ -28,4 +28,3 @@ public class UpdateBoardReq extends Request {
         this.position = position;
     }
 }
-

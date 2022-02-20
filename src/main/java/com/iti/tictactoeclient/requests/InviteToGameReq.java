@@ -28,4 +28,3 @@ public class InviteToGameReq extends Request {
         this.player = player;
     }
 }
-
