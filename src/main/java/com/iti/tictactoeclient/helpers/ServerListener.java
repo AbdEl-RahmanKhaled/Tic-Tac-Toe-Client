@@ -205,8 +205,8 @@ public class ServerListener extends Thread {
     private void signUpRes(String json) {
         try {
             Response signUpRes = TicTacToeClient.mapper.readValue(json, Response.class);
-            Platform.runLater(() ->TicTacToeClient.registerController.signUpValidation(signUpRes));
-            System.out.println("Filed to connect1");
+            Platform.runLater(() ->TicTacToeClient.registerController.handleResponse(signUpRes));
+            System.out.println("Failed to connect1");
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
