@@ -1,25 +1,16 @@
 package com.iti.tictactoeclient.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.iti.tictactoeclient.models.Player;
 
 public class AskToPauseRes extends Response {
-    Player player1;
 
     public AskToPauseRes() {
-
+        this.type = RESPONSE_ASK_TO_PAUSE;
     }
 
-    public AskToPauseRes(@JsonProperty("type") String type, @JsonProperty("message") String message) {
+    public AskToPauseRes(@JsonProperty("status") String status, @JsonProperty("type") String type, @JsonProperty("message") String message) {
         this.message = message;
         this.type = type;
-    }
-
-    public Player getPlayer() {
-        return player1;
-    }
-
-    public void setPlayer(Player player1) {
-        this.player1 = player1;
+        this.status = status;
     }
 }

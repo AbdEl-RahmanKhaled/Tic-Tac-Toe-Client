@@ -16,6 +16,8 @@ module com.iti.tictactoeclient {
     requires java.sql;
     requires com.fasterxml.jackson.databind;
     requires org.json;
+    requires java.datatransfer;
+    requires java.desktop;
 
 
     opens com.iti.tictactoeclient;

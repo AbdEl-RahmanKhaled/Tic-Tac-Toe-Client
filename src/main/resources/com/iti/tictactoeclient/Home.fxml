@@ -61,8 +61,9 @@
       </ImageView>
       <TableView fx:id="tPlayers" layoutX="353.0" layoutY="66.0" prefHeight="300.0" prefWidth="227.0">
         <columns>
-          <TableColumn fx:id="cPlayerName" prefWidth="112.800048828125" text="Player" />
-          <TableColumn fx:id="cStatus" prefWidth="113.59991455078125" text="State" />
+          <TableColumn fx:id="cPlayerName" prefWidth="69.0" text="Player" />
+          <TableColumn fx:id="cStatus" prefWidth="79.0" text="Status" />
+            <TableColumn fx:id="cIsInGame" prefWidth="79.0" text="Is In Game" />
         </columns>
       </TableView>
       <Button fx:id="LogoutButton" layoutX="472.0" layoutY="428.0" mnemonicParsing="false" onAction="#LogoutButton" text="LogOut" />
