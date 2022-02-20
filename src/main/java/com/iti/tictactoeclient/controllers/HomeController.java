@@ -54,6 +54,7 @@ public class HomeController implements Initializable {
         cPlayerName.setCellValueFactory(new PropertyValueFactory<>("name"));
         cStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
         cIsInGame.setCellValueFactory(new PropertyValueFactory<>("inGame"));
+        cStatus.setComparator(cStatus.getComparator().reversed());
     }
 
 
@@ -141,6 +142,7 @@ public class HomeController implements Initializable {
     private void fillTable() {
         tPlayers.getItems().clear();
         tPlayers.getItems().setAll(playersFullInfo.values());
+        tPlayers.getSortOrder().add(cStatus);
     }
 
     public void updateStatus(PlayerFullInfo playerFullInfo) {
