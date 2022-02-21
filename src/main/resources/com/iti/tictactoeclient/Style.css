@@ -1,0 +1,31 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Redressed&display=swap');
+#RegisterButton,#LoginButton, #RegisterButton2 {
+  -fx-font-size: 18px;
+  -fx-font-family: 'Redressed', cursive;
+  -fx-background-color: #1565c0;
+  -fx-border-radius: 18px;
+  -fx-cursor: OPEN_HAND;
+  -fx-padding:7px 25px;
+
+}
+#Redressed
+{
+  -fx-font-family: 'Redressed', cursive;
+
+}
+
+#RegisterButton:hover, #LoginButton:hover, #RegisterButton2:hover{
+  -fx-background-color:linear-gradient(to bottom, #f24437 5%, #c62d1f 100%);
+
+        }
+
+
+
+#VsCompButton, #InviteButton
+{
+
+  -fx-background-color:#F00D4B;
+
+
+}

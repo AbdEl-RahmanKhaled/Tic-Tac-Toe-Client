@@ -18,13 +18,13 @@ import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class HomeController implements Initializable {
+public class MatchController implements Initializable {
 
     private Map<Integer, PlayerFullInfo> playersFullInfo;
     private PlayerFullInfo myPlayerFullInfo;
 
     @FXML
-    private ImageView imgLogo;
+    private ImageView backgroundimg;
 
     @FXML
     private TableView<PlayerFullInfo> tPlayers;
@@ -32,8 +32,6 @@ public class HomeController implements Initializable {
     private TableColumn<PlayerFullInfo, String> cPlayerName;
     @FXML
     private TableColumn<PlayerFullInfo, String> cStatus;
-
-
 
     @FXML
     private Label lblScore;
@@ -45,10 +43,10 @@ public class HomeController implements Initializable {
     public void showAnimation() {
         File backfile = new File("images/7.png");
         Image background = new Image(backfile.toURI().toString());
-        imgLogo.setImage(background);
+        backgroundimg.setImage(background);
 
         FadeTransition fade = new FadeTransition();
-        fade.setNode(imgLogo);
+        fade.setNode(backgroundimg);
         fade.setDuration(Duration.millis(1000));
         fade.setCycleCount(2);
         fade.setFromValue(1);
@@ -64,22 +62,14 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    public void MatchButton() {
-        TicTacToeClient.openMatchView();
-
-    }
-
-     public  void ChangeCell(String item, boolean empty)
-     {
-         System.out.println( tPlayers.getSelectionModel().getSelectedItems().get(1));
-     }
-
-    @FXML
     public void ComputerButton() {
 
 
+    }
 
-        TicTacToeClient.openGameView();
+    @FXML
+    public void LogoutButton() {
+//    TicTacToeClient.openLoginView();
 
     }
 

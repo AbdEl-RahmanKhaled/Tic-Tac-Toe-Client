@@ -1,10 +1,7 @@
 package com.iti.tictactoeclient;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.iti.tictactoeclient.controllers.GameController;
-import com.iti.tictactoeclient.controllers.HomeController;
-import com.iti.tictactoeclient.controllers.LoginController;
-import com.iti.tictactoeclient.controllers.RegisterController;
+import com.iti.tictactoeclient.controllers.*;
 import com.iti.tictactoeclient.helpers.ServerListener;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -17,11 +14,12 @@ import java.io.IOException;
 
 public class TicTacToeClient extends Application {
     private static Stage mainStage;
-    private static Scene sceneRegister, sceneHome, sceneGame, sceneLogin;
+    private static Scene sceneRegister, sceneHome, sceneGame, sceneLogin , sceneMatch;
     public static RegisterController registerController;
     public static HomeController homeController;
     public static GameController gameController;
     public static LoginController loginController;
+    public static MatchController matchController;
     private static final ServerListener serverListener = new ServerListener();
     public static final ObjectMapper mapper = new ObjectMapper();
 
@@ -65,6 +63,12 @@ public class TicTacToeClient extends Application {
             FXMLLoader fxmlLoaderGame = new FXMLLoader(TicTacToeClient.class.getResource("Game.fxml"));
             sceneGame = new Scene(fxmlLoaderGame.load());
             gameController = fxmlLoaderGame.getController();
+
+
+            // Match View
+            FXMLLoader fxmlLoaderMatch = new FXMLLoader(TicTacToeClient.class.getResource("Match.fxml"));
+            sceneMatch = new Scene(fxmlLoaderMatch.load());
+            matchController = fxmlLoaderMatch.getController();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -74,11 +78,22 @@ public class TicTacToeClient extends Application {
         mainStage.hide();
         mainStage.setScene(sceneHome);
         mainStage.setTitle("Home");
-        File iconfile = new File("images/88.png");
+        File iconfile = new File("images/7.png");
         Image icon = new Image(iconfile.toURI().toString());
         mainStage.getIcons().add(icon);
         mainStage.show();
         homeController.showAnimation();
+    }
+
+    public static void openMatchView() {
+        mainStage.hide();
+        mainStage.setScene(sceneMatch);
+        mainStage.setTitle("Match");
+        File iconfile = new File("images/7.png");
+        Image icon = new Image(iconfile.toURI().toString());
+        mainStage.getIcons().add(icon);
+        mainStage.show();
+        matchController.showAnimation();
     }
 
     public static void openGameView() {
@@ -88,14 +103,16 @@ public class TicTacToeClient extends Application {
         File iconfile = new File("images/7.png");
         Image icon = new Image(iconfile.toURI().toString());
         mainStage.getIcons().add(icon);
+        gameController.showAnimation();
         mainStage.show();
+
     }
 
     public static void openLoginView() {
         mainStage.hide();
         mainStage.setScene(sceneLogin);
         mainStage.setTitle("login");
-        File iconfile = new File("images/88.png");
+        File iconfile = new File("images/7.png");
         Image icon = new Image(iconfile.toURI().toString());
         mainStage.getIcons().add(icon);
         mainStage.show();
