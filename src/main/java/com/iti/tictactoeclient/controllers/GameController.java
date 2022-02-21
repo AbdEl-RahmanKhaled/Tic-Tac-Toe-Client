@@ -35,6 +35,7 @@ public class GameController implements Initializable {
     @FXML
     private ImageView backgroundimg;
 
+
     @FXML
     private TextArea ChatArea;
 
@@ -82,8 +83,8 @@ public class GameController implements Initializable {
     }
 
     public void showAnimation(){
-        File backfile = new File("images/7.png");
-        Image background = new Image(backfile.toURI().toString());
+        File backFile = new File("images/7.png");
+        Image background = new Image(backFile.toURI().toString());
         backgroundimg.setImage(background);
         ChatArea.setEditable(false);
 
