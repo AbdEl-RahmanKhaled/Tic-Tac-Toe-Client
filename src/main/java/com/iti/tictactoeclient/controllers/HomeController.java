@@ -10,30 +10,26 @@ import com.iti.tictactoeclient.requests.InviteToGameReq;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.awt.*;
 import java.awt.TrayIcon.MessageType;
 
 import java.io.File;
 import java.net.URL;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
 
     private Map<Integer, PlayerFullInfo> playersFullInfo;
     private PlayerFullInfo myPlayerFullInfo;
-    private List<Invitation> invitations;
+    private Map<Integer, Invitation> invitations;
     @FXML
     private ImageView imgLogo;
 
@@ -54,6 +50,7 @@ public class HomeController implements Initializable {
 
     @FXML
     private TableColumn<Invitation, String> cNotif;
+
     @FXML
     private Label lblScore;
 
@@ -62,12 +59,16 @@ public class HomeController implements Initializable {
 
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        invitations = new HashMap<>();
         cPlayerName.setCellValueFactory(new PropertyValueFactory<>("name"));
         cStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
         cIsInGame.setCellValueFactory(new PropertyValueFactory<>("inGame"));
         cStatus.setComparator(cStatus.getComparator().reversed());
 
-        tPlayers.setRowFactory( tv -> {
+        cFrom.setCellValueFactory(new PropertyValueFactory<>("name"));
+        cNotif.setCellValueFactory(new PropertyValueFactory<>("type"));
+
+        tPlayers.setRowFactory(tv -> {
             TableRow<PlayerFullInfo> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
@@ -125,8 +126,6 @@ public class HomeController implements Initializable {
     }
 
 
-
-
     @FXML
     public void ComputerButton() {
 
@@ -142,6 +141,12 @@ public class HomeController implements Initializable {
 
 
     public void notifyGameInvitation(Player player) {
+        Invitation invitation = new Invitation();
+        invitation.setType("New Game Invitation");
+        invitation.setPlayer(player);
+        invitation.setName(playersFullInfo.get(player.getDb_id()).getName());
+        invitations.put(player.getDb_id(), invitation);
+        fillInvitationsTable();
         TicTacToeClient.showSystemNotification("Game Invitation",
                 playersFullInfo.get(player.getDb_id()).getName() + " sent you game invitation.",
                 MessageType.INFO);
@@ -157,27 +162,36 @@ public class HomeController implements Initializable {
     }
 
     private void fillView() {
-        fillTable();
+        fillPlayersTable();
         lblName.setText(myPlayerFullInfo.getName());
         lblScore.setText(String.valueOf(myPlayerFullInfo.getPoints()));
     }
 
-    private void fillTable() {
+    private void fillPlayersTable() {
         tPlayers.getItems().clear();
         tPlayers.getItems().setAll(playersFullInfo.values());
 
         tPlayers.getSortOrder().add(cStatus);
     }
 
+    private void fillInvitationsTable() {
+        tInvitation.getItems().clear();
+        tInvitation.getItems().setAll(invitations.values());
+    }
+
     public void updateStatus(PlayerFullInfo playerFullInfo) {
-        if(!playerFullInfo.getStatus().equals(playersFullInfo.get(playerFullInfo.getDb_id()).getStatus()) && playerFullInfo.getStatus().equals(PlayerFullInfo.ONLINE)){
+        if (!playerFullInfo.getStatus().equals(playersFullInfo.get(playerFullInfo.getDb_id()).getStatus()) && playerFullInfo.getStatus().equals(PlayerFullInfo.ONLINE)) {
             TicTacToeClient.showSystemNotification("Status Updated", "Player " + playerFullInfo.getName() + " now is online.", MessageType.INFO);
         }
         playersFullInfo.put(playerFullInfo.getDb_id(), playerFullInfo);
-        fillTable();
+        fillPlayersTable();
     }
 
     public PlayerFullInfo getMyPlayerFullInfo() {
         return myPlayerFullInfo;
+    }
+
+    public PlayerFullInfo getPlayerFullInfo(int id) {
+        return playersFullInfo.get(id);
     }
 }
