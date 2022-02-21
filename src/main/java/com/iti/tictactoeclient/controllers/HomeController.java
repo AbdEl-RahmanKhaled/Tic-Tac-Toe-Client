@@ -3,6 +3,7 @@ package com.iti.tictactoeclient.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.iti.tictactoeclient.TicTacToeClient;
 import com.iti.tictactoeclient.helpers.ServerListener;
+import com.iti.tictactoeclient.models.Invitation;
 import com.iti.tictactoeclient.models.Player;
 import com.iti.tictactoeclient.models.PlayerFullInfo;
 import com.iti.tictactoeclient.requests.InviteToGameReq;
@@ -23,6 +24,7 @@ import java.awt.TrayIcon.MessageType;
 
 import java.io.File;
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -30,8 +32,8 @@ import java.util.ResourceBundle;
 public class HomeController implements Initializable {
 
     private Map<Integer, PlayerFullInfo> playersFullInfo;
-
     private PlayerFullInfo myPlayerFullInfo;
+    private List<Invitation> invitations;
     @FXML
     private ImageView imgLogo;
 
@@ -44,6 +46,14 @@ public class HomeController implements Initializable {
     @FXML
     private TableColumn<PlayerFullInfo, Boolean> cIsInGame;
 
+    @FXML
+    private TableView<Invitation> tInvitation;
+
+    @FXML
+    private TableColumn<Invitation, String> cFrom;
+
+    @FXML
+    private TableColumn<Invitation, String> cNotif;
     @FXML
     private Label lblScore;
 
