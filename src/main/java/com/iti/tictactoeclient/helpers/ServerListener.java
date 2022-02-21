@@ -132,7 +132,7 @@ public class ServerListener extends Thread {
     private void getMatchHistory(String json){
         try {
             GetMatchHistoryRes getMatchHistoryRes=TicTacToeClient.mapper.readValue(json,GetMatchHistoryRes.class);
-            //TicTacToeClient.matchController.handleResponse(getMatchHistoryRes);
+            TicTacToeClient.matchController.handleResponse(getMatchHistoryRes.getMatches());
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

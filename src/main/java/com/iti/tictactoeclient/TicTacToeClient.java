@@ -1,10 +1,7 @@
 package com.iti.tictactoeclient;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.iti.tictactoeclient.controllers.GameController;
-import com.iti.tictactoeclient.controllers.HomeController;
-import com.iti.tictactoeclient.controllers.LoginController;
-import com.iti.tictactoeclient.controllers.RegisterController;
+import com.iti.tictactoeclient.controllers.*;
 import com.iti.tictactoeclient.helpers.ServerListener;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -25,11 +22,12 @@ import java.util.Optional;
 
 public class TicTacToeClient extends Application {
     public static Stage mainStage;
-    private static Scene sceneRegister, sceneHome, sceneGame, sceneLogin;
+    private static Scene sceneRegister, sceneHome, sceneGame, sceneLogin, sceneMatch;
     public static RegisterController registerController;
     public static HomeController homeController;
     public static GameController gameController;
     public static LoginController loginController;
+    public static MatchController matchController;
     private static final ServerListener serverListener = new ServerListener();
     public static final ObjectMapper mapper = new ObjectMapper();
     private static TrayIcon trayIcon;

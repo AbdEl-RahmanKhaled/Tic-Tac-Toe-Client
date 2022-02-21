@@ -3,6 +3,7 @@ package com.iti.tictactoeclient.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.iti.tictactoeclient.TicTacToeClient;
 import com.iti.tictactoeclient.helpers.ServerListener;
+import com.iti.tictactoeclient.models.Invitation;
 import com.iti.tictactoeclient.models.Player;
 import com.iti.tictactoeclient.models.PlayerFullInfo;
 import com.iti.tictactoeclient.requests.GetMatchHistoryReq;
@@ -69,7 +70,7 @@ public class HomeController implements Initializable {
         cIsInGame.setCellValueFactory(new PropertyValueFactory<>("inGame"));
         cStatus.setComparator(cStatus.getComparator().reversed());
 
-        tPlayers.setRowFactory( tv -> {
+        tPlayers.setRowFactory(tv -> {
             TableRow<PlayerFullInfo> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
@@ -127,27 +128,11 @@ public class HomeController implements Initializable {
     }
 
 
-
-
     @FXML
     public void ComputerButton() {
 
         TicTacToeClient.showAlert("sdv", "dvsdvd", Alert.AlertType.ERROR);
         System.out.println(TicTacToeClient.showConfirmation("tessst", "message"));
-    }
-
-    @FXML
-    public void LogoutButton() {
-//    TicTacToeClient.openLoginView();
-        TicTacToeClient.showSystemNotification("Tic Tac Toe", "test notification", MessageType.INFO);
-=========
-    public void ComputerButton() {
-
-
-
-        TicTacToeClient.openGameView();
-
->>>>>>>>> Temporary merge branch 2
     }
 
 
@@ -205,3 +190,4 @@ public class HomeController implements Initializable {
 
 
 }
+
