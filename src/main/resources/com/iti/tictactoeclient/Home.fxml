@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to right, #b92b27, #1565c0);;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iti.tictactoeclient.controllers.HomeController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: linear-gradient(to right, #b92b27, #1565c0);;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iti.tictactoeclient.controllers.HomeController">
    <children>
-      <Label layoutX="54.0" layoutY="240.0" prefHeight="24.0" prefWidth="85.0" text="Score:">
+      <Label id="Redressed" layoutX="386.0" layoutY="300.0" prefHeight="24.0" prefWidth="85.0" text="Score:" stylesheets="@Style.css">
          <textFill>
             <LinearGradient endX="0.41666664499225037" endY="1.0" startX="0.3825757584788583">
                <stops>
@@ -27,10 +33,10 @@
             </LinearGradient>
          </textFill>
          <font>
-            <Font size="14.0" />
+            <Font size="21.0" />
          </font>
       </Label>
-      <Label layoutX="54.0" layoutY="192.0" prefHeight="24.0" prefWidth="85.0" text="Player name :">
+      <Label id="Redressed" layoutX="376.0" layoutY="239.0" prefHeight="35.0" prefWidth="146.0" text="Player name :" stylesheets="@Style.css">
          <textFill>
             <LinearGradient endX="0.41666664499225037" endY="1.0" startX="0.3825757584788583">
                <stops>
@@ -48,10 +54,10 @@
             </LinearGradient>
          </textFill>
          <font>
-            <Font size="14.0" />
+            <Font size="21.0" />
          </font>
       </Label>
-      <ImageView fx:id="imgLogo" fitHeight="121.0" fitWidth="200.0" layoutX="36.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgLogo" fitHeight="121.0" fitWidth="200.0" layoutX="418.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../../../images/7.png" />
          </image>
@@ -59,16 +65,21 @@
             <DropShadow blurType="TWO_PASS_BOX" height="73.99" radius="54.989999999999995" width="147.97" />
          </effect>
       </ImageView>
-      <TableView fx:id="tPlayers" layoutX="353.0" layoutY="66.0" prefHeight="300.0" prefWidth="227.0">
+      <TableView fx:id="tPlayers" layoutX="674.0" layoutY="125.0" prefHeight="384.0" prefWidth="292.0" style="-fx-background-radius: 10;">
         <columns>
-          <TableColumn fx:id="cPlayerName" prefWidth="112.800048828125" text="Player" />
-          <TableColumn fx:id="cStatus" prefWidth="113.59991455078125" text="State" />
+          <TableColumn fx:id="cPlayerName" editable="false" prefWidth="107.0" resizable="false" text="Player" />
+          <TableColumn fx:id="cStatus" prefWidth="101.0" text="State" />
         </columns>
       </TableView>
-      <Button fx:id="LogoutButton" layoutX="472.0" layoutY="428.0" mnemonicParsing="false" onAction="#LogoutButton" text="LogOut" />
-      <Button fx:id="InviteButton" layoutX="36.0" layoutY="331.0" mnemonicParsing="false" onAction="#InviteButton" prefHeight="25.0" prefWidth="85.0" text="Invite player" />
-      <Button fx:id="VsCompButton" layoutX="144.0" layoutY="331.0" mnemonicParsing="false" onAction="#ComputerButton" text="Vs Computer" />
-      <Label fx:id="ChoosePlayers" layoutX="353.0" layoutY="41.0" text="Choose Players ">
+      <Button fx:id="InviteButton" layoutX="366.0" layoutY="450.0" mnemonicParsing="false" onAction="#InviteButton" prefHeight="34.0" prefWidth="114.0" style="-fx-background-color: #1565c0; -fx-background-radius: 10;" text="Invite player" textFill="#e8e865">
+         <font>
+            <Font name="Times New Roman" size="17.0" />
+         </font></Button>
+      <Button fx:id="VsCompButton" layoutX="507.0" layoutY="450.0" mnemonicParsing="false" onAction="#ComputerButton" prefHeight="34.0" prefWidth="114.0" style="-fx-background-color: #1565c0; -fx-background-radius: 10;" text="Vs Computer" textFill="#e8e865">
+         <font>
+            <Font name="Times New Roman" size="17.0" />
+         </font></Button>
+      <Label id="Redressed" fx:id="ChoosePlayers" layoutX="681.0" layoutY="79.0" prefHeight="29.0" prefWidth="187.0" style="-fx-font-family: https://fonts.gstatic.com&quot; crossorigin;" text="Choose Players " stylesheets="@Style.css">
          <textFill>
             <LinearGradient endX="0.41666664499225037" endY="1.0" startX="0.3825757584788583">
                <stops>
@@ -86,10 +97,10 @@
             </LinearGradient>
          </textFill>
          <font>
-            <Font size="14.0" />
+            <Font name="Times New Roman" size="23.0" />
          </font>
       </Label>
-      <Label fx:id="lblName" layoutX="151.0" layoutY="192.0" prefHeight="24.0" prefWidth="85.0">
+      <Label fx:id="lblName" layoutX="511.0" layoutY="239.0" prefHeight="35.0" prefWidth="146.0">
          <textFill>
             <LinearGradient endX="0.41666664499225037" endY="1.0" startX="0.3825757584788583">
                <stops>
@@ -107,10 +118,10 @@
             </LinearGradient>
          </textFill>
          <font>
-            <Font size="14.0" />
+            <Font name="Times New Roman" size="17.0" />
          </font>
       </Label>
-      <Label fx:id="lblScore" layoutX="144.0" layoutY="240.0" prefHeight="24.0" prefWidth="85.0">
+      <Label fx:id="lblScore" layoutX="462.0" layoutY="298.0" prefHeight="35.0" prefWidth="140.0">
          <textFill>
             <LinearGradient endX="0.41666664499225037" endY="1.0" startX="0.3825757584788583">
                <stops>
@@ -128,7 +139,58 @@
             </LinearGradient>
          </textFill>
          <font>
-            <Font size="14.0" />
+            <Font name="Times New Roman" size="1.0" />
+         </font>
+      </Label>
+      <Button fx:id="Matches" layoutX="783.0" layoutY="526.0" mnemonicParsing="false" onAction="#MatchButton" prefHeight="41.0" prefWidth="85.0" style="-fx-background-color: #dd2e2b; -fx-background-radius: 10;" text="Matches" textFill="#e8e865">
+         <font>
+            <Font name="Times New Roman" size="17.0" />
+         </font></Button>
+      <ImageView fitHeight="93.0" fitWidth="97.0" layoutX="521.0" layoutY="346.0">
+         <image>
+            <Image url="@../../../../../../images/computer.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="82.0" fitWidth="85.0" layoutX="387.0" layoutY="357.0">
+         <image>
+            <Image url="@../../../../../../images/player.png" />
+         </image>
+      </ImageView>
+      <TableView id="notifacationTable" layoutX="26.0" layoutY="125.0" prefHeight="384.0" prefWidth="292.0" style="-fx-background-radius: 10;">
+        <columns>
+          <TableColumn prefWidth="144.0" text="Notifactions" />
+          <TableColumn prefWidth="147.0" text="Type" />
+        </columns>
+      </TableView>
+      <Button fx:id="Matches1" layoutX="74.0" layoutY="526.0" mnemonicParsing="false" onAction="#MatchButton" prefHeight="41.0" prefWidth="85.0" style="-fx-background-color: #dd2e2b; -fx-background-radius: 10;" text="Accpet" textFill="#e8e865">
+         <font>
+            <Font name="Times New Roman" size="17.0" />
+         </font>
+      </Button>
+      <Button fx:id="Matches2" layoutX="180.0" layoutY="526.0" mnemonicParsing="false" onAction="#MatchButton" prefHeight="41.0" prefWidth="85.0" style="-fx-background-color: #dd2e2b; -fx-background-radius: 10;" text="Reject" textFill="#e8e865">
+         <font>
+            <Font name="Times New Roman" size="17.0" />
+         </font>
+      </Button>
+      <Label id="Redressed" fx:id="ChoosePlayers1" layoutX="36.0" layoutY="79.0" prefHeight="29.0" prefWidth="203.0" text="Invitations Received" stylesheets="@Style.css">
+         <textFill>
+            <LinearGradient endX="0.41666664499225037" endY="1.0" startX="0.3825757584788583">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.03759999945759773" green="0.9399999976158142" blue="0.7883036136627197" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.7768396735191345" green="0.7799999713897705" blue="0.046799998730421066" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+         <font>
+            <Font name="Times New Roman" size="23.0" />
          </font>
       </Label>
    </children>
