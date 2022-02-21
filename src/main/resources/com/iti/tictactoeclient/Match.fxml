@@ -8,12 +8,13 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: linear-gradient(to right, #b92b27, #1565c0);" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iti.tictactoeclient.controllers.MatchController">
    <children>
-      <TableView fx:id="MatchTable" layoutX="301.0" layoutY="68.0" prefHeight="457.0" prefWidth="360.0" style="-fx-background-radius: 10;">
+      <TableView fx:id="MatchTable" layoutX="264.0" layoutY="75.0" prefHeight="450.0" prefWidth="425.0" style="-fx-background-radius: 10;">
         <columns>
-          <TableColumn fx:id="dateColumn" prefWidth="75.0" text="Date" />
-          <TableColumn fx:id="player1Column" prefWidth="92.0" text="Player1" />
-            <TableColumn fx:id="player2Column" prefWidth="100.0" text="Player2" />
-            <TableColumn fx:id="statusColumn" prefWidth="92.0" text="Status" />
+          <TableColumn fx:id="dateColumn" prefWidth="100.20001220703125" text="Date" />
+          <TableColumn fx:id="player1Column" prefWidth="75.20001220703125" text="Player1" />
+            <TableColumn fx:id="player2Column" prefWidth="83.60000610351562" text="Player2" />
+            <TableColumn fx:id="statusColumn" minWidth="0.0" prefWidth="82.20001220703125" text="Status" />
+            <TableColumn fx:id="winnerColumn" prefWidth="81.79998779296875" text="Winner" />
         </columns>
       </TableView>
       <Button fx:id="ViewButton" layoutX="74.0" layoutY="390.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="101.0" style="-fx-background-color: blue; -fx-background-radius: 10;" text="View">

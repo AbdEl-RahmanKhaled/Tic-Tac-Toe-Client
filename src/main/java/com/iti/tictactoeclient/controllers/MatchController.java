@@ -2,6 +2,7 @@ package com.iti.tictactoeclient.controllers;
 
 import com.iti.tictactoeclient.TicTacToeClient;
 import com.iti.tictactoeclient.models.Match;
+import com.iti.tictactoeclient.models.MatchTable;
 import com.iti.tictactoeclient.models.PlayerFullInfo;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
@@ -25,7 +26,7 @@ public class MatchController implements Initializable {
     private ImageView backgroundimg;
 
     @FXML
-    private TableView<Match> MatchTable;
+    private TableView<MatchTable> MatchTable;
     @FXML
     private TableColumn<Match, String> dateColumn;
     @FXML
@@ -34,6 +35,8 @@ public class MatchController implements Initializable {
     private TableColumn<Match, String> player2Column;
     @FXML
     private TableColumn<Match, String> statusColumn;
+    @FXML
+    private TableColumn<Match, String> winnerColumn;
 
 
 
@@ -58,9 +61,10 @@ public class MatchController implements Initializable {
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
         dateColumn.setCellValueFactory(new PropertyValueFactory<> ("m_date"));
-        //player1Column.setCellValueFactory(new PropertyValueFactory<> (getPlayerFullInfo(player1_id)));
-        //player2Column.setCellValueFactory(new PropertyValueFactory<> (getPlayerFullInfo(player2_id)));
+        player1Column.setCellValueFactory(new PropertyValueFactory<> ("player1_Name"));
+        player2Column.setCellValueFactory(new PropertyValueFactory<> ("player2_Name"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<> ("status"));
+        winnerColumn.setCellValueFactory(new PropertyValueFactory<> ("winner"));
 
     }
 
@@ -79,7 +83,7 @@ public class MatchController implements Initializable {
 //        lblName.setText(myPlayerFullInfo.getName());
 //        lblScore.setText(String.valueOf(myPlayerFullInfo.getPoints()));
 //    }
-    public void handleResponse(List<Match> matchList) {
+    public void handleResponse(List<MatchTable> matchList) {
         MatchTable.getItems().clear();
         MatchTable.getItems().setAll(matchList);
 

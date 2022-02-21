@@ -9,6 +9,7 @@ import com.iti.tictactoeclient.models.PlayerFullInfo;
 import com.iti.tictactoeclient.requests.GetMatchHistoryReq;
 import com.iti.tictactoeclient.requests.InviteToGameReq;
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -28,6 +29,7 @@ import java.awt.TrayIcon.MessageType;
 import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -36,7 +38,7 @@ public class HomeController implements Initializable {
 
     private Map<Integer, PlayerFullInfo> playersFullInfo;
     private PlayerFullInfo myPlayerFullInfo;
-    private List<Invitation> invitations;
+    private Map<Integer, Invitation> invitations;
     @FXML
     private ImageView imgLogo;
 
@@ -165,6 +167,7 @@ public class HomeController implements Initializable {
             GetMatchHistoryReq getMatchHistoryReq = new GetMatchHistoryReq();
             String jRequest = TicTacToeClient.mapper.writeValueAsString(getMatchHistoryReq);
             ServerListener.sendRequest(jRequest);
+            Platform.runLater(()->TicTacToeClient.openMatchView());
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

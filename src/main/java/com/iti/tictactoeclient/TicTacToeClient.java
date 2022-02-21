@@ -73,6 +73,11 @@ public class TicTacToeClient extends Application {
             FXMLLoader fxmlLoaderGame = new FXMLLoader(TicTacToeClient.class.getResource("Game.fxml"));
             sceneGame = new Scene(fxmlLoaderGame.load());
             gameController = fxmlLoaderGame.getController();
+
+            // Game View
+            FXMLLoader fxmlLoaderMatch = new FXMLLoader(TicTacToeClient.class.getResource("Match.fxml"));
+            sceneMatch = new Scene(fxmlLoaderMatch.load());
+            matchController = fxmlLoaderMatch.getController();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -212,6 +217,8 @@ public class TicTacToeClient extends Application {
         mainStage.show();
         registerController.showAnimation();
     }
+
+
 
     @Override
     public void stop() throws Exception {
