@@ -171,6 +171,17 @@ public class TicTacToeClient extends Application {
         homeController.showAnimation();
     }
 
+    public static void openMatchView() {
+        mainStage.hide();
+        mainStage.setScene(sceneMatch);
+        mainStage.setTitle("Match");
+        File iconfile = new File("images/7.png");
+        Image icon = new Image(iconfile.toURI().toString());
+        mainStage.getIcons().add(icon);
+        mainStage.show();
+        matchController.showAnimation();
+    }
+
     public static void openGameView() {
         mainStage.hide();
         mainStage.setScene(sceneGame);

@@ -26,6 +26,7 @@ import java.awt.TrayIcon.MessageType;
 
 import java.io.File;
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -33,8 +34,8 @@ import java.util.ResourceBundle;
 public class HomeController implements Initializable {
 
     private Map<Integer, PlayerFullInfo> playersFullInfo;
-
     private PlayerFullInfo myPlayerFullInfo;
+    private List<Invitation> invitations;
     @FXML
     private ImageView imgLogo;
 
@@ -48,6 +49,14 @@ public class HomeController implements Initializable {
     private TableColumn<PlayerFullInfo, Boolean> cIsInGame;
 
     @FXML
+    private TableView<Invitation> tInvitation;
+
+    @FXML
+    private TableColumn<Invitation, String> cFrom;
+
+    @FXML
+    private TableColumn<Invitation, String> cNotif;
+    @FXML
     private Label lblScore;
 
     @FXML
@@ -59,6 +68,16 @@ public class HomeController implements Initializable {
         cStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
         cIsInGame.setCellValueFactory(new PropertyValueFactory<>("inGame"));
         cStatus.setComparator(cStatus.getComparator().reversed());
+
+        tPlayers.setRowFactory( tv -> {
+            TableRow<PlayerFullInfo> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    System.out.println("hamada");
+                }
+            });
+            return row;
+        });
     }
 
 
@@ -107,20 +126,35 @@ public class HomeController implements Initializable {
         return valid;
     }
 
+
+
+
     @FXML
     public void ComputerButton() {
-        TicTacToeClient.openGameView();
 
+        TicTacToeClient.showAlert("sdv", "dvsdvd", Alert.AlertType.ERROR);
+        System.out.println(TicTacToeClient.showConfirmation("tessst", "message"));
     }
 
     @FXML
     public void LogoutButton() {
 //    TicTacToeClient.openLoginView();
         TicTacToeClient.showSystemNotification("Tic Tac Toe", "test notification", MessageType.INFO);
+=========
+    public void ComputerButton() {
+
+
+
+        TicTacToeClient.openGameView();
+
+>>>>>>>>> Temporary merge branch 2
     }
 
 
     public void notifyGameInvitation(Player player) {
+        TicTacToeClient.showSystemNotification("Game Invitation",
+                playersFullInfo.get(player.getDb_id()).getName() + " sent you game invitation.",
+                MessageType.INFO);
 
 
     }
@@ -153,6 +187,7 @@ public class HomeController implements Initializable {
     private void fillTable() {
         tPlayers.getItems().clear();
         tPlayers.getItems().setAll(playersFullInfo.values());
+
         tPlayers.getSortOrder().add(cStatus);
     }
 
