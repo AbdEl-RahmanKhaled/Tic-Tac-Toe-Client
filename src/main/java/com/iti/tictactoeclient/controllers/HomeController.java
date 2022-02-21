@@ -25,6 +25,10 @@ public class HomeController implements Initializable {
 
     @FXML
     private ImageView imgLogo;
+    @FXML
+    private ImageView computer;
+    @FXML
+    private ImageView userimg;
 
     @FXML
     private TableView<PlayerFullInfo> tPlayers;
@@ -47,6 +51,13 @@ public class HomeController implements Initializable {
         Image background = new Image(backfile.toURI().toString());
         imgLogo.setImage(background);
 
+        File cumputer = new File("images/computer.png");
+        Image cumputerim = new Image(cumputer.toURI().toString());
+        computer.setImage(cumputerim);
+
+        File user = new File("images/player.png");
+        Image userim= new Image(user.toURI().toString());
+        userimg.setImage(userim);
         FadeTransition fade = new FadeTransition();
         fade.setNode(imgLogo);
         fade.setDuration(Duration.millis(1000));
@@ -85,6 +96,7 @@ public class HomeController implements Initializable {
 
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
     }
 
     public void fromLogin(PlayerFullInfo myPlayerFullInfo, Map<Integer, PlayerFullInfo> playersFullInfo) {

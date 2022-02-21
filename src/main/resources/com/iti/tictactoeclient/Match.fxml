@@ -9,21 +9,21 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: linear-gradient(to right, #b92b27, #1565c0);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iti.tictactoeclient.controllers.MatchController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="527.0" prefWidth="700.0" style="-fx-background-color: linear-gradient(to right, #b92b27, #1565c0);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iti.tictactoeclient.controllers.MatchController">
    <children>
-      <TableView fx:id="MatchTable" layoutX="301.0" layoutY="68.0" prefHeight="457.0" prefWidth="360.0" style="-fx-background-radius: 10;">
+      <TableView fx:id="MatchTable" layoutX="320.0" layoutY="72.0" prefHeight="387.0" prefWidth="355.0" style="-fx-background-radius: 10;">
         <columns>
-          <TableColumn prefWidth="75.0" text="MatchID" />
-          <TableColumn prefWidth="92.0" text="Player1" />
-            <TableColumn prefWidth="100.0" text="Player2" />
-            <TableColumn prefWidth="92.0" text="Status" />
+          <TableColumn editable="false" prefWidth="97.0" text="MatchID" />
+          <TableColumn editable="false" prefWidth="92.0" text="Player1" />
+            <TableColumn editable="false" prefWidth="92.0" text="Player2" />
+            <TableColumn editable="false" prefWidth="78.0" text="Status" />
         </columns>
       </TableView>
-      <Button fx:id="ViewButton" layoutX="74.0" layoutY="390.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="101.0" style="-fx-background-color: blue; -fx-background-radius: 10;" text="View">
+      <Button fx:id="ViewButton" layoutX="38.0" layoutY="407.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="101.0" style="-fx-background-color: blue; -fx-background-radius: 10;" text="View" textFill="#e8e865">
          <font>
             <Font name="Times New Roman" size="17.0" />
          </font></Button>
-      <ImageView fx:id="backgroundimg" fitHeight="121.0" fitWidth="200.0" layoutX="29.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="backgroundimg" fitHeight="121.0" fitWidth="200.0" layoutX="46.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../../../images/7.png" />
          </image>
@@ -31,7 +31,7 @@
             <DropShadow blurType="TWO_PASS_BOX" height="73.99" radius="54.989999999999995" width="147.97" />
          </effect>
       </ImageView>
-      <Button fx:id="ContinueButton" layoutX="74.0" layoutY="300.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="101.0" style="-fx-background-color: blue; -fx-background-radius: 10;" text="Continue">
+      <Button fx:id="ContinueButton" layoutX="159.0" layoutY="407.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="101.0" style="-fx-background-color: blue; -fx-background-radius: 10;" text="Continue" textFill="#e8e865">
          <font>
             <Font name="Times New Roman" size="18.0" />
          </font></Button>

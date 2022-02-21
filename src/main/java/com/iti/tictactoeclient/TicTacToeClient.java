@@ -11,10 +11,13 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 public class TicTacToeClient extends Application {
     private static Stage mainStage;
     private static Scene sceneRegister, sceneHome, sceneGame, sceneLogin , sceneMatch;
+    private URL url;
+    private String css;
     public static RegisterController registerController;
     public static HomeController homeController;
     public static GameController gameController;
@@ -37,6 +40,9 @@ public class TicTacToeClient extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(TicTacToeClient.class.getResource("Login.fxml"));
         sceneLogin = new Scene(fxmlLoader.load());
         loginController = fxmlLoader.getController();
+         url = this.getClass().getResource("Style.css");
+         css = url.toExternalForm();
+        sceneLogin.getStylesheets().add(css);
         File iconfile = new File("images/7.png");
         Image icon = new Image(iconfile.toURI().toString());
         mainStage = stage;
@@ -53,22 +59,34 @@ public class TicTacToeClient extends Application {
             FXMLLoader fxmlLoaderrigister = new FXMLLoader(TicTacToeClient.class.getResource("Register.fxml"));
             sceneRegister = new Scene(fxmlLoaderrigister.load());
             registerController = fxmlLoaderrigister.getController();
+            url = this.getClass().getResource("Style.css");
+            css = url.toExternalForm();
+            sceneRegister.getStylesheets().add(css);
 
             // Home view
             FXMLLoader fxmlLoaderHome = new FXMLLoader(TicTacToeClient.class.getResource("Home.fxml"));
             sceneHome = new Scene(fxmlLoaderHome.load());
             homeController = fxmlLoaderHome.getController();
+            url = this.getClass().getResource("Style.css");
+            css = url.toExternalForm();
+            sceneHome.getStylesheets().add(css);
 
             // Game View
             FXMLLoader fxmlLoaderGame = new FXMLLoader(TicTacToeClient.class.getResource("Game.fxml"));
             sceneGame = new Scene(fxmlLoaderGame.load());
             gameController = fxmlLoaderGame.getController();
+            url = this.getClass().getResource("Style.css");
+            css = url.toExternalForm();
+            sceneGame.getStylesheets().add(css);
 
 
             // Match View
             FXMLLoader fxmlLoaderMatch = new FXMLLoader(TicTacToeClient.class.getResource("Match.fxml"));
             sceneMatch = new Scene(fxmlLoaderMatch.load());
             matchController = fxmlLoaderMatch.getController();
+            url = this.getClass().getResource("Style.css");
+            css = url.toExternalForm();
+            sceneMatch.getStylesheets().add(css);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -115,6 +133,7 @@ public class TicTacToeClient extends Application {
         File iconfile = new File("images/7.png");
         Image icon = new Image(iconfile.toURI().toString());
         mainStage.getIcons().add(icon);
+        loginController.showAnimation();
         mainStage.show();
     }
 
@@ -125,6 +144,7 @@ public class TicTacToeClient extends Application {
         File iconfile = new File("images/7.png");
         Image icon = new Image(iconfile.toURI().toString());
         mainStage.getIcons().add(icon);
+        registerController.showAnimation();
         mainStage.show();
     }
 
