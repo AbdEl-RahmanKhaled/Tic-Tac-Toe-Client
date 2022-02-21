@@ -5,6 +5,7 @@ import com.iti.tictactoeclient.TicTacToeClient;
 import com.iti.tictactoeclient.helpers.ServerListener;
 import com.iti.tictactoeclient.models.Player;
 import com.iti.tictactoeclient.models.PlayerFullInfo;
+import com.iti.tictactoeclient.requests.GetMatchHistoryReq;
 import com.iti.tictactoeclient.requests.InviteToGameReq;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
@@ -12,6 +13,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -104,14 +107,10 @@ public class HomeController implements Initializable {
         return valid;
     }
 
-
-
-
     @FXML
     public void ComputerButton() {
+        TicTacToeClient.openGameView();
 
-        TicTacToeClient.showAlert("sdv", "dvsdvd", Alert.AlertType.ERROR);
-        System.out.println(TicTacToeClient.showConfirmation("tessst", "message"));
     }
 
     @FXML
@@ -123,8 +122,19 @@ public class HomeController implements Initializable {
 
     public void notifyGameInvitation(Player player) {
 
-//        showConfirmation(playersFullInfo.get(player.getDb_id()).getName() + " invite you to a game.");
+
     }
+
+    public void onMatchButton() {
+        try {
+            GetMatchHistoryReq getMatchHistoryReq = new GetMatchHistoryReq();
+            String jRequest = TicTacToeClient.mapper.writeValueAsString(getMatchHistoryReq);
+            ServerListener.sendRequest(jRequest);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void fromLogin(PlayerFullInfo myPlayerFullInfo, Map<Integer, PlayerFullInfo> playersFullInfo) {
         this.myPlayerFullInfo = myPlayerFullInfo;
@@ -147,7 +157,7 @@ public class HomeController implements Initializable {
     }
 
     public void updateStatus(PlayerFullInfo playerFullInfo) {
-        if(!playerFullInfo.getStatus().equals(playersFullInfo.get(playerFullInfo.getDb_id()).getStatus()) && playerFullInfo.getStatus().equals(PlayerFullInfo.ONLINE)){
+        if (!playerFullInfo.getStatus().equals(playersFullInfo.get(playerFullInfo.getDb_id()).getStatus()) && playerFullInfo.getStatus().equals(PlayerFullInfo.ONLINE)) {
             TicTacToeClient.showSystemNotification("Status Updated", "Player " + playerFullInfo.getName() + " now is online.", MessageType.INFO);
         }
         playersFullInfo.put(playerFullInfo.getDb_id(), playerFullInfo);
@@ -157,4 +167,6 @@ public class HomeController implements Initializable {
     public PlayerFullInfo getMyPlayerFullInfo() {
         return myPlayerFullInfo;
     }
+
+
 }
