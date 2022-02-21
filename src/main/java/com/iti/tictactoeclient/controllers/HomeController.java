@@ -56,6 +56,16 @@ public class HomeController implements Initializable {
         cStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
         cIsInGame.setCellValueFactory(new PropertyValueFactory<>("inGame"));
         cStatus.setComparator(cStatus.getComparator().reversed());
+
+        tPlayers.setRowFactory( tv -> {
+            TableRow<PlayerFullInfo> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    System.out.println("hamada");
+                }
+            });
+            return row;
+        });
     }
 
 
@@ -122,8 +132,10 @@ public class HomeController implements Initializable {
 
 
     public void notifyGameInvitation(Player player) {
+        TicTacToeClient.showSystemNotification("Game Invitation",
+                playersFullInfo.get(player.getDb_id()).getName() + " sent you game invitation.",
+                MessageType.INFO);
 
-//        showConfirmation(playersFullInfo.get(player.getDb_id()).getName() + " invite you to a game.");
     }
 
     public void fromLogin(PlayerFullInfo myPlayerFullInfo, Map<Integer, PlayerFullInfo> playersFullInfo) {
@@ -143,6 +155,7 @@ public class HomeController implements Initializable {
     private void fillTable() {
         tPlayers.getItems().clear();
         tPlayers.getItems().setAll(playersFullInfo.values());
+
         tPlayers.getSortOrder().add(cStatus);
     }
 
