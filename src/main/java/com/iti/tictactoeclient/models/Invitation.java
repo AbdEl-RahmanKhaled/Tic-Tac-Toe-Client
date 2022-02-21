@@ -1,20 +1,54 @@
 package com.iti.tictactoeclient.models;
 
 public class Invitation {
-    private PlayerFullInfo playerFullInfo;
+    private Player player;
+    private String type;
+    private Match match;
+    private String name;
 
-    public Invitation(PlayerFullInfo playerFullInfo) {
-        this.playerFullInfo = playerFullInfo;
+    public Invitation(Player player, String type) {
+        this.player = player;
+        this.type = type;
+    }
+
+    public Invitation(String type, Player player, Match match) {
+        this.player = player;
+        this.type = type;
+        this.match = match;
     }
 
     public Invitation() {
     }
 
-    public PlayerFullInfo getPlayerFullInfo() {
-        return playerFullInfo;
+    public Player getPlayer() {
+        return player;
     }
 
-    public void setPlayerFullInfo(PlayerFullInfo playerFullInfo) {
-        this.playerFullInfo = playerFullInfo;
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Match getMatch() {
+        return match;
+    }
+
+    public void setMatch(Match match) {
+        this.match = match;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

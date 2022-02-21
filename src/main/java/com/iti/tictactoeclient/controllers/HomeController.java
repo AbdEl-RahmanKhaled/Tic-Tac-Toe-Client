@@ -27,7 +27,7 @@ import java.awt.TrayIcon.MessageType;
 
 import java.io.File;
 import java.net.URL;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -69,6 +69,9 @@ public class HomeController implements Initializable {
         cStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
         cIsInGame.setCellValueFactory(new PropertyValueFactory<>("inGame"));
         cStatus.setComparator(cStatus.getComparator().reversed());
+
+        cFrom.setCellValueFactory(new PropertyValueFactory<>("name"));
+        cNotif.setCellValueFactory(new PropertyValueFactory<>("type"));
 
         tPlayers.setRowFactory(tv -> {
             TableRow<PlayerFullInfo> row = new TableRow<>();
@@ -128,6 +131,8 @@ public class HomeController implements Initializable {
     }
 
 
+
+
     @FXML
     public void ComputerButton() {
 
@@ -135,12 +140,23 @@ public class HomeController implements Initializable {
         System.out.println(TicTacToeClient.showConfirmation("tessst", "message"));
     }
 
+    @FXML
+    public void LogoutButton() {
+//    TicTacToeClient.openLoginView();
+        TicTacToeClient.showSystemNotification("Tic Tac Toe", "test notification", MessageType.INFO);
+    }
+
 
     public void notifyGameInvitation(Player player) {
+        Invitation invitation = new Invitation();
+        invitation.setType("New Game Invitation");
+        invitation.setPlayer(player);
+        invitation.setName(playersFullInfo.get(player.getDb_id()).getName());
+        invitations.put(player.getDb_id(), invitation);
+        fillInvitationsTable();
         TicTacToeClient.showSystemNotification("Game Invitation",
                 playersFullInfo.get(player.getDb_id()).getName() + " sent you game invitation.",
                 MessageType.INFO);
-
 
     }
 
@@ -164,16 +180,21 @@ public class HomeController implements Initializable {
     }
 
     private void fillView() {
-        fillTable();
+        fillPlayersTable();
         lblName.setText(myPlayerFullInfo.getName());
         lblScore.setText(String.valueOf(myPlayerFullInfo.getPoints()));
     }
 
-    private void fillTable() {
+    private void fillPlayersTable() {
         tPlayers.getItems().clear();
         tPlayers.getItems().setAll(playersFullInfo.values());
 
         tPlayers.getSortOrder().add(cStatus);
+    }
+
+    private void fillInvitationsTable() {
+        tInvitation.getItems().clear();
+        tInvitation.getItems().setAll(invitations.values());
     }
 
     public void updateStatus(PlayerFullInfo playerFullInfo) {
@@ -181,13 +202,14 @@ public class HomeController implements Initializable {
             TicTacToeClient.showSystemNotification("Status Updated", "Player " + playerFullInfo.getName() + " now is online.", MessageType.INFO);
         }
         playersFullInfo.put(playerFullInfo.getDb_id(), playerFullInfo);
-        fillTable();
+        fillPlayersTable();
     }
 
     public PlayerFullInfo getMyPlayerFullInfo() {
         return myPlayerFullInfo;
     }
 
-
+    public PlayerFullInfo getPlayerFullInfo(int id) {
+        return playersFullInfo.get(id);
+    }
 }
-
