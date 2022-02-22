@@ -18,6 +18,7 @@ module com.iti.tictactoeclient {
     requires org.json;
     requires java.datatransfer;
     requires java.desktop;
+    requires com.fasterxml.jackson.core;
 
 
     opens com.iti.tictactoeclient;

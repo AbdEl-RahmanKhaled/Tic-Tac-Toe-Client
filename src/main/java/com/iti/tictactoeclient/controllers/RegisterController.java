@@ -3,8 +3,10 @@ package com.iti.tictactoeclient.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iti.tictactoeclient.TicTacToeClient;
+import com.iti.tictactoeclient.helpers.ServerListener;
 import com.iti.tictactoeclient.models.User;
 import com.iti.tictactoeclient.requests.SignUpReq;
+import com.iti.tictactoeclient.responses.Response;
 import javafx.animation.RotateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,13 +18,18 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
+import java.util.regex.*;
+
 import java.io.File;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
+
+import static com.iti.tictactoeclient.TicTacToeClient.mapper;
+import static com.iti.tictactoeclient.TicTacToeClient.registerController;
 
 public class RegisterController implements Initializable {
 
-    private static final ObjectMapper mapper = new ObjectMapper();
     @FXML
     private ImageView backgroundimg;
 
@@ -41,32 +48,66 @@ public class RegisterController implements Initializable {
     @FXML
     private Label invalidinput;
 
+    public void setLabel(String msg) {
+        invalidinput.setText(msg);
+    }
+
+    private static final ObjectMapper mapper = new ObjectMapper();
+    String regex = "^[a-z]+([_.][a-z0-9]+)*${4,}";
+    Pattern pattern = Pattern.compile(regex);
+
     @FXML
     protected void onActionRegister() {
-        User user = new User();
-        user.setName(FirstNameTxt.getText());
-        user.setUserName(UserNameTxt.getText());
-        user.setPassword(PasswordTxt.getText());
-        SignUpReq signUpReq = new SignUpReq();
-        signUpReq.setUser(user);
-        try {
-            String jRequest = mapper.writeValueAsString(signUpReq);
-
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+        if (!isValidateInput()) {
+            User user = new User();
+            user.setName(FirstNameTxt.getText());
+            user.setUserName(UserNameTxt.getText());
+            user.setPassword(PasswordTxt.getText());
+            SignUpReq signUpReq = new SignUpReq();
+            signUpReq.setUser(user);
+            try {
+                String jRequest = mapper.writeValueAsString(signUpReq);
+                ServerListener.sendRequest(jRequest);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("not validated !");
         }
+    }
 
+    private boolean isValidateInput() {
+        Matcher matcher1 = pattern.matcher(UserNameTxt.getText());
+        if (UserNameTxt.getText().equals("") || !matcher1.matches()) {
+            System.out.println("1");
+            String s1 = UserNameTxt.getText().trim();
+            invalidinput.setText("Invalid username!");
+            return true;
+        }
+        if (FirstNameTxt.getText().equals("")) {
+            System.out.println("2");
+            String s2 = FirstNameTxt.getText().trim();
+            invalidinput.setText("Invalid name!");
+            return true;
+        }
+        if (PasswordTxt.getText().equals("") || PasswordTxt.getText().length() < 6) {
+            System.out.println("3");
+            String s3 = PasswordTxt.getText().trim();
+            invalidinput.setText("Invalid Password!");
+            return true;
+        }
+        return false;
     }
 
     @FXML
-    public void initialize (URL url, ResourceBundle resourceBundle){
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
     }
 
     public void showAnimation(){
         File backfile = new File("images/7.png");
         Image background = new Image(backfile.toURI().toString());
         backgroundimg.setImage(background);
-
         RotateTransition rotateTransition = new RotateTransition();
         rotateTransition.setNode(backgroundimg);
         rotateTransition.setDuration(Duration.millis(1000));
@@ -74,10 +115,15 @@ public class RegisterController implements Initializable {
         rotateTransition.setByAngle(360);
         rotateTransition.setAutoReverse(true);
         rotateTransition.play();
-
     }
 
-    public void setLabel(String msg){
-        invalidinput.setText(msg);
+    public void handleResponse(Response signUpRes) {
+        if (Objects.equals(signUpRes.getStatus(), Response.STATUS_OK)) {
+            TicTacToeClient.openLoginView();
+            System.out.println("Filed to connect4");
+        } else {
+            TicTacToeClient.openRegisterView(signUpRes.getMessage());
+            System.out.println("Filed to connect5");
+        }
     }
 }

@@ -76,11 +76,11 @@ public class ServerListener extends Thread {
         types = new HashMap<>();
         types.put(Response.RESPONSE_LOGIN, this::Login);
         types.put(Response.RESPONSE_INVITE_TO_GAME, this::inviteToGameResponse);
+        types.put(Response.RESPONSE_SIGN_UP, this::signUpRes);
 
         types.put(Notification.NOTIFICATION_UPDATE_STATUS, this::updateStatus);
         types.put(Notification.NOTIFICATION_GAME_INVITATION, this::gameInvitation);
         types.put(Notification.NOTIFICATION_START_GAME, this::startGame);
-//        types.put(Response.RESPONSE_SIGN_UP, this::signUpRes);
     }
 
     private void startGame(String json) {
@@ -134,6 +134,16 @@ public class ServerListener extends Thread {
         try {
             LoginRes loginRes = TicTacToeClient.mapper.readValue(json, LoginRes.class);
             Platform.runLater(() -> TicTacToeClient.loginController.handleResponse(loginRes));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void signUpRes(String json) {
+        try {
+            Response signUpRes = TicTacToeClient.mapper.readValue(json, Response.class);
+            Platform.runLater(() ->TicTacToeClient.registerController.handleResponse(signUpRes));
+            System.out.println("Failed to connect1");
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
