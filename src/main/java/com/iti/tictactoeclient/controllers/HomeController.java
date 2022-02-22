@@ -240,7 +240,7 @@ public class HomeController implements Initializable {
             GetMatchHistoryReq getMatchHistoryReq = new GetMatchHistoryReq();
             String jRequest = TicTacToeClient.mapper.writeValueAsString(getMatchHistoryReq);
             ServerListener.sendRequest(jRequest);
-            Platform.runLater(()->TicTacToeClient.openMatchView());
+            TicTacToeClient.openMatchView();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
