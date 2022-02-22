@@ -1,45 +1,56 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Redressed&display=swap');
-#RegisterButton,#LoginButton, #RegisterButton2 {
-   -fx-font-family: 'Redressed', cursive;
-  -fx-border-radius: 10px;
-  -fx-padding:7px 25px;
-}
-#table
-{
--fx-font-size: 17px;
-  -fx-font-family: 'Redressed', cursive;
-  -fx-text-alignment: center;
+
+#RegisterButton, #LoginButton, #RegisterButton2 {
+    -fx-font-family: 'Redressed', cursive;
+    -fx-border-radius: 10px;
+    -fx-padding: 7px 25px;
 }
 
-#error
-{
-  -fx-font-size: 17px;
-  -fx-font-family: 'Redressed', cursive;
+* {
+    -fx-font-size: 19px;
+    -fx-font-family: 'Redressed', cursive;
+    /*-fx-alignment: BASELINE_CENTER;*/
 }
-Label
-{
-  -fx-font-size: 24px;
-  -fx-font-family: 'Redressed', cursive;
+
+TableView  {
+    -fx-font-family: 'Redressed', cursive;
+    -fx-alignment: BASELINE_CENTER;
 }
-Button{
-  -fx-font-size: 18px;
-  -fx-font-family: 'Redressed', cursive;
+
+.col {
+    -fx-alignment: BASELINE_CENTER;
 }
-#RegisterButton:hover, #LoginButton:hover, #RegisterButton2:hover{
-  -fx-background-color:linear-gradient(to bottom, #f24437 5%, #c62d1f 100%);
-
-        }
 
 
-#VsCompButton, #InviteButton
-{
+#error {
+    -fx-font-size: 17px;
+    -fx-font-family: 'Redressed', cursive;
+}
 
-  -fx-background-color:#F00D4B;
+Label {
+    -fx-font-size: 24px;
+    -fx-font-family: 'Redressed', cursive;
+}
+
+Button {
+    -fx-font-size: 18px;
+    -fx-font-family: 'Redressed', cursive;
+}
+
+#RegisterButton:hover, #LoginButton:hover, #RegisterButton2:hover {
+    -fx-background-color: linear-gradient(to bottom, #f24437 5%, #c62d1f 100%);
+
+}
+
+
+#VsCompButton, #InviteButton {
+
+    -fx-background-color: #F00D4B;
 
 
 }
-#matchText{
-     -fx-font-size: 16px;
-     -fx-font-family: 'Redressed', cursive;
+
+#matchText {
+    -fx-font-size: 13px;
+    -fx-font-family: 'Redressed', cursive;
 }
