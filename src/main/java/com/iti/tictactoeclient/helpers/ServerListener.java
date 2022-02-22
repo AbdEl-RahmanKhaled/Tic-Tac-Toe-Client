@@ -37,7 +37,7 @@ public class ServerListener extends Thread {
     public ServerListener() {
         running = true;
         initTypes();
-        initConnection();
+        //initConnection();
     }
 
     private void initConnection() {
@@ -107,7 +107,7 @@ public class ServerListener extends Thread {
         }
         types.put(Notification.NOTIFICATION_ASK_TO_PAUSE, this::askToPause);
         types.put(Response.RESPONSE_GET_MATCH_HISTORY, this::getMatchHistory);
-//        types.put(Response.RESPONSE_SIGN_UP, this::signUpRes);
+        types.put(Response.RESPONSE_SIGN_UP, this::signUpRes);
     }
 
     private void gameInvitation(String json) {
@@ -202,15 +202,6 @@ public class ServerListener extends Thread {
         }
     }
 
-    private void signUpRes(String json) {
-        try {
-            Response signUpRes = TicTacToeClient.mapper.readValue(json, Response.class);
-            Platform.runLater(() ->TicTacToeClient.registerController.handleResponse(signUpRes));
-            System.out.println("Failed to connect1");
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-    }
 
     interface IType {
         void handleAction(String json);
