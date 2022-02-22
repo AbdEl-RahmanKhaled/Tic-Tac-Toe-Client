@@ -7,6 +7,11 @@
 
 
 }
+#error
+{
+-fx-font-size: 17px;
+  -fx-font-family: 'Redressed', cursive;
+}
 Label
 {
   -fx-font-size: 24px;
