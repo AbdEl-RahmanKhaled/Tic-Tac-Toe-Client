@@ -27,23 +27,16 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class LoginController implements Initializable {
-    private static final ObjectMapper mapper = new ObjectMapper();
-    private Stage stage;
-
-    @FXML
-    private Button LoginButton;
-    @FXML
-    private Button RegisterButton;
     @FXML
     private TextField UserNameTxt;
     @FXML
     private PasswordField PasswordTxt;
 
-    // if the user data is invalied
-    // if the user data is invalid
     @FXML
     private Label invaliduserTxt;
     @FXML
@@ -80,21 +73,38 @@ public class LoginController implements Initializable {
 
     @FXML
     public void onLoginButton() {
-
-        try {
-            LoginReq loginReq = new LoginReq();
-            Credentials credentials = new Credentials(UserNameTxt.getText(), PasswordTxt.getText());
-            loginReq.setCredentials(credentials);
-            String jRequest = mapper.writeValueAsString(loginReq);
-            ServerListener.sendRequest(jRequest);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+        if(!isValidateInput()){
+            try {
+                LoginReq loginReq = new LoginReq();
+                Credentials credentials = new Credentials(UserNameTxt.getText(), PasswordTxt.getText());
+                loginReq.setCredentials(credentials);
+                String jRequest = TicTacToeClient.mapper.writeValueAsString(loginReq);
+                ServerListener.sendRequest(jRequest);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    private boolean isValidateInput() {
+        String regex = "^[a-z]+([_.][a-z0-9]+)*${4,}";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher1 = pattern.matcher(UserNameTxt.getText().trim());
+        if (UserNameTxt.getText().trim().equals("") || !matcher1.matches()) {
+            invaliduserTxt.setText("Invalid username!");
+            return true;
+        }
+
+        if (PasswordTxt.getText().equals("") || PasswordTxt.getText().length() < 6) {
+            invaliduserTxt.setText("Invalid Password!");
+            return true;
+        }
+        return false;
     }
 
     @FXML
     public void onRegisterButtonClick() throws IOException {
-        TicTacToeClient.openRegisterView("");
+        TicTacToeClient.openRegisterView();
     }
 
     public void handleResponse(LoginRes loginRes) {

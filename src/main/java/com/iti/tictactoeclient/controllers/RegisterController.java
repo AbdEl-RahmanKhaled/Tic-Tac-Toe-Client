@@ -40,19 +40,11 @@ public class RegisterController implements Initializable {
     private PasswordField PasswordTxt;
 
     @FXML
-    private Button RegiterButton;
-
-    @FXML
     private TextField UserNameTxt;
 
     @FXML
     private Label invalidinput;
 
-    public void setLabel(String msg) {
-        invalidinput.setText(msg);
-    }
-
-    private static final ObjectMapper mapper = new ObjectMapper();
     String regex = "^[a-z]+([_.][a-z0-9]+)*${4,}";
     Pattern pattern = Pattern.compile(regex);
 
@@ -60,8 +52,8 @@ public class RegisterController implements Initializable {
     protected void onActionRegister() {
         if (!isValidateInput()) {
             User user = new User();
-            user.setName(FirstNameTxt.getText());
-            user.setUserName(UserNameTxt.getText());
+            user.setName(FirstNameTxt.getText().trim());
+            user.setUserName(UserNameTxt.getText().trim());
             user.setPassword(PasswordTxt.getText());
             SignUpReq signUpReq = new SignUpReq();
             signUpReq.setUser(user);
@@ -77,22 +69,16 @@ public class RegisterController implements Initializable {
     }
 
     private boolean isValidateInput() {
-        Matcher matcher1 = pattern.matcher(UserNameTxt.getText());
-        if (UserNameTxt.getText().equals("") || !matcher1.matches()) {
-            System.out.println("1");
-            String s1 = UserNameTxt.getText().trim();
+        Matcher matcher1 = pattern.matcher(UserNameTxt.getText().trim());
+        if (UserNameTxt.getText().trim().equals("") || !matcher1.matches()) {
             invalidinput.setText("Invalid username!");
             return true;
         }
-        if (FirstNameTxt.getText().equals("")) {
-            System.out.println("2");
-            String s2 = FirstNameTxt.getText().trim();
+        if (FirstNameTxt.getText().trim().equals("")) {
             invalidinput.setText("Invalid name!");
             return true;
         }
         if (PasswordTxt.getText().equals("") || PasswordTxt.getText().length() < 6) {
-            System.out.println("3");
-            String s3 = PasswordTxt.getText().trim();
             invalidinput.setText("Invalid Password!");
             return true;
         }
@@ -122,7 +108,7 @@ public class RegisterController implements Initializable {
             TicTacToeClient.openLoginView();
             System.out.println("Filed to connect4");
         } else {
-            TicTacToeClient.openRegisterView(signUpRes.getMessage());
+            TicTacToeClient.openRegisterView();
             System.out.println("Filed to connect5");
         }
     }
