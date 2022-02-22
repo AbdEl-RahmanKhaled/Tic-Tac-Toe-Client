@@ -7,6 +7,7 @@ import com.iti.tictactoeclient.models.PlayerFullInfo;
 import com.iti.tictactoeclient.requests.AskToResumeReq;
 import com.iti.tictactoeclient.requests.Request;
 import com.iti.tictactoeclient.responses.AskToPauseRes;
+import javafx.animation.RotateTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
@@ -90,13 +91,13 @@ public class GameController implements Initializable {
         backgroundimg.setImage(background);
         ChatArea.setEditable(false);
 
-        ScaleTransition scale = new ScaleTransition();
-        scale.setNode(backgroundimg);
-        scale.setDuration(Duration.millis(1000));
-        scale.setCycleCount(2);
-        scale.setByX(0.4);
-        scale.setAutoReverse(true);
-        scale.play();
+        RotateTransition rotateTransition = new RotateTransition();
+        rotateTransition.setNode(backgroundimg);
+        rotateTransition.setDuration(Duration.millis(1000));
+        rotateTransition.setCycleCount(2);
+        rotateTransition.setByAngle(360);
+        rotateTransition.setAutoReverse(true);
+        rotateTransition.play();
     }
 
     @FXML
