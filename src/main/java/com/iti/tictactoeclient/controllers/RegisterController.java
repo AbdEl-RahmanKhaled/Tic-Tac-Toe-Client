@@ -67,6 +67,10 @@ public class RegisterController implements Initializable {
             System.out.println("not validated !");
         }
     }
+    @FXML
+    protected void onActionBack(){
+        TicTacToeClient.openLoginView();
+    }
 
     private boolean isValidateInput() {
         Matcher matcher1 = pattern.matcher(UserNameTxt.getText().trim());

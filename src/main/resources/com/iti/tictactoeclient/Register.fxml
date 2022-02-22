@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: linear-gradient(to right, #b92b27, #1565c0);;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iti.tictactoeclient.controllers.RegisterController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: linear-gradient(to right, #b92b27, #1565c0);;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iti.tictactoeclient.controllers.RegisterController">
    <children>
       <AnchorPane layoutX="187.0" layoutY="94.0" prefHeight="367.0" prefWidth="326.0" style="-fx-background-color: white; -fx-background-radius: 20;">
          <children>
@@ -18,7 +18,7 @@
             <TextField fx:id="FirstNameTxt" layoutX="81.0" layoutY="158.0" prefHeight="34.0" prefWidth="158.0" promptText="First Name" />
             <PasswordField fx:id="PasswordTxt" layoutX="81.0" layoutY="203.0" prefHeight="34.0" prefWidth="158.0" promptText="Password" />
             <Label id="error" fx:id="invalidinput" alignment="CENTER" contentDisplay="CENTER" layoutX="59.0" layoutY="240.0" prefHeight="25.0" prefWidth="213.0" textFill="#ff0202" />
-            <Button fx:id="RegisterButton21" defaultButton="true" layoutX="81.0" layoutY="308.0" minHeight="35.0" mnemonicParsing="false" onAction="#onActionRegister" prefHeight="30.0" prefWidth="158.0" style="-fx-background-radius: 20; -fx-background-color: linear-gradient(to right, #b92b27, #db5652);" stylesheets="@Style.css" text="Back">
+            <Button fx:id="RegisterButton21" defaultButton="true" layoutX="81.0" layoutY="308.0" minHeight="35.0" mnemonicParsing="false" onAction="#onActionBack" prefHeight="30.0" prefWidth="158.0" style="-fx-background-radius: 20; -fx-background-color: linear-gradient(to right, #b92b27, #db5652);" stylesheets="@Style.css" text="Back">
                <font>
                   <Font name="Times New Roman" size="18.0" />
                </font>
