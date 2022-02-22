@@ -240,7 +240,7 @@ public class HomeController implements Initializable {
             GetMatchHistoryReq getMatchHistoryReq = new GetMatchHistoryReq();
             String jRequest = TicTacToeClient.mapper.writeValueAsString(getMatchHistoryReq);
             ServerListener.sendRequest(jRequest);
-            Platform.runLater(()->TicTacToeClient.openMatchView());
+            TicTacToeClient.openMatchView();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -263,6 +263,7 @@ public class HomeController implements Initializable {
     private void fillPlayersTable() {
         tPlayers.getItems().clear();
         tPlayers.getItems().setAll(playersFullInfo.values());
+
         tPlayers.getSortOrder().add(cStatus);
     }
 

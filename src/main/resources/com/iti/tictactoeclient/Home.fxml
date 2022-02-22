@@ -137,7 +137,7 @@
             <Font name="Times New Roman" size="1.0" />
          </font>
       </Label>
-      <Button fx:id="Matches" defaultButton="true" layoutX="423.0" layoutY="521.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="129.0" style="-fx-background-color: linear-gradient(to right, #b92b27, #db5652); -fx-background-radius: 10;" text="Matches" textFill="#e8e865">
+      <Button fx:id="Matches" defaultButton="true" layoutX="423.0" layoutY="521.0" mnemonicParsing="false" onAction="#onMatchButton" prefHeight="41.0" prefWidth="129.0" style="-fx-background-color: linear-gradient(to right, #b92b27, #db5652); -fx-background-radius: 10;" text="Matches" textFill="#e8e865">
          <font>
             <Font name="Times New Roman" size="17.0" />
          </font></Button>
