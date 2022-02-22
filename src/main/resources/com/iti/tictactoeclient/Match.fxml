@@ -11,7 +11,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="527.0" prefWidth="700.0" style="-fx-background-color: linear-gradient(to right, #b92b27, #1565c0);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iti.tictactoeclient.controllers.MatchController">
    <children>
-      <TableView fx:id="MatchTable" layoutX="320.0" layoutY="72.0" prefHeight="387.0" prefWidth="355.0" style="-fx-background-radius: 10;">
+      <TableView id="table" fx:id="MatchTable" layoutX="320.0" layoutY="72.0" prefHeight="387.0" prefWidth="355.0" style="-fx-background-radius: 10;">
         <columns>
           <TableColumn editable="false" prefWidth="97.0" text="MatchID" />
           <TableColumn editable="false" prefWidth="92.0" text="Player1" />

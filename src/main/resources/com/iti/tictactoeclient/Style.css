@@ -4,9 +4,14 @@
    -fx-font-family: 'Redressed', cursive;
   -fx-border-radius: 10px;
   -fx-padding:7px 25px;
-
-
 }
+#table
+{
+-fx-font-size: 17px;
+  -fx-font-family: 'Redressed', cursive;
+  -fx-text-alignment: center;
+}
+
 #error
 {
 -fx-font-size: 17px;

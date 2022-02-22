@@ -65,7 +65,7 @@
             <DropShadow blurType="TWO_PASS_BOX" height="73.99" radius="54.989999999999995" width="147.97" />
          </effect>
       </ImageView>
-      <TableView fx:id="tPlayers" layoutX="674.0" layoutY="125.0" prefHeight="384.0" prefWidth="292.0" style="-fx-background-radius: 10;">
+      <TableView id="table" fx:id="tPlayers" layoutX="674.0" layoutY="125.0" prefHeight="384.0" prefWidth="292.0" style="-fx-background-radius: 10;">
         <columns>
           <TableColumn fx:id="cPlayerName" editable="false" prefWidth="107.0" resizable="false" text="Player" />
           <TableColumn fx:id="cStatus" editable="false" prefWidth="101.0" text="State" />
@@ -146,7 +146,7 @@
          <font>
             <Font name="Times New Roman" size="17.0" />
          </font></Button>
-      <TableView id="notifacationTable" layoutX="26.0" layoutY="125.0" prefHeight="384.0" prefWidth="292.0" style="-fx-background-radius: 10;">
+      <TableView id="table" layoutX="26.0" layoutY="125.0" prefHeight="384.0" prefWidth="292.0" style="-fx-background-radius: 10;">
         <columns>
           <TableColumn editable="false" prefWidth="144.0" text="Notifactions" />
           <TableColumn editable="false" prefWidth="147.0" text="Type" />
@@ -173,12 +173,12 @@
             <Font name="Times New Roman" size="23.0" />
          </font>
       </Label>
-      <ImageView fx:id="computer" fitHeight="85.0" fitWidth="85.0" layoutX="511.0" layoutY="359.0">
+      <ImageView fx:id="computer" fitHeight="85.0" fitWidth="85.0" layoutX="529.0" layoutY="359.0">
          <image>
             <Image url="@../../../../../../images/computer.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="userimg" fitHeight="85.0" fitWidth="85.0" layoutX="376.0" layoutY="359.0">
+      <ImageView fx:id="userimg" layoutX="378.0" layoutY="361.0">
          <image>
             <Image url="@../../../../../../images/player.png" />
          </image>
