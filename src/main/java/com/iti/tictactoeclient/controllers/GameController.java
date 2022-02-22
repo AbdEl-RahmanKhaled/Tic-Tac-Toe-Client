@@ -3,6 +3,7 @@ package com.iti.tictactoeclient.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.iti.tictactoeclient.TicTacToeClient;
 import com.iti.tictactoeclient.helpers.ServerListener;
+import com.iti.tictactoeclient.models.PlayerFullInfo;
 import com.iti.tictactoeclient.requests.AskToResumeReq;
 import com.iti.tictactoeclient.requests.Request;
 import com.iti.tictactoeclient.responses.AskToPauseRes;
@@ -31,6 +32,9 @@ public class GameController implements Initializable {
     public static GameController gameController;
     @FXML
     private Label Player1vsplayer2label;
+
+    @FXML
+    private Label notification;
 
     @FXML
     private ImageView backgroundimg;
@@ -140,7 +144,9 @@ public class GameController implements Initializable {
         b9.setGraphic(new ImageView(img));
     }
 
-
+    public void showPauseNotification(PlayerFullInfo playerFullInfo){
+        notification.setText(playerFullInfo.getName()+"wants to pause game");
+    }
 
 
 }

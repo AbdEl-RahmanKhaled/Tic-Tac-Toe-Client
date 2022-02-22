@@ -10,6 +10,16 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/Compressed/controlsfx-8.40.13.zip!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="jar://$USER_HOME$/Downloads/Compressed/controlsfx-8.40.13.zip!/" recursive="false" />
+      </library>
+    </orderEntry>
     <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:17.0.2" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:win:17.0.2" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:17.0.2" level="project" />
@@ -97,15 +107,5 @@
     <orderEntry type="library" name="Maven: org.javassist:javassist:3.26.0-GA" level="project" />
     <orderEntry type="library" name="Maven: com.atlassian.commonmark:commonmark:0.13.1" level="project" />
     <orderEntry type="library" name="Maven: org.controlsfx:controlsfx:11.1.1" level="project" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/Compressed/controlsfx-8.40.13.zip!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-        <jarDirectory url="jar://$USER_HOME$/Downloads/Compressed/controlsfx-8.40.13.zip!/" recursive="false" />
-      </library>
-    </orderEntry>
   </component>
 </module>

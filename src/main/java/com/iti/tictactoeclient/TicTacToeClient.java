@@ -211,8 +211,8 @@ public class TicTacToeClient extends Application {
         File iconfile = new File("images/7.png");
         Image icon = new Image(iconfile.toURI().toString());
         mainStage.getIcons().add(icon);
-        gameController.showAnimation();
         mainStage.show();
+        gameController.showAnimation();
     }
 
     public static void openLoginView() {
