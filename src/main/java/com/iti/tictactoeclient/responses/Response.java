@@ -5,12 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Response {
     public static final String STATUS_ERROR = "error";
     public static final String STATUS_OK = "ok";
-    public static final String RESPONSE_INVITE_TO_GAME = "inviteToGameRes";
-    public static final String RESPONSE_LOGIN = "loginRes";
-    public static final String RESPONSE_SIGN_UP = "signupRes";
-    public static final String RESPONSE_ASK_TO_PAUSE = "askToPauseRes";
-    public static final String RESPONSE_ASK_TO_RESUME = "askToResumeRes";
-    public static final String RESPONSE_GET_MATCH_HISTORY = "getMatchHistoryRes";
+    public static final String RESPONSE_INVITE_TO_GAME = "inviteToGameRes"; // home done
+    public static final String RESPONSE_LOGIN = "loginRes"; // login done
+    public static final String RESPONSE_SIGN_UP = "signupRes"; // register done
+    public static final String RESPONSE_ASK_TO_PAUSE = "askToPauseRes"; // game
+    public static final String RESPONSE_ASK_TO_RESUME = "askToResumeRes"; // match n
+    public static final String RESPONSE_GET_MATCH_HISTORY = "getMatchHistoryRes"; // history done
 
     protected String message, status, type;
 

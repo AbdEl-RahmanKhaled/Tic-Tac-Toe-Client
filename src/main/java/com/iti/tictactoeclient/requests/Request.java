@@ -5,25 +5,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Request {
     protected String action;
 
-    public static final String ACTION_LOGIN = "login";
-    public static final String ACTION_ASK_TO_PAUSE = "askToPause";
-    public static final String ACTION_INVITE_TO_GAME = "inviteToGame";
-    public static final String ACTION_ACCEPT_INVITATION = "acceptInvitation";
-    public static final String ACTION_REJECT_INVITATION = "rejectInvitation";
-    public static final String ACTION_UPDATE_BOARD = "updateBoard";
-    public static final String ACTION_UPDATE_IN_GAME_STATUS = "updateInGameStatus";
-    public static final String ACTION_SIGN_UP = "signup";
-    public static final String ACTION_SAVE_MATCH = "saveMatch";
-    public static final String ACTION_REJECT_TO_PAUSE = "rejectToPause";
-    public static final String ACTION_ACCEPT_TO_PAUSE = "rejectToPause";
-    public static final String ACTION_SEND_MESSAGE = "sendMessage";
-    public static final String ACTION_ASK_TO_RESUME = "askToResume";
-    public static final String ACTION_REJECT_TO_RESUME = "rejectToResume";
-    public static final String ACTION_ACCEPT_TO_RESUME = "acceptToResume";
-    public static final String ACTION_GET_MATCH_HISTORY = "getMatchHistory";
-    public static final String ACTION_BACK_FROM_OFFLINE = "backFromOffline";
-
-
+    public static final String ACTION_LOGIN = "login"; // login done
+    public static final String ACTION_ASK_TO_PAUSE = "askToPause"; // game done
+    public static final String ACTION_INVITE_TO_GAME = "inviteToGame"; // home done
+    public static final String ACTION_ACCEPT_INVITATION = "acceptInvitation"; // home done
+    public static final String ACTION_REJECT_INVITATION = "rejectInvitation"; // home done
+    public static final String ACTION_UPDATE_BOARD = "updateBoard"; // game
+    public static final String ACTION_UPDATE_IN_GAME_STATUS = "updateInGameStatus"; // game
+    public static final String ACTION_SIGN_UP = "signup"; // register done
+    public static final String ACTION_SAVE_MATCH = "saveMatch"; // game
+    public static final String ACTION_REJECT_TO_PAUSE = "rejectToPause"; // game
+    public static final String ACTION_ACCEPT_TO_PAUSE = "acceptToPause"; // game
+    public static final String ACTION_SEND_MESSAGE = "sendMessage"; // game j
+    public static final String ACTION_ASK_TO_RESUME = "askToResume"; // history n
+    public static final String ACTION_REJECT_TO_RESUME = "rejectToResume"; // home n
+    public static final String ACTION_ACCEPT_TO_RESUME = "acceptToResume"; // home n
+    public static final String ACTION_GET_MATCH_HISTORY = "getMatchHistory"; // home done
+    public static final String ACTION_BACK_FROM_OFFLINE = "backFromOffline"; // server listener done
 
 
     public Request() {
