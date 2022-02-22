@@ -71,11 +71,11 @@
           <TableColumn fx:id="cStatus" editable="false" prefWidth="101.0" text="State" />
         </columns>
       </TableView>
-      <Button fx:id="InviteButton" layoutX="351.0" layoutY="450.0" mnemonicParsing="false" onAction="#InviteButton" prefHeight="34.0" prefWidth="129.0" style="-fx-background-color: #1565c0; -fx-background-radius: 10;" text="Invite player" textFill="#e8e865">
+      <Button fx:id="InviteButton" layoutX="351.0" layoutY="450.0" mnemonicParsing="false" onAction="#InviteButton" prefHeight="34.0" prefWidth="129.0" style="-fx-background-color: linear-gradient(to left,#2882e8, #2e28e8); -fx-background-radius: 10;" text="Invite player" textFill="#e8e865">
          <font>
             <Font name="Times New Roman" size="17.0" />
          </font></Button>
-      <Button fx:id="VsCompButton" layoutX="507.0" layoutY="450.0" mnemonicParsing="false" onAction="#ComputerButton" prefHeight="34.0" prefWidth="129.0" style="-fx-background-color: #1565c0; -fx-background-radius: 10;" text="Vs Computer" textFill="#e8e865">
+      <Button fx:id="VsCompButton" layoutX="507.0" layoutY="450.0" mnemonicParsing="false" onAction="#ComputerButton" prefHeight="34.0" prefWidth="129.0" style="-fx-background-color: linear-gradient(to left, #2e28e8, #2882e8); -fx-background-radius: 10;" text="Vs Computer" textFill="#e8e865">
          <font>
             <Font name="Times New Roman" size="17.0" />
          </font></Button>

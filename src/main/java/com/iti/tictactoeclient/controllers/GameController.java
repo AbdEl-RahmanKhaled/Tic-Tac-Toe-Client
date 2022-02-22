@@ -67,8 +67,6 @@ public class GameController implements Initializable {
             e.printStackTrace();
         }
 
-
-
     }
     @FXML
     protected void onActionChatsender() {

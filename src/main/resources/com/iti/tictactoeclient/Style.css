@@ -1,7 +1,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Redressed&display=swap');
 #RegisterButton,#LoginButton, #RegisterButton2 {
-  -fx-background-color: #1565c0;
    -fx-font-family: 'Redressed', cursive;
   -fx-border-radius: 10px;
   -fx-padding:7px 25px;
@@ -21,7 +20,6 @@ Button{
   -fx-background-color:linear-gradient(to bottom, #f24437 5%, #c62d1f 100%);
 
         }
-
 
 
 #VsCompButton, #InviteButton

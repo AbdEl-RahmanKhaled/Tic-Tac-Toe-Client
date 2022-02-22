@@ -31,12 +31,12 @@
                   </DropShadow>
                </effect>
             </ImageView>
-            <Button fx:id="RegisterButton" layoutX="75.0" layoutY="272.0" minHeight="35.0" mnemonicParsing="false" onAction="#onRegisterButtonClick" prefHeight="0.0" prefWidth="151.0" style="-fx-background-radius: 20;" stylesheets="@Style.css" text="Register">
+            <Button fx:id="RegisterButton" layoutX="75.0" layoutY="272.0" minHeight="35.0" mnemonicParsing="false" onAction="#onRegisterButtonClick" prefHeight="0.0" prefWidth="151.0" style="-fx-background-radius: 20; -fx-background-color: linear-gradient(to right, #2e28e8, #2882e8);" stylesheets="@Style.css" text="Register">
                <font>
                   <Font name="Times New Roman Bold" size="17.0" />
                </font></Button>
             <Label fx:id="invaliduserTxt" layoutX="77.0" layoutY="195.0" prefHeight="26.0" prefWidth="151.0" style="-fx-color: red;" textAlignment="CENTER" textFill="#ff0202" wrapText="true" />
-            <Button fx:id="LoginButton" defaultButton="true" graphicTextGap="2.0" layoutX="75.0" layoutY="229.0" minHeight="35.0" mnemonicParsing="false" onAction="#onLoginButton" prefHeight="0.0" prefWidth="151.0" style="-fx-background-radius: 20;" stylesheets="@Style.css" text="Log In">
+            <Button fx:id="LoginButton" defaultButton="true" graphicTextGap="2.0" layoutX="75.0" layoutY="229.0" minHeight="35.0" mnemonicParsing="false" onAction="#onLoginButton" prefHeight="0.0" prefWidth="151.0" style="-fx-background-radius: 20; -fx-background-color: linear-gradient(to right, #2e28e8, #2882e8);" stylesheets="@Style.css" text="Log In">
                <font>
                   <Font name="Times New Roman Bold" size="12.0" />
                </font>
