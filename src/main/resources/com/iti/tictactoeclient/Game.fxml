@@ -83,19 +83,19 @@
          </children>
       </GridPane>
       <TextField fx:id="TextField" layoutX="424.0" layoutY="503.0" prefHeight="31.0" prefWidth="195.0" />
-      <Button fx:id="SendButton" layoutX="632.0" layoutY="501.0" mnemonicParsing="false" onAction="#onActionChatsender" prefHeight="31.0" prefWidth="52.0" text="Send">
+      <Button fx:id="SendButton" layoutX="627.0" layoutY="501.0" mnemonicParsing="false" onAction="#onActionChatsender" prefHeight="31.0" prefWidth="63.0" style="-fx-background-color: linear-gradient(to right, #b92b27, #db5652);" text="Send" textFill="#e8e865">
          <font>
             <Font name="Times New Roman" size="15.0" />
          </font></Button>
-      <Button fx:id="ExirButton" layoutX="227.0" layoutY="501.0" mnemonicParsing="false" onAction="#onActionExite" prefHeight="31.0" prefWidth="142.0" style="-fx-background-radius: 10;" text="Finish">
+      <Button fx:id="ExirButton" layoutX="227.0" layoutY="501.0" mnemonicParsing="false" onAction="#onActionExite" prefHeight="31.0" prefWidth="142.0" style="-fx-background-radius: 10; -fx-background-color: linear-gradient(to left, #2e28e8, #2882e8);" text="Finish" textFill="#e8e865">
          <font>
             <Font name="Times New Roman Bold" size="18.0" />
          </font></Button>
-      <Button fx:id="ExirButton1" layoutX="57.0" layoutY="501.0" mnemonicParsing="false" onAction="#onActionExite" prefHeight="31.0" prefWidth="142.0" style="-fx-background-radius: 10;" text="Ask to Pause">
+      <Button fx:id="ExirButton1" layoutX="57.0" layoutY="501.0" mnemonicParsing="false" onAction="#onActionExite" prefHeight="31.0" prefWidth="142.0" style="-fx-background-radius: 10; -fx-background-color: linear-gradient(to right, #2e28e8, #2882e8);" text="Ask to Pause" textFill="#e8e865">
          <font>
             <Font name="Times New Roman Bold" size="18.0" />
          </font>
       </Button>
-      <TextArea fx:id="ChatArea1" blendMode="OVERLAY" layoutX="427.0" layoutY="85.0" prefHeight="389.0" prefWidth="260.0" style="-fx-background-radius: 10;" />
+      <TextArea fx:id="ChatArea" blendMode="OVERLAY" layoutX="427.0" layoutY="85.0" prefHeight="389.0" prefWidth="260.0" style="-fx-background-radius: 10;" />
    </children>
 </Pane>
