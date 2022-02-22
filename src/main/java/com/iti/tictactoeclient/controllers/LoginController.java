@@ -95,7 +95,7 @@ public class LoginController implements Initializable {
             return true;
         }
 
-        if (PasswordTxt.getText().equals("") || PasswordTxt.getText().length() < 6) {
+        if (PasswordTxt.getText().equals("") || PasswordTxt.getText().length() < 3) {
             invaliduserTxt.setText("Invalid Password!");
             return true;
         }
