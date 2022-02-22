@@ -20,7 +20,7 @@
             <TableColumn id="matchText" fx:id="winnerColumn" editable="false" prefWidth="58.0" text="Winner" />
         </columns>
       </TableView>
-      <Button fx:id="ViewButton" layoutX="25.0" layoutY="339.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="132.0" style="-fx-background-color: linear-gradient(to right, #2e28e8, #2882e8); -fx-background-radius: 10;" text="View" textFill="#e8e865">
+      <Button fx:id="ViewButton" layoutX="25.0" layoutY="365.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="132.0" style="-fx-background-color: linear-gradient(to right, #2e28e8, #2882e8); -fx-background-radius: 10;" text="View" textFill="#e8e865">
          <font>
             <Font name="Times New Roman" size="17.0" />
          </font></Button>
@@ -32,7 +32,7 @@
             <DropShadow blurType="TWO_PASS_BOX" height="73.99" radius="54.989999999999995" width="147.97" />
          </effect>
       </ImageView>
-      <Button fx:id="ContinueButton" layoutX="170.0" layoutY="339.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="132.0" style="-fx-background-color: linear-gradient(to left, #2e28e8, #2882e8); -fx-background-radius: 10;" text="Continue" textFill="#e8e865">
+      <Button fx:id="ContinueButton" layoutX="170.0" layoutY="365.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="132.0" style="-fx-background-color: linear-gradient(to left, #2e28e8, #2882e8); -fx-background-radius: 10;" text="Continue" textFill="#e8e865">
          <font>
             <Font name="Times New Roman" size="18.0" />
          </font></Button>
