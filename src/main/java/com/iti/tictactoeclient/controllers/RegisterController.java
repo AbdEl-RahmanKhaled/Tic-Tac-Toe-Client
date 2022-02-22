@@ -1,7 +1,6 @@
 package com.iti.tictactoeclient.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iti.tictactoeclient.TicTacToeClient;
 import com.iti.tictactoeclient.helpers.ServerListener;
 import com.iti.tictactoeclient.models.User;
@@ -10,7 +9,6 @@ import com.iti.tictactoeclient.responses.Response;
 import javafx.animation.RotateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -26,7 +24,6 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static com.iti.tictactoeclient.TicTacToeClient.mapper;
-import static com.iti.tictactoeclient.TicTacToeClient.registerController;
 
 public class RegisterController implements Initializable {
 
@@ -50,7 +47,8 @@ public class RegisterController implements Initializable {
 
     @FXML
     protected void onActionRegister() {
-        if (!isValidateInput()) {
+        invalidinput.setText("");
+        if (isValidInput()) {
             User user = new User();
             user.setName(FirstNameTxt.getText().trim());
             user.setUserName(UserNameTxt.getText().trim());
@@ -60,6 +58,8 @@ public class RegisterController implements Initializable {
             try {
                 String jRequest = mapper.writeValueAsString(signUpReq);
                 ServerListener.sendRequest(jRequest);
+                UserNameTxt.clear();
+                PasswordTxt.clear();
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
@@ -67,26 +67,27 @@ public class RegisterController implements Initializable {
             System.out.println("not validated !");
         }
     }
+
     @FXML
-    protected void onActionBack(){
+    protected void onActionBack() {
         TicTacToeClient.openLoginView();
     }
 
-    private boolean isValidateInput() {
+    private boolean isValidInput() {
         Matcher matcher1 = pattern.matcher(UserNameTxt.getText().trim());
         if (UserNameTxt.getText().trim().equals("") || !matcher1.matches()) {
             invalidinput.setText("Invalid username!");
-            return true;
+            return false;
         }
         if (FirstNameTxt.getText().trim().equals("")) {
             invalidinput.setText("Invalid name!");
-            return true;
+            return false;
         }
         if (PasswordTxt.getText().equals("") || PasswordTxt.getText().length() < 6) {
             invalidinput.setText("Invalid Password!");
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     @FXML
@@ -94,7 +95,7 @@ public class RegisterController implements Initializable {
 
     }
 
-    public void showAnimation(){
+    public void showAnimation() {
         File backfile = new File("images/7.png");
         Image background = new Image(backfile.toURI().toString());
         backgroundimg.setImage(background);
