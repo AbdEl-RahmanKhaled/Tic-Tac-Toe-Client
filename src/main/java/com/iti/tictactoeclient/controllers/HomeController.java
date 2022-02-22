@@ -74,7 +74,7 @@ public class HomeController implements Initializable {
 
         cFrom.setCellValueFactory(new PropertyValueFactory<>("name"));
         cNotif.setCellValueFactory(new PropertyValueFactory<>("type"));
-
+        // set double click action on invitations table
         tInvitation.setRowFactory(tv -> {
             TableRow<Invitation> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -86,7 +86,7 @@ public class HomeController implements Initializable {
         });
     }
 
-
+    // to show animation when view loaded
     public void showAnimation() {
         File backfile = new File("images/7.png");
         Image background = new Image(backfile.toURI().toString());
@@ -104,13 +104,18 @@ public class HomeController implements Initializable {
 
     @FXML
     public void InviteButton() {
+        // get selected object
         PlayerFullInfo playerFullInfo = tPlayers.getSelectionModel().getSelectedItem();
+        // check if the selected object is valid and not sent him invite before
         if (isValidSelection(playerFullInfo) && sent.get(playerFullInfo.getDb_id()) == null) {
+            // create invite to a game request
             InviteToGameReq inviteToGameReq = new InviteToGameReq(new Player(playerFullInfo));
             try {
+                // convert the request to string
                 String jRequest = TicTacToeClient.mapper.writeValueAsString(inviteToGameReq);
-                System.out.println(jRequest);
+                // send the request
                 ServerListener.sendRequest(jRequest);
+                // add request to sent
                 sent.put(playerFullInfo.getDb_id(), playerFullInfo);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
@@ -118,6 +123,7 @@ public class HomeController implements Initializable {
         }
     }
 
+    // to confirm user
     private void showInvitationConfirmation() {
         Invitation invitation = tInvitation.getSelectionModel().getSelectedItem();
         if (invitation.getType().equals(Invitation.GAME_INVITATION)) {
@@ -130,6 +136,7 @@ public class HomeController implements Initializable {
             // accept the invitation
             AcceptInvitationReq acceptInvitationReq = new AcceptInvitationReq(invitation.getPlayer());
             try {
+                // create the json
                 String jRequest = TicTacToeClient.mapper.writeValueAsString(acceptInvitationReq);
                 ServerListener.sendRequest(jRequest);
             } catch (JsonProcessingException e) {
@@ -145,17 +152,22 @@ public class HomeController implements Initializable {
                 e.printStackTrace();
             }
         }
+        // remove the invitation from the map
         invitations.remove(invitation.getPlayer().getDb_id());
+        // update the table
         fillInvitationsTable();
     }
 
+    // to check the selected  player is valid
     private boolean isValidSelection(PlayerFullInfo playerFullInfo) {
         boolean valid = false;
-
+        // if one selected from table
         if (playerFullInfo == null) {
             TicTacToeClient.showAlert("Error", "You have to select a player first", Alert.AlertType.ERROR);
+        // if selected player is in game
         } else if (playerFullInfo.isInGame()) {
             TicTacToeClient.showAlert("Error", "You have to select a player which is not in game", Alert.AlertType.ERROR);
+        // if selected player is offline
         } else if (playerFullInfo.getStatus().equals(PlayerFullInfo.OFFLINE)) {
             TicTacToeClient.showAlert("Error", "You have to select an online player", Alert.AlertType.ERROR);
         } else {
@@ -167,7 +179,6 @@ public class HomeController implements Initializable {
 
     @FXML
     public void ComputerButton() {
-
         TicTacToeClient.showAlert("sdv", "dvsdvd", Alert.AlertType.ERROR);
         System.out.println(TicTacToeClient.showConfirmation("tessst", "message"));
     }
@@ -180,6 +191,7 @@ public class HomeController implements Initializable {
 
 
     public void notifyGameInvitation(Player player) {
+        // check if received this notification before
         if (invitations.get(player.getDb_id()) == null) {
             Invitation invitation = new Invitation();
             invitation.setType(Invitation.GAME_INVITATION);
