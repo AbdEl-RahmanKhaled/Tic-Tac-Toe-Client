@@ -1,6 +1,8 @@
 package com.iti.tictactoeclient.models;
 
 public class Invitation {
+    public static final String GAME_INVITATION = "New Game Invitation";
+    public static final String RESUME_INVITATION = "Resume Game Invitation";
     private Player player;
     private String type;
     private Match match;
