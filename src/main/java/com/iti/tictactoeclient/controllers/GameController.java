@@ -145,7 +145,7 @@ public class GameController implements Initializable {
     }
 
     public void showPauseNotification(PlayerFullInfo playerFullInfo){
-        TicTacToeClient.showSystemNotification("Pause",playerFullInfo.getName()+"wants to pause game", TrayIcon.MessageType.INFO);
+        TicTacToeClient.showSystemNotification("Pause","wants to pause game", TrayIcon.MessageType.INFO);
     }
 
     public void confirmResume(ResumeGameNotification resumeGameNotification){

@@ -81,15 +81,25 @@ public class MatchController implements Initializable {
     }
 
     private void selectMatchToResume(){
-        if (Objects.equals(MatchTable.getSelectionModel().getSelectedItem().getStatus(), com.iti.tictactoeclient.models.MatchTable.STATUS_PAUSED)) {
+        int db_id;
+        MatchTable matchTable= MatchTable.getSelectionModel().getSelectedItem();
+        if (Objects.equals(matchTable.getStatus(), com.iti.tictactoeclient.models.MatchTable.STATUS_PAUSED)) {
+            if(matchTable.getPlayer1_id()==TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id()){
+                db_id=matchTable.getPlayer2_id();
+            }
+            else{
+                db_id=matchTable.getPlayer1_id();
+            }
+            long s_id= TicTacToeClient.homeController.getPlayersFullInfo().get(db_id).getS_id();
             boolean answer=TicTacToeClient.showConfirmation("Resume game", "Send Resume Request?", "Ok", "Cancel");
             System.out.println(answer);
             if(answer){
-                Player player=new Player(TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id(),TicTacToeClient.homeController.getMyPlayerFullInfo().getS_id());
+                Player player=new Player(db_id, s_id);
                 Match match=new Match();
-                //match.setM_id();
+                match.setM_id(matchTable.getM_id());
                 AskToResumeReq askToResumeReq=new AskToResumeReq();
                 askToResumeReq.setPlayer(player);
+                askToResumeReq.setMatch(match);
                 try {
                     String jRequest=TicTacToeClient.mapper.writeValueAsString(askToResumeReq);
                     ServerListener.sendRequest(jRequest);
@@ -118,7 +128,7 @@ public class MatchController implements Initializable {
 //    }
     public void handleResponse(List<MatchTable> matchList) {
         MatchTable.getItems().clear();
-        MatchTable.getItems().setAll((com.iti.tictactoeclient.models.MatchTable) matchList);
+        MatchTable.getItems().setAll(matchList);
 
     }
 

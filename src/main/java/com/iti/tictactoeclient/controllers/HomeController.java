@@ -7,6 +7,7 @@ import com.iti.tictactoeclient.models.Invitation;
 import com.iti.tictactoeclient.models.Match;
 import com.iti.tictactoeclient.models.Player;
 import com.iti.tictactoeclient.models.PlayerFullInfo;
+import com.iti.tictactoeclient.notification.AskToResumeNotification;
 import com.iti.tictactoeclient.requests.AcceptInvitationReq;
 import com.iti.tictactoeclient.requests.GetMatchHistoryReq;
 import com.iti.tictactoeclient.requests.InviteToGameReq;
@@ -38,6 +39,14 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
+
+    public Map<Integer, PlayerFullInfo> getPlayersFullInfo() {
+        return playersFullInfo;
+    }
+
+    public void setPlayersFullInfo(Map<Integer, PlayerFullInfo> playersFullInfo) {
+        this.playersFullInfo = playersFullInfo;
+    }
 
     private Map<Integer, PlayerFullInfo> playersFullInfo;
     private PlayerFullInfo myPlayerFullInfo;
@@ -96,6 +105,16 @@ public class HomeController implements Initializable {
             return row;
         });
 
+    }
+
+    public void addResumeReq(AskToResumeNotification askToResumeNotification){
+        Invitation invitation=new Invitation(askToResumeNotification.getPlayer(), Invitation.RESUME_INVITATION);
+        invitation.setName(playersFullInfo.get(askToResumeNotification.getPlayer().getDb_id()).getName());
+        invitations.put(askToResumeNotification.getPlayer().getDb_id(), invitation);
+        fillInvitationsTable();
+        TicTacToeClient.showSystemNotification("Game Invitation",
+                playersFullInfo.get(askToResumeNotification.getPlayer().getDb_id()).getName() + " sent you game invitation.",
+                MessageType.INFO);
     }
 
     // to show animation when view loaded
@@ -287,5 +306,12 @@ public class HomeController implements Initializable {
 
     public PlayerFullInfo getPlayerFullInfo(int id) {
         return playersFullInfo.get(id);
+    }
+    public Map<Integer, Player> getSent() {
+        return sent;
+    }
+
+    public void setSent(Map<Integer, Player> sent) {
+        this.sent = sent;
     }
 }
