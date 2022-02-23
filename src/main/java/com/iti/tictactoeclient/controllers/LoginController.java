@@ -1,24 +1,19 @@
 package com.iti.tictactoeclient.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iti.tictactoeclient.helpers.ServerListener;
 import com.iti.tictactoeclient.models.Credentials;
-import com.iti.tictactoeclient.models.PlayerFullInfo;
 import com.iti.tictactoeclient.requests.LoginReq;
 import com.iti.tictactoeclient.responses.LoginRes;
 import com.iti.tictactoeclient.responses.Response;
 import javafx.animation.TranslateTransition;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 import com.iti.tictactoeclient.TicTacToeClient;
 import javafx.util.Duration;
 
@@ -74,27 +69,37 @@ public class LoginController implements Initializable {
 
     @FXML
     public void onLoginButton() {
-
-        try {
-            LoginReq loginReq = new LoginReq();
-            String username=UserNameTxt.getText().trim();
-            String password=PasswordTxt.getText().trim();
-            if(validInput(username,password)){
-                invaliduserTxt.setText("Enter Your Data!");
-            }
-            else{
-                UserNameTxt.setText("");
-                PasswordTxt.setText("");
-                Credentials credentials=new Credentials(username, password);
+        invaliduserTxt.setText("");
+        if (isValidInput()) {
+            try {
+                LoginReq loginReq = new LoginReq();
+                Credentials credentials = new Credentials(UserNameTxt.getText(), PasswordTxt.getText());
                 loginReq.setCredentials(credentials);
                 String jRequest = TicTacToeClient.mapper.writeValueAsString(loginReq);
                 ServerListener.sendRequest(jRequest);
+                UserNameTxt.clear();
+                PasswordTxt.clear();
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
             }
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
         }
     }
 
+    private boolean isValidInput() {
+        String regex = "^[a-z]+([_.][a-z0-9]+)*${4,}";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher1 = pattern.matcher(UserNameTxt.getText().trim());
+        if (UserNameTxt.getText().trim().equals("") || !matcher1.matches()) {
+            invaliduserTxt.setText("Invalid username!");
+            return false;
+        }
+
+        if (PasswordTxt.getText().equals("") || PasswordTxt.getText().length() < 3) {
+            invaliduserTxt.setText("Invalid Password!");
+            return false;
+        }
+        return true;
+    }
 
     @FXML
     public void onRegisterButtonClick() throws IOException {
@@ -108,10 +113,6 @@ public class LoginController implements Initializable {
         } else {
             invaliduserTxt.setText(loginRes.getMessage());
         }
-    }
-
-    private boolean validInput(String username, String password){
-       return (username.equals("") || password.equals(""));
     }
 
 }

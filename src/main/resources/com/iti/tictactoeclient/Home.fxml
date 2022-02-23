@@ -59,11 +59,11 @@
             <DropShadow blurType="TWO_PASS_BOX" height="73.99" radius="54.989999999999995" width="147.97" />
          </effect>
       </ImageView>
-      <TableView id="table" fx:id="tPlayers" layoutX="674.0" layoutY="125.0" prefHeight="384.0" prefWidth="292.0" style="-fx-background-radius: 10;">
+      <TableView id="table" fx:id="tPlayers" layoutX="674.0" layoutY="125.0" prefHeight="384.0" prefWidth="299.0" style="-fx-background-radius: 10;">
         <columns>
-          <TableColumn fx:id="cPlayerName" editable="false" prefWidth="107.0" resizable="false" text="Player" />
-          <TableColumn fx:id="cStatus" editable="false" prefWidth="101.0" text="State" />
-            <TableColumn fx:id="cIsInGame" editable="false" prefWidth="83.0" text="Is in Game" />
+          <TableColumn fx:id="cPlayerName" editable="false" prefWidth="107.0" resizable="false" style="-fx-alignment: BASELINE_CENTER;" styleClass=".col" text="Player" />
+          <TableColumn fx:id="cStatus" editable="false" prefWidth="101.0" style="-fx-alignment: BASELINE_CENTER;" styleClass=".col" text="State" />
+            <TableColumn fx:id="cIsInGame" editable="false" prefWidth="89.0" style="-fx-alignment: BASELINE_CENTER;" styleClass=".col" text="Is in Game" />
         </columns>
       </TableView>
       <Button fx:id="InviteButton" layoutX="351.0" layoutY="450.0" mnemonicParsing="false" onAction="#InviteButton" prefHeight="34.0" prefWidth="129.0" style="-fx-background-color: linear-gradient(to left,#2882e8, #2e28e8); -fx-background-radius: 10;" text="Invite player" textFill="#e8e865">
@@ -143,8 +143,8 @@
          </font></Button>
       <TableView id="table" fx:id="tInvitation" layoutX="26.0" layoutY="125.0" prefHeight="384.0" prefWidth="292.0" style="-fx-background-radius: 10;">
         <columns>
-          <TableColumn fx:id="cFrom" editable="false" prefWidth="79.0" text="From" />
-          <TableColumn fx:id="cNotif" editable="false" prefWidth="212.0" text="Notification" />
+          <TableColumn fx:id="cFrom" editable="false" prefWidth="79.0" style="-fx-alignment: BASELINE_CENTER;" styleClass=".col" text="From" />
+          <TableColumn fx:id="cNotif" editable="false" prefWidth="212.0" style="-fx-alignment: BASELINE_CENTER;" styleClass=".col" text="Notification" />
         </columns>
       </TableView>
       <Label id="Redressed" fx:id="ChoosePlayers1" layoutX="36.0" layoutY="79.0" prefHeight="29.0" prefWidth="203.0" text="Invitations Received">
