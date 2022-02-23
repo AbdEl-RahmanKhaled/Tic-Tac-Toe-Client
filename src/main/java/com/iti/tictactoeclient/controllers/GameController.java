@@ -3,12 +3,21 @@ package com.iti.tictactoeclient.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.iti.tictactoeclient.TicTacToeClient;
 import com.iti.tictactoeclient.helpers.ServerListener;
+import com.iti.tictactoeclient.models.Match;
+import com.iti.tictactoeclient.models.Message;
+import com.iti.tictactoeclient.models.Player;
 import com.iti.tictactoeclient.models.PlayerFullInfo;
+import com.iti.tictactoeclient.notification.MessageNotification;
 import com.iti.tictactoeclient.requests.AskToResumeReq;
 import com.iti.tictactoeclient.requests.Request;
+import com.iti.tictactoeclient.requests.SendMessageReq;
+import com.iti.tictactoeclient.requests.SignUpReq;
 import com.iti.tictactoeclient.responses.AskToPauseRes;
+import com.iti.tictactoeclient.responses.Response;
+import com.iti.tictactoeclient.responses.SendMessageRes;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -26,10 +35,14 @@ import javafx.util.Duration;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
+
+import static com.iti.tictactoeclient.TicTacToeClient.mapper;
 
 public class GameController implements Initializable {
     public static GameController gameController;
+    public Player competitor;
     @FXML
     private Label Player1vsplayer2label;
 
@@ -54,17 +67,18 @@ public class GameController implements Initializable {
     private TextField TextField;
 
     @FXML
-    private Button b1 ,b2 ,b3 , b4 ,b5, b6 , b7 ,b8 ,b9;
+    private Button b1, b2, b3, b4, b5, b6, b7, b8, b9;
 
     @FXML
-    public int flag1=0,flag2=0,flag3=0,flag4=0,flag5=0,flag6=0,flag7=0,flag8=0,flag9=0;
+    public int flag1 = 0, flag2 = 0, flag3 = 0, flag4 = 0, flag5 = 0, flag6 = 0, flag7 = 0, flag8 = 0, flag9 = 0;
     @FXML
     public Image img;
+
     @FXML
     protected void onActionPause() {
 
         try {
-            Request askToPauseReq=new Request(Request.ACTION_ASK_TO_PAUSE);
+            Request askToPauseReq = new Request(Request.ACTION_ASK_TO_PAUSE);
             String jRequest = TicTacToeClient.mapper.writeValueAsString(askToPauseReq);
             ServerListener.sendRequest(jRequest);
         } catch (JsonProcessingException e) {
@@ -72,19 +86,48 @@ public class GameController implements Initializable {
         }
 
     }
+
     @FXML
     protected void onActionChatsender() {
-
+        if (IsValidateMessage()) {
+            Message message = new Message();
+            message.setMessage(TextField.getText().trim());
+            message.setFrom(competitor);
+            ChatArea.appendText(TextField.getText().trim());
+            ChatArea.appendText("\n");
+            SendMessageReq sendMessageReq = new SendMessageReq();
+            sendMessageReq.setMessage(message);
+            try {
+                String jRequest = mapper.writeValueAsString(sendMessageReq);
+                ServerListener.sendRequest(jRequest);
+                TextField.clear();
+                System.out.println("2");
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("not a valid msg");
+        }
     }
+
+    public void setCompetitor(Player competitor){
+        this.competitor = competitor;
+    }
+
+    public Player getCompetitor(){
+        return competitor;
+    }
+
     @FXML
     protected void onActionExite() {
 //     TicTacToeClient.openHomeView();
     }
+
     @FXML
-    public void initialize (URL url, ResourceBundle resourceBundle){
+    public void initialize(URL url, ResourceBundle resourceBundle) {
     }
 
-    public void showAnimation(){
+    public void showAnimation() {
         File backFile = new File("images/7.png");
         Image background = new Image(backFile.toURI().toString());
         backgroundimg.setImage(background);
@@ -101,52 +144,72 @@ public class GameController implements Initializable {
 
     @FXML
     protected void button1() {
-         b1.setGraphic(new ImageView(img));
+        b1.setGraphic(new ImageView(img));
 
-        }
+    }
+
     @FXML
     protected void button2() {
         b2.setGraphic(new ImageView(img));
 
     }
+
     @FXML
     protected void button3() {
         b3.setGraphic(new ImageView(img));
 
     }
+
     @FXML
     protected void button4() {
         b4.setGraphic(new ImageView(img));
 
     }
+
     @FXML
     protected void button5() {
         b5.setGraphic(new ImageView(img));
 
     }
+
     @FXML
     protected void button6() {
         b6.setGraphic(new ImageView(img));
 
     }
+
     @FXML
     protected void button7() {
         b7.setGraphic(new ImageView(img));
 
     }
+
     @FXML
     protected void button8() {
         b8.setGraphic(new ImageView(img));
 
     }
+
     @FXML
     protected void button9() {
         b9.setGraphic(new ImageView(img));
     }
 
-    public void showPauseNotification(PlayerFullInfo playerFullInfo){
-        notification.setText(playerFullInfo.getName()+"wants to pause game");
+    public void showPauseNotification(PlayerFullInfo playerFullInfo) {
+        notification.setText(playerFullInfo.getName() + "wants to pause game");
     }
 
+    private boolean IsValidateMessage() {
+        if (TextField.getText().trim().equals("")) {
+            return false;
+        }
+        return true;
+    }
 
+    public void handleResponse(MessageNotification messageNotification) {
+        System.out.println("10");
+        ChatArea.appendText(messageNotification.getMessage().getMessage());
+        ChatArea.appendText("\n");
+    }
 }
+

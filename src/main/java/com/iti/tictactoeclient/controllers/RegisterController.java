@@ -107,14 +107,11 @@ public class RegisterController implements Initializable {
         rotateTransition.setAutoReverse(true);
         rotateTransition.play();
     }
-
     public void handleResponse(Response signUpRes) {
         if (Objects.equals(signUpRes.getStatus(), Response.STATUS_OK)) {
             TicTacToeClient.openLoginView();
-            System.out.println("Filed to connect4");
         } else {
             TicTacToeClient.openRegisterView();
-            System.out.println("Filed to connect5");
         }
     }
 }
