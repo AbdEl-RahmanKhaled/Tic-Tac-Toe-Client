@@ -95,6 +95,7 @@ public class HomeController implements Initializable {
             });
             return row;
         });
+
     }
 
     // to show animation when view loaded
@@ -150,7 +151,7 @@ public class HomeController implements Initializable {
     }
 
     private void confirmGameInvitation(Invitation invitation) {
-        if (TicTacToeClient.showConfirmation(invitation.getType(), invitation.getName() + " invite you to a game.")) {
+        if (TicTacToeClient.showConfirmation(invitation.getType(), invitation.getName() + " invite you to a game.","Accept","Decline")) {
             // accept the invitation
             AcceptInvitationReq acceptInvitationReq = new AcceptInvitationReq(invitation.getPlayer());
             try {
@@ -198,7 +199,7 @@ public class HomeController implements Initializable {
     @FXML
     public void ComputerButton() {
         TicTacToeClient.showAlert("sdv", "dvsdvd", Alert.AlertType.ERROR);
-        System.out.println(TicTacToeClient.showConfirmation("tessst", "message"));
+        System.out.println(TicTacToeClient.showConfirmation("tessst", "message", "Accept","Decline"));
     }
 
     @FXML

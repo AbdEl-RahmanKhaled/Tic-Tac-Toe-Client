@@ -1,15 +1,14 @@
 package com.iti.tictactoeclient.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.iti.tictactoeclient.TicTacToeClient;
-import com.iti.tictactoeclient.models.Match;
-import com.iti.tictactoeclient.models.MatchTable;
-import com.iti.tictactoeclient.models.PlayerFullInfo;
+import com.iti.tictactoeclient.helpers.ServerListener;
+import com.iti.tictactoeclient.models.*;
+import com.iti.tictactoeclient.requests.AskToResumeReq;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,6 +18,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class MatchController implements Initializable {
@@ -66,6 +66,38 @@ public class MatchController implements Initializable {
         statusColumn.setCellValueFactory(new PropertyValueFactory<> ("status"));
         winnerColumn.setCellValueFactory(new PropertyValueFactory<> ("winner"));
 
+        MatchTable.setRowFactory(tv -> {
+            TableRow<MatchTable> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty()) && (Objects.equals(MatchTable.getSelectionModel().getSelectedItem().getStatus(), com.iti.tictactoeclient.models.MatchTable.STATUS_PAUSED)) ) {
+                    MatchTable rowData = row.getItem();
+                    selectMatchToResume();
+                }
+            });
+            return row ;
+        });
+
+    }
+
+    private void selectMatchToResume(){
+        if (Objects.equals(MatchTable.getSelectionModel().getSelectedItem().getStatus(), com.iti.tictactoeclient.models.MatchTable.STATUS_PAUSED)) {
+            boolean answer=TicTacToeClient.showConfirmation("Resume game", "Send Resume Request?", "Ok", "Cancel");
+            System.out.println(answer);
+            if(answer){
+                Player player=new Player(TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id(),TicTacToeClient.homeController.getMyPlayerFullInfo().getS_id());
+                Match match=new Match();
+                //match.setM_id();
+                AskToResumeReq askToResumeReq=new AskToResumeReq();
+                askToResumeReq.setPlayer(player);
+                try {
+                    String jRequest=TicTacToeClient.mapper.writeValueAsString(askToResumeReq);
+                    ServerListener.sendRequest(jRequest);
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
     }
 
     //    public void fromLogin(PlayerFullInfo myPlayerFullInfo, Map<Integer, PlayerFullInfo> playersFullInfo) {
@@ -85,7 +117,7 @@ public class MatchController implements Initializable {
 //    }
     public void handleResponse(List<MatchTable> matchList) {
         MatchTable.getItems().clear();
-        MatchTable.getItems().setAll(matchList);
+        MatchTable.getItems().setAll((com.iti.tictactoeclient.models.MatchTable) matchList);
 
     }
 

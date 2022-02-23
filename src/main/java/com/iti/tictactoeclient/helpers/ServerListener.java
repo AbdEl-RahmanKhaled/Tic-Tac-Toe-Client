@@ -4,11 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.iti.tictactoeclient.TicTacToeClient;
 import com.iti.tictactoeclient.controllers.LoginController;
 import com.iti.tictactoeclient.models.Player;
-import com.iti.tictactoeclient.notification.AskToPauseNotification;
-import com.iti.tictactoeclient.notification.GameInvitationNotification;
-import com.iti.tictactoeclient.notification.Notification;
-import com.iti.tictactoeclient.notification.StartGameNotification;
-import com.iti.tictactoeclient.notification.UpdateStatusNotification;
+import com.iti.tictactoeclient.notification.*;
+import com.iti.tictactoeclient.requests.AcceptToResumeReq;
 import com.iti.tictactoeclient.requests.BackFromOfflineReq;
 import com.iti.tictactoeclient.responses.GetMatchHistoryRes;
 import com.iti.tictactoeclient.responses.InviteToGameRes;
@@ -87,8 +84,32 @@ public class ServerListener extends Thread {
         types.put(Notification.NOTIFICATION_GAME_INVITATION, this::gameInvitation);
         types.put(Notification.NOTIFICATION_START_GAME, this::startGame);
         types.put(Notification.NOTIFICATION_ASK_TO_PAUSE, this::askToPause);
+        types.put(Notification.NOTIFICATION_ASK_TO_RESUME, this::askToResume);
+        types.put(Notification.NOTIFICATION_RESUME_GAME, this::resumeGame);
     }
 
+    private void resumeGame(String json){
+        try {
+            ResumeGameNotification resumeGameNotification=TicTacToeClient.mapper.readValue(json, ResumeGameNotification.class);
+            TicTacToeClient.gameController.confirmResume(resumeGameNotification);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void askToResume(String json){
+        try {
+            AskToResumeNotification askToResumeNotification=TicTacToeClient.mapper.readValue(json, AskToResumeNotification.class);
+            Platform.runLater(()-> TicTacToeClient.showConfirmation("Resume Game", askToResumeNotification.getPlayer()+ "Wants To Resume Game", "Accept", "Decline"));
+            TicTacToeClient.gameController.acceptResumeGame(askToResumeNotification.getPlayer(), askToResumeNotification.getMatch());
+
+
+
+
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
     private void startGame(String json) {
         try {
             StartGameNotification startGameNotification = TicTacToeClient.mapper.readValue(json, StartGameNotification.class);
@@ -105,9 +126,6 @@ public class ServerListener extends Thread {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        types.put(Notification.NOTIFICATION_ASK_TO_PAUSE, this::askToPause);
-        types.put(Response.RESPONSE_GET_MATCH_HISTORY, this::getMatchHistory);
-        types.put(Response.RESPONSE_SIGN_UP, this::signUpRes);
     }
 
     private void gameInvitation(String json) {

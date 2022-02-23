@@ -167,10 +167,28 @@ public class TicTacToeClient extends Application {
         alert.showAndWait();
     }
 
-    public static boolean showConfirmation(String title, String message) {
+    public static boolean showResumeAlert(String title, String message){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(message);
+        alert.setContentText("");
+        ButtonType buttonOk = new ButtonType("Ok");
+        ButtonType buttonCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(buttonOk, buttonCancel);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == buttonOk){
+            return true;
+        } else {
+           return false;
+        }
+    }
+
+    public static boolean showConfirmation(String title, String message, String btn1, String btn2) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "",
-                new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE),
-                new ButtonType("Reject", ButtonBar.ButtonData.CANCEL_CLOSE));
+                new ButtonType(btn1, ButtonBar.ButtonData.OK_DONE),
+                new ButtonType(btn2, ButtonBar.ButtonData.CANCEL_CLOSE));
         alert.setTitle(title);
         alert.setHeaderText(message);
         alert.setContentText("");

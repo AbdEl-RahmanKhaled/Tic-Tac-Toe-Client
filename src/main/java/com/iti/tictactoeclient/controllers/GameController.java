@@ -3,28 +3,28 @@ package com.iti.tictactoeclient.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.iti.tictactoeclient.TicTacToeClient;
 import com.iti.tictactoeclient.helpers.ServerListener;
+import com.iti.tictactoeclient.models.Match;
+import com.iti.tictactoeclient.models.Player;
 import com.iti.tictactoeclient.models.PlayerFullInfo;
-import com.iti.tictactoeclient.requests.AskToResumeReq;
+import com.iti.tictactoeclient.models.Position;
+import com.iti.tictactoeclient.notification.AskToResumeNotification;
+import com.iti.tictactoeclient.notification.ResumeGameNotification;
+import com.iti.tictactoeclient.requests.AcceptToResumeReq;
 import com.iti.tictactoeclient.requests.Request;
-import com.iti.tictactoeclient.responses.AskToPauseRes;
 import javafx.animation.ScaleTransition;
-import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
 import javafx.util.Duration;
 
+import java.awt.*;
+import java.util.List;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -145,7 +145,30 @@ public class GameController implements Initializable {
     }
 
     public void showPauseNotification(PlayerFullInfo playerFullInfo){
-        notification.setText(playerFullInfo.getName()+"wants to pause game");
+        TicTacToeClient.showSystemNotification("Pause",playerFullInfo.getName()+"wants to pause game", TrayIcon.MessageType.INFO);
+    }
+
+    public void confirmResume(ResumeGameNotification resumeGameNotification){
+        TicTacToeClient.openGameView();
+        List<Position> positions = resumeGameNotification.getPositions();
+        Match match=resumeGameNotification.getMatch();
+        fillGrid(positions, match);
+
+    }
+
+    public void acceptResumeGame(Player player, Match match){
+        AcceptToResumeReq acceptToResumeReq=new AcceptToResumeReq(player,match);
+        try {
+            String jRequest = TicTacToeClient.mapper.writeValueAsString(acceptToResumeReq);
+            ServerListener.sendRequest(jRequest);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void fillGrid(List<Position> positions, Match match){
+        b1.setText(String.valueOf(Match.CHOICE_O));
     }
 
 
