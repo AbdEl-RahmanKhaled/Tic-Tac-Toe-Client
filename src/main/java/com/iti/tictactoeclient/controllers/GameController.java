@@ -150,9 +150,8 @@ public class GameController implements Initializable {
 
     public void confirmResume(ResumeGameNotification resumeGameNotification){
         TicTacToeClient.openGameView();
-        List<Position> positions = resumeGameNotification.getPositions();
-        Match match=resumeGameNotification.getMatch();
-        fillGrid(positions, match);
+        List<Position>positions =resumeGameNotification.getPositions();
+        Match match =resumeGameNotification.getMatch();
 
     }
 
@@ -167,8 +166,9 @@ public class GameController implements Initializable {
     }
 
 
-    private void fillGrid(List<Position> positions, Match match){
-        b1.setText(String.valueOf(Match.CHOICE_O));
+    public void fillGrid(){
+        b1.setText("x");
+
     }
 
 

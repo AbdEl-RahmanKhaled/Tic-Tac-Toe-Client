@@ -90,11 +90,13 @@ public class ServerListener extends Thread {
 
     private void resumeGame(String json){
         try {
-            ResumeGameNotification resumeGameNotification=TicTacToeClient.mapper.readValue(json, ResumeGameNotification.class);
-            TicTacToeClient.gameController.confirmResume(resumeGameNotification);
+            ResumeGameNotification resumeGameNotification= TicTacToeClient.mapper.readValue(json,ResumeGameNotification.class);
+            Platform.runLater(()->
+                    TicTacToeClient.gameController.confirmResume(resumeGameNotification));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+
     }
 
     private void askToResume(String json){
