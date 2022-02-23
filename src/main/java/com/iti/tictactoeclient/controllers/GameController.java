@@ -29,42 +29,26 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class GameController implements Initializable {
-    public static GameController gameController;
     @FXML
     private Label Player1vsplayer2label;
-
-    @FXML
-    private Label notification;
-
     @FXML
     private ImageView backgroundimg;
-
 
     @FXML
     private TextArea ChatArea;
 
+    @FXML
+    private Button b1, b2, b3, b4, b5, b6, b7, b8, b9;
 
     @FXML
-    private Button PauseButton;
-
-    @FXML
-    private Button SendButton;
-
-    @FXML
-    private TextField TextField;
-
-    @FXML
-    private Button b1 ,b2 ,b3 , b4 ,b5, b6 , b7 ,b8 ,b9;
-
-    @FXML
-    public int flag1=0,flag2=0,flag3=0,flag4=0,flag5=0,flag6=0,flag7=0,flag8=0,flag9=0;
+    public int flag1 = 0, flag2 = 0, flag3 = 0, flag4 = 0, flag5 = 0, flag6 = 0, flag7 = 0, flag8 = 0, flag9 = 0;
     @FXML
     public Image img;
+
     @FXML
     protected void onActionPause() {
-
         try {
-            Request askToPauseReq=new Request(Request.ACTION_ASK_TO_PAUSE);
+            Request askToPauseReq = new Request(Request.ACTION_ASK_TO_PAUSE);
             String jRequest = TicTacToeClient.mapper.writeValueAsString(askToPauseReq);
             ServerListener.sendRequest(jRequest);
         } catch (JsonProcessingException e) {
@@ -72,19 +56,22 @@ public class GameController implements Initializable {
         }
 
     }
+
     @FXML
     protected void onActionChatsender() {
 
     }
+
     @FXML
-    protected void onActionExite() {
-//     TicTacToeClient.openHomeView();
-    }
-    @FXML
-    public void initialize (URL url, ResourceBundle resourceBundle){
+    protected void onActionFinish() {
+        TicTacToeClient.openHomeView();
     }
 
-    public void showAnimation(){
+    @FXML
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+    }
+
+    public void showAnimation() {
         File backFile = new File("images/7.png");
         Image background = new Image(backFile.toURI().toString());
         backgroundimg.setImage(background);
@@ -101,51 +88,58 @@ public class GameController implements Initializable {
 
     @FXML
     protected void button1() {
-         b1.setGraphic(new ImageView(img));
+        b1.setGraphic(new ImageView(img));
 
-        }
+    }
+
     @FXML
     protected void button2() {
         b2.setGraphic(new ImageView(img));
 
     }
+
     @FXML
     protected void button3() {
         b3.setGraphic(new ImageView(img));
 
     }
+
     @FXML
     protected void button4() {
         b4.setGraphic(new ImageView(img));
 
     }
+
     @FXML
     protected void button5() {
         b5.setGraphic(new ImageView(img));
 
     }
+
     @FXML
     protected void button6() {
         b6.setGraphic(new ImageView(img));
 
     }
+
     @FXML
     protected void button7() {
         b7.setGraphic(new ImageView(img));
 
     }
+
     @FXML
     protected void button8() {
         b8.setGraphic(new ImageView(img));
 
     }
+
     @FXML
     protected void button9() {
         b9.setGraphic(new ImageView(img));
     }
 
-    public void showPauseNotification(PlayerFullInfo playerFullInfo){
-        notification.setText(playerFullInfo.getName()+"wants to pause game");
+    public void showPauseNotification(PlayerFullInfo playerFullInfo) {
     }
 
 

@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.effect.InnerShadow?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: linear-gradient(to right, #b92b27, #1565c0);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iti.tictactoeclient.controllers.GameController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: linear-gradient(to right, #b92b27, #1565c0);" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iti.tictactoeclient.controllers.GameController">
    <children>
       <ImageView fx:id="backgroundimg" fitHeight="121.0" fitWidth="200.0" layoutX="57.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -87,11 +80,11 @@
          <font>
             <Font name="Times New Roman" size="15.0" />
          </font></Button>
-      <Button fx:id="ExirButton" layoutX="227.0" layoutY="501.0" mnemonicParsing="false" onAction="#onActionExite" prefHeight="31.0" prefWidth="142.0" style="-fx-background-radius: 10; -fx-background-color: linear-gradient(to left, #2e28e8, #2882e8);" text="Finish" textFill="#e8e865">
+      <Button fx:id="ExirButton" layoutX="227.0" layoutY="501.0" mnemonicParsing="false" onAction="#onActionFinish" prefHeight="31.0" prefWidth="142.0" style="-fx-background-radius: 10; -fx-background-color: linear-gradient(to left, #2e28e8, #2882e8);" text="Finish" textFill="#e8e865">
          <font>
             <Font name="Times New Roman Bold" size="18.0" />
          </font></Button>
-      <Button fx:id="ExirButton1" layoutX="57.0" layoutY="501.0" mnemonicParsing="false" onAction="#onActionExite" prefHeight="31.0" prefWidth="142.0" style="-fx-background-radius: 10; -fx-background-color: linear-gradient(to right, #2e28e8, #2882e8);" text="Ask to Pause" textFill="#e8e865">
+      <Button fx:id="ExirButton1" layoutX="57.0" layoutY="501.0" mnemonicParsing="false" onAction="#onActionPause" prefHeight="31.0" prefWidth="142.0" style="-fx-background-radius: 10; -fx-background-color: linear-gradient(to right, #2e28e8, #2882e8);" text="Ask to Pause" textFill="#e8e865">
          <font>
             <Font name="Times New Roman Bold" size="18.0" />
          </font>

@@ -152,7 +152,7 @@ public class HomeController implements Initializable {
     private void confirmGameInvitation(Invitation invitation) {
         if (TicTacToeClient.showConfirmation(invitation.getType(), invitation.getName() + " invite you to a game.")) {
             // accept the invitation
-            AcceptInvitationReq acceptInvitationReq = new AcceptInvitationReq(invitation.getPlayer());
+            AcceptInvitationReq acceptInvitationReq = new AcceptInvitationReq(new Player(playersFullInfo.get(invitation.getPlayer().getDb_id())));
             try {
                 // create the json
                 String jRequest = TicTacToeClient.mapper.writeValueAsString(acceptInvitationReq);
@@ -162,7 +162,7 @@ public class HomeController implements Initializable {
             }
         } else {
             // Reject the invitation
-            RejectInvitationReq rejectInvitationReq = new RejectInvitationReq(invitation.getPlayer());
+            RejectInvitationReq rejectInvitationReq = new RejectInvitationReq(new Player(playersFullInfo.get(invitation.getPlayer().getDb_id())));
             try {
                 String jRequest = TicTacToeClient.mapper.writeValueAsString(rejectInvitationReq);
                 ServerListener.sendRequest(jRequest);
@@ -252,6 +252,7 @@ public class HomeController implements Initializable {
         this.playersFullInfo = playersFullInfo;
         playersFullInfo.remove(myPlayerFullInfo.getDb_id());
         fillView();
+        sent.clear();
     }
 
     private void fillView() {

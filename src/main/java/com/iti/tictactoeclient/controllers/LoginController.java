@@ -101,7 +101,7 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    public void onRegisterButtonClick() throws IOException {
+    public void onRegisterButtonClick() {
         TicTacToeClient.openRegisterView();
     }
 
