@@ -25,10 +25,14 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.URL;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class GameController implements Initializable {
+    static String[] board;
+    static String turn;
     @FXML
     private Label Player1vsplayer2label;
     @FXML
@@ -85,62 +89,103 @@ public class GameController implements Initializable {
         scale.setAutoReverse(true);
         scale.play();
     }
-
+    String btn1 ,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9;
+    static  int counter = 0 ;
     @FXML
     protected void button1() {
         b1.setGraphic(new ImageView(img));
-
+        b1.setText("x");
+        btn1 = b1.getText();
+        System.out.println(btn1);
+        counter++;
     }
 
     @FXML
     protected void button2() {
         b2.setGraphic(new ImageView(img));
-
+          b2.setText("x");
+        btn2 = b2.getText();
+        System.out.println(btn2);
+        counter++;
     }
 
     @FXML
     protected void button3() {
         b3.setGraphic(new ImageView(img));
-
+        b3.setText("x");
+        b3.setText("x");
+        btn3= b3.getText();
+        System.out.println(btn3);
+        counter++;
     }
 
     @FXML
     protected void button4() {
         b4.setGraphic(new ImageView(img));
-
+        b4.setText("x");
+        btn4 = b4.getText();
+        System.out.println(btn4);
+        counter++;
     }
 
     @FXML
     protected void button5() {
         b5.setGraphic(new ImageView(img));
-
+        b5.setText("x");
+        btn5 = b5.getText();
+        System.out.println(btn5);
+        counter++;
     }
-
     @FXML
     protected void button6() {
         b6.setGraphic(new ImageView(img));
-
+        //if(player)
+//        public static void placePiece(char[][] gameBoard,int pos, String user){
+//            char symbol = ' ';
+//            if(user.equals("player")){symbol = 'X'}
+//            else if (user.equals("computer")){symbol = 'O'}
+//        }
+        b6.setText("x");
+        btn6 = b6.getText();
+        System.out.println(btn6);
+        counter++;
     }
+
 
     @FXML
     protected void button7() {
         b7.setGraphic(new ImageView(img));
-
+        b7.setText("x");
+        btn7 = b7.getText();
+        System.out.println(btn7);
+        counter++;
     }
 
     @FXML
     protected void button8() {
         b8.setGraphic(new ImageView(img));
-
+        b8.setText("x");
+        btn8 = b8.getText();
+        System.out.println(btn8);
+        counter++;
     }
 
     @FXML
     protected void button9() {
         b9.setGraphic(new ImageView(img));
+        b9.setText("x");
+        btn9 = b9.getText();
+        System.out.println(btn9);
+        counter++;
     }
 
     public void showPauseNotification(PlayerFullInfo playerFullInfo) {
     }
+    Random random = new Random();
+    int computer = random.nextInt(9) + 1;
+
+
+
 
 
 }
