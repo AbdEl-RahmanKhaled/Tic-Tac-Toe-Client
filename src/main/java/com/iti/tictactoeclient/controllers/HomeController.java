@@ -108,7 +108,7 @@ public class HomeController implements Initializable {
         computer.setImage(cumputerim);
 
         File user = new File("images/player.png");
-        Image userim= new Image(user.toURI().toString());
+        Image userim = new Image(user.toURI().toString());
         userimg.setImage(userim);
         FadeTransition fade = new FadeTransition();
         fade.setNode(imgLogo);
@@ -182,10 +182,10 @@ public class HomeController implements Initializable {
         // if one selected from table
         if (playerFullInfo == null) {
             TicTacToeClient.showAlert("Error", "You have to select a player first", Alert.AlertType.ERROR);
-        // if selected player is in game
+            // if selected player is in game
         } else if (playerFullInfo.isInGame()) {
             TicTacToeClient.showAlert("Error", "You have to select a player which is not in game", Alert.AlertType.ERROR);
-        // if selected player is offline
+            // if selected player is offline
         } else if (playerFullInfo.getStatus().equals(PlayerFullInfo.OFFLINE)) {
             TicTacToeClient.showAlert("Error", "You have to select an online player", Alert.AlertType.ERROR);
         } else {
@@ -197,16 +197,8 @@ public class HomeController implements Initializable {
 
     @FXML
     public void ComputerButton() {
-        TicTacToeClient.showAlert("sdv", "dvsdvd", Alert.AlertType.ERROR);
-        System.out.println(TicTacToeClient.showConfirmation("tessst", "message"));
+        TicTacToeClient.openGameView();
     }
-
-    @FXML
-    public void LogoutButton() {
-//    TicTacToeClient.openLoginView();
-        TicTacToeClient.showSystemNotification("Tic Tac Toe", "test notification", MessageType.INFO);
-    }
-
 
     public void notifyGameInvitation(Player player) {
         // check if received this notification before

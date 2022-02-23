@@ -40,8 +40,6 @@ public class MatchController implements Initializable {
     private TableColumn<Match, String> winnerColumn;
 
 
-
-
     public void showAnimation() {
         File backfile = new File("images/7.png");
         Image background = new Image(backfile.toURI().toString());
@@ -58,14 +56,18 @@ public class MatchController implements Initializable {
     }
 
 
+    @FXML
+    protected void onActionBack() {
+        TicTacToeClient.openHomeView();
+    }
 
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        dateColumn.setCellValueFactory(new PropertyValueFactory<> ("m_date"));
-        player1Column.setCellValueFactory(new PropertyValueFactory<> ("player1_Name"));
-        player2Column.setCellValueFactory(new PropertyValueFactory<> ("player2_Name"));
-        statusColumn.setCellValueFactory(new PropertyValueFactory<> ("status"));
-        winnerColumn.setCellValueFactory(new PropertyValueFactory<> ("winner"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("m_date"));
+        player1Column.setCellValueFactory(new PropertyValueFactory<>("player1_Name"));
+        player2Column.setCellValueFactory(new PropertyValueFactory<>("player2_Name"));
+        statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+        winnerColumn.setCellValueFactory(new PropertyValueFactory<>("winner"));
 
     }
 
