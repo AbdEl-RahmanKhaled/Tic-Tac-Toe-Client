@@ -224,6 +224,7 @@ public class HomeController implements Initializable {
 
     public void startGame(Match match) {
         sent.clear();
+        TicTacToeClient.gameController.startMatch(match);
         TicTacToeClient.openGameView();
     }
 

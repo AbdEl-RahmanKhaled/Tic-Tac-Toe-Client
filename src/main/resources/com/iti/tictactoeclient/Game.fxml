@@ -84,7 +84,7 @@
          <font>
             <Font name="Times New Roman Bold" size="18.0" />
          </font></Button>
-      <Button fx:id="ExirButton1" layoutX="57.0" layoutY="501.0" mnemonicParsing="false" onAction="#onActionPause" prefHeight="31.0" prefWidth="142.0" style="-fx-background-radius: 10; -fx-background-color: linear-gradient(to right, #2e28e8, #2882e8);" text="Ask to Pause" textFill="#e8e865">
+      <Button fx:id="ExirButton1" layoutX="57.0" layoutY="501.0" mnemonicParsing="false" onAction="#onActionAskToPause" prefHeight="31.0" prefWidth="142.0" style="-fx-background-radius: 10; -fx-background-color: linear-gradient(to right, #2e28e8, #2882e8);" text="Ask to Pause" textFill="#e8e865">
          <font>
             <Font name="Times New Roman Bold" size="18.0" />
          </font>

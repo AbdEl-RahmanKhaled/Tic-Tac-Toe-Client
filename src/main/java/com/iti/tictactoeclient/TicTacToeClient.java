@@ -23,7 +23,7 @@ import java.net.URL;
 
 public class TicTacToeClient extends Application {
     private static Stage mainStage;
-    private static Scene sceneRegister, sceneHome, sceneGame, sceneLogin , sceneMatch;
+    private static Scene sceneRegister, sceneHome, sceneGame, sceneLogin, sceneMatch;
     private URL url;
     private String css;
     public static RegisterController registerController;
@@ -35,6 +35,7 @@ public class TicTacToeClient extends Application {
     public static final ObjectMapper mapper = new ObjectMapper();
     private static TrayIcon trayIcon;
     private SystemTray tray;
+    public static String confirmationBtn1Txt, confirmationBtn2Txt;
 
     @Override
     public void init() throws Exception {
@@ -43,6 +44,8 @@ public class TicTacToeClient extends Application {
         initTray();
         serverListener.setDaemon(true);
         serverListener.start();
+        confirmationBtn1Txt = "Accept";
+        confirmationBtn2Txt = "Reject";
     }
 
     @Override
@@ -50,8 +53,8 @@ public class TicTacToeClient extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(TicTacToeClient.class.getResource("Login.fxml"));
         sceneLogin = new Scene(fxmlLoader.load());
         loginController = fxmlLoader.getController();
-         url = this.getClass().getResource("Style.css");
-         css = url.toExternalForm();
+        url = this.getClass().getResource("Style.css");
+        css = url.toExternalForm();
         sceneLogin.getStylesheets().add(css);
         File iconfile = new File("images/7.png");
         Image icon = new Image(iconfile.toURI().toString());
@@ -169,8 +172,8 @@ public class TicTacToeClient extends Application {
 
     public static boolean showConfirmation(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "",
-                new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE),
-                new ButtonType("Reject", ButtonBar.ButtonData.CANCEL_CLOSE));
+                new ButtonType(confirmationBtn1Txt, ButtonBar.ButtonData.OK_DONE),
+                new ButtonType(confirmationBtn2Txt, ButtonBar.ButtonData.CANCEL_CLOSE));
         alert.setTitle(title);
         alert.setHeaderText(message);
         alert.setContentText("");

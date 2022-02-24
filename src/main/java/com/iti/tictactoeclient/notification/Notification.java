@@ -12,10 +12,10 @@ public class Notification {
     public static final String NOTIFICATION_COMPETITOR_CONNECTION_ISSUE = "competitorConnectionIssueNotification"; // game
     public static final String NOTIFICATION_ASK_TO_PAUSE = "askToPauseNotification"; // game done
     public static final String NOTIFICATION_MESSAGE = "messageNotification"; // game j
-    public static final String NOTIFICATION_FINISH_GAME = "finishGameNotification"; // game
+    public static final String NOTIFICATION_FINISH_GAME = "finishGameNotification"; // game done
     public static final String NOTIFICATION_ASK_TO_RESUME = "askToResumeNotification"; // history n
     public static final String NOTIFICATION_RESUME_GAME = "resumeGameNotification"; // history n
-
+    public static final String NOTIFICATION_PAUSE_GAME = "pauseGameNotification"; // game done
 
 
     public Notification() {

@@ -3,34 +3,35 @@ package com.iti.tictactoeclient.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.iti.tictactoeclient.TicTacToeClient;
 import com.iti.tictactoeclient.helpers.ServerListener;
-import com.iti.tictactoeclient.models.PlayerFullInfo;
-import com.iti.tictactoeclient.requests.AskToResumeReq;
-import com.iti.tictactoeclient.requests.Request;
-import com.iti.tictactoeclient.responses.AskToPauseRes;
+import com.iti.tictactoeclient.models.Match;
+import com.iti.tictactoeclient.models.Position;
+import com.iti.tictactoeclient.notification.FinishGameNotification;
+import com.iti.tictactoeclient.requests.AskToPauseReq;
+import com.iti.tictactoeclient.requests.RejectToPauseReq;
+import com.iti.tictactoeclient.requests.SaveMatchReq;
 import javafx.animation.ScaleTransition;
-import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
-import javafx.scene.SnapshotParameters;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
 import javafx.util.Duration;
 
+import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.List;
 
 public class GameController implements Initializable {
-    @FXML
-    private Label Player1vsplayer2label;
+
+    private boolean sent, viewMode;
+    private Match match;
+    private List<Position> positions;
+
     @FXML
     private ImageView backgroundimg;
 
@@ -46,29 +47,8 @@ public class GameController implements Initializable {
     public Image img;
 
     @FXML
-    protected void onActionPause() {
-        try {
-            Request askToPauseReq = new Request(Request.ACTION_ASK_TO_PAUSE);
-            String jRequest = TicTacToeClient.mapper.writeValueAsString(askToPauseReq);
-            ServerListener.sendRequest(jRequest);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    @FXML
-    protected void onActionChatsender() {
-
-    }
-
-    @FXML
-    protected void onActionFinish() {
-        TicTacToeClient.openHomeView();
-    }
-
-    @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
     }
 
     public void showAnimation() {
@@ -85,6 +65,32 @@ public class GameController implements Initializable {
         scale.setAutoReverse(true);
         scale.play();
     }
+
+    @FXML
+    protected void onActionAskToPause() {
+        if (!sent && !viewMode) {
+            try {
+                AskToPauseReq askToPauseReq = new AskToPauseReq();
+                String jRequest = TicTacToeClient.mapper.writeValueAsString(askToPauseReq);
+                ServerListener.sendRequest(jRequest);
+                sent = true;
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    @FXML
+    protected void onActionChatsender() {
+
+    }
+
+    @FXML
+    protected void onActionFinish() {
+        TicTacToeClient.openHomeView();
+    }
+
 
     @FXML
     protected void button1() {
@@ -134,13 +140,95 @@ public class GameController implements Initializable {
 
     }
 
+    public void startMatch(Match match) {
+        sent = viewMode = false;
+        positions = new ArrayList<>();
+        this.match = match;
+    }
+
     @FXML
     protected void button9() {
         b9.setGraphic(new ImageView(img));
     }
 
-    public void showPauseNotification(PlayerFullInfo playerFullInfo) {
+    public void notifyAskToPause() {
+        String msg = "Your competitor would like to pause this game now.";
+        String title = "Ask To Pause";
+        TicTacToeClient.showSystemNotification(title, msg, TrayIcon.MessageType.INFO);
+        if (TicTacToeClient.showConfirmation(title, msg)) {
+            match.setStatus(Match.STATUS_PAUSED);
+            saveMatch();
+            backToHome();
+        } else {
+            RejectToPauseReq rejectToPauseReq = new RejectToPauseReq();
+            try {
+                String jRequest = TicTacToeClient.mapper.writeValueAsString(rejectToPauseReq);
+                ServerListener.sendRequest(jRequest);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
+    private void saveMatch() {
+        SaveMatchReq saveMatchReq = new SaveMatchReq(match, positions);
+        try {
+            String jRequest = TicTacToeClient.mapper.writeValueAsString(saveMatchReq);
+            ServerListener.sendRequest(jRequest);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void handleAskToPauseResponse() {
+        String title = "Rejected Pause Request";
+        String msg = "It seems your competitor can not pause the match";
+        TicTacToeClient.confirmationBtn1Txt = "Continue Game";
+        TicTacToeClient.confirmationBtn2Txt = "Finish Game";
+        if (!TicTacToeClient.showConfirmation(title, msg)) {
+            match.setStatus(Match.STATUS_FINISHED);
+            if (match.getPlayer1_id() == TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id()) {
+                match.setWinner(match.getPlayer2_id());
+            } else {
+                match.setWinner(match.getPlayer1_id());
+            }
+            saveMatch();
+            backToHome();
+        }
+        TicTacToeClient.confirmationBtn1Txt = "Accept";
+        TicTacToeClient.confirmationBtn2Txt = "Reject";
+    }
+
+    public void handlePauseGame() {
+        String title = "Game Paused";
+        String msg = "Your competitor accept to pause the game.";
+        TicTacToeClient.showSystemNotification(title, msg, TrayIcon.MessageType.INFO);
+        TicTacToeClient.showAlert(title, msg, Alert.AlertType.INFORMATION);
+        backToHome();
+    }
+
+    public void handleFinishGame(FinishGameNotification finishGameNotification) {
+        showMatchResult(finishGameNotification.getWinner());
+    }
+
+    private void showMatchResult(int winner) {
+        String title = "Match Result";
+        String msg;
+        if (winner == -1) {
+            msg = "Game Over.";
+        } else if (winner == TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id()) {
+            msg = "Victory";
+        } else {
+            msg = "You lost the match, good luck next time.";
+        }
+        TicTacToeClient.showSystemNotification(title, msg, TrayIcon.MessageType.INFO);
+        TicTacToeClient.showAlert(title, msg, Alert.AlertType.INFORMATION);
+        backToHome();
+    }
+
+    private void backToHome() {
+        match = null;
+        positions.clear();
+        TicTacToeClient.openHomeView();
+    }
 }
