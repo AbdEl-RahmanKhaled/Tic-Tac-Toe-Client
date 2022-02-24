@@ -235,13 +235,16 @@ public class GameController implements Initializable {
         return true;
     }
 
-    public void handleResponse(SendMessageRes sendMessageRes) {
+    public void handleResponse(MessageNotification messageNotification) {
         //sending notification of message
         TicTacToeClient.showSystemNotification("Message Notification",
-                sendMessageRes.getMsg().getFrom() + " sent you a message : " + sendMessageRes.getMsg().getMessage() ,
+                messageNotification.getMessage().getFrom()
+                        + " sent you a message : " +
+                        messageNotification.getMessage().getMessage() ,
                 TrayIcon.MessageType.INFO);
         //message appearing on chatarea
-        ChatArea.appendText(sendMessageRes.getMsg().getFrom() + " : " + sendMessageRes.getMsg().getMessage() + "\n");
+        ChatArea.appendText(messageNotification.getMessage().getFrom()
+                + " : " + messageNotification.getMessage().getMessage() + "\n");
 
     }
 

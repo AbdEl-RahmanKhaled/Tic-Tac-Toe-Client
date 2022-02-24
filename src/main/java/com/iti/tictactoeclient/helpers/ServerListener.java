@@ -79,7 +79,7 @@ public class ServerListener extends Thread {
         types.put(Notification.NOTIFICATION_GAME_INVITATION, this::gameInvitation);
         types.put(Notification.NOTIFICATION_START_GAME, this::startGame);
         types.put(Notification.NOTIFICATION_ASK_TO_PAUSE, this::askToPause);
-        types.put(Response.RESPONSE_SEND_MESSAGE, this::sendMessageRes);
+        types.put(Notification.NOTIFICATION_MESSAGE, this::sendMessageRes);
 
     }
 
@@ -156,8 +156,8 @@ public class ServerListener extends Thread {
     private void sendMessageRes(String json) {
         try {
             System.out.println("1");
-            SendMessageRes sendMessageRes = TicTacToeClient.mapper.readValue(json, SendMessageRes.class);
-            Platform.runLater(() ->TicTacToeClient.gameController.handleResponse(sendMessageRes));
+            MessageNotification messageNotification = TicTacToeClient.mapper.readValue(json, MessageNotification.class);
+            Platform.runLater(() ->TicTacToeClient.gameController.handleResponse(messageNotification));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
