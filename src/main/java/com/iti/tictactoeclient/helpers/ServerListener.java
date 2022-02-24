@@ -79,7 +79,8 @@ public class ServerListener extends Thread {
         types.put(Notification.NOTIFICATION_GAME_INVITATION, this::gameInvitation);
         types.put(Notification.NOTIFICATION_START_GAME, this::startGame);
         types.put(Notification.NOTIFICATION_ASK_TO_PAUSE, this::askToPause);
-        types.put(Notification.NOTIFICATION_MESSAGE, this::sendMessageRes);
+        types.put(Response.RESPONSE_SEND_MESSAGE, this::sendMessageRes);
+        //types.put(Notification.NOTIFICATION_MESSAGE, this::sendMessageRes);
     }
 
     private void startGame(String json) {
@@ -100,7 +101,7 @@ public class ServerListener extends Thread {
         }
         types.put(Notification.NOTIFICATION_ASK_TO_PAUSE, this::askToPause);
         types.put(Response.RESPONSE_GET_MATCH_HISTORY, this::getMatchHistory);
-        types.put(Response.RESPONSE_SIGN_UP, this::signUpRes);
+       // types.put(Response.RESPONSE_SIGN_UP, this::signUpRes);
 
     }
 
@@ -155,9 +156,8 @@ public class ServerListener extends Thread {
     private void sendMessageRes(String json) {
         try {
             System.out.println("1");
-            MessageNotification messageNotification = TicTacToeClient.mapper.readValue(json, MessageNotification.class);
-            //SendMessageRes sendMessageRes =
-            Platform.runLater(() ->TicTacToeClient.gameController.handleResponse(messageNotification));
+            SendMessageRes sendMessageRes = TicTacToeClient.mapper.readValue(json, SendMessageRes.class);
+            Platform.runLater(() ->TicTacToeClient.gameController.handleResponse(sendMessageRes));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

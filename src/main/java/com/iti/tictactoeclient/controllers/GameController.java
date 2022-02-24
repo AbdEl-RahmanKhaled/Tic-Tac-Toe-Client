@@ -18,6 +18,8 @@ import com.iti.tictactoeclient.responses.SendMessageRes;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -42,7 +44,7 @@ import static com.iti.tictactoeclient.TicTacToeClient.mapper;
 
 public class GameController implements Initializable {
     public static GameController gameController;
-    public Player competitor;
+    public Match match;
     @FXML
     private Label Player1vsplayer2label;
 
@@ -89,19 +91,19 @@ public class GameController implements Initializable {
 
     @FXML
     protected void onActionChatsender() {
+        System.out.println("70");
         if (IsValidateMessage()) {
             Message message = new Message();
             message.setMessage(TextField.getText().trim());
-            message.setFrom(competitor);
-            ChatArea.appendText(TextField.getText().trim());
-            ChatArea.appendText("\n");
+            message.setFrom(TicTacToeClient.homeController.getMyPlayerFullInfo().getName());
+            ChatArea.appendText(  TicTacToeClient.homeController.getMyPlayerFullInfo().getName() + " : " + TextField.getText().trim() + "\n");
             SendMessageReq sendMessageReq = new SendMessageReq();
             sendMessageReq.setMessage(message);
             try {
+                System.out.println("2");
                 String jRequest = mapper.writeValueAsString(sendMessageReq);
                 ServerListener.sendRequest(jRequest);
                 TextField.clear();
-                System.out.println("2");
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
@@ -110,13 +112,7 @@ public class GameController implements Initializable {
         }
     }
 
-    public void setCompetitor(Player competitor){
-        this.competitor = competitor;
-    }
 
-    public Player getCompetitor(){
-        return competitor;
-    }
 
     @FXML
     protected void onActionExite() {
@@ -206,10 +202,10 @@ public class GameController implements Initializable {
         return true;
     }
 
-    public void handleResponse(MessageNotification messageNotification) {
+    public void handleResponse(SendMessageRes sendMessageRes) {
         System.out.println("10");
-        ChatArea.appendText(messageNotification.getMessage().getMessage());
-        ChatArea.appendText("\n");
+        /*TextField.addEventHandler();{
+        }*/
+        ChatArea.appendText( sendMessageRes.getMsg().getFrom() + " : " + sendMessageRes.getMsg().getMessage() + "\n");
     }
 }
-
