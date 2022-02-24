@@ -80,7 +80,7 @@ public class ServerListener extends Thread {
         types.put(Notification.NOTIFICATION_START_GAME, this::startGame);
         types.put(Notification.NOTIFICATION_ASK_TO_PAUSE, this::askToPause);
         types.put(Response.RESPONSE_SEND_MESSAGE, this::sendMessageRes);
-        //types.put(Notification.NOTIFICATION_MESSAGE, this::sendMessageRes);
+
     }
 
     private void startGame(String json) {
@@ -101,7 +101,6 @@ public class ServerListener extends Thread {
         }
         types.put(Notification.NOTIFICATION_ASK_TO_PAUSE, this::askToPause);
         types.put(Response.RESPONSE_GET_MATCH_HISTORY, this::getMatchHistory);
-       // types.put(Response.RESPONSE_SIGN_UP, this::signUpRes);
 
     }
 
@@ -152,6 +151,7 @@ public class ServerListener extends Thread {
             e.printStackTrace();
         }
     }
+
 
     private void sendMessageRes(String json) {
         try {

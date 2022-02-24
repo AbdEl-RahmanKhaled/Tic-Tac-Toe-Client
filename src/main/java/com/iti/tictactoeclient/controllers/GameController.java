@@ -34,9 +34,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.util.Duration;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Map;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -45,6 +47,8 @@ import static com.iti.tictactoeclient.TicTacToeClient.mapper;
 public class GameController implements Initializable {
     public static GameController gameController;
     public Match match;
+    private Map<Integer, PlayerFullInfo> playersFullInfo;
+    Player player;
     @FXML
     private Label Player1vsplayer2label;
 
@@ -96,7 +100,7 @@ public class GameController implements Initializable {
             Message message = new Message();
             message.setMessage(TextField.getText().trim());
             message.setFrom(TicTacToeClient.homeController.getMyPlayerFullInfo().getName());
-            ChatArea.appendText(  TicTacToeClient.homeController.getMyPlayerFullInfo().getName() + " : " + TextField.getText().trim() + "\n");
+            ChatArea.appendText(TicTacToeClient.homeController.getMyPlayerFullInfo().getName() + " : " + TextField.getText().trim() + "\n");
             SendMessageReq sendMessageReq = new SendMessageReq();
             sendMessageReq.setMessage(message);
             try {
@@ -111,7 +115,6 @@ public class GameController implements Initializable {
             System.out.println("not a valid msg");
         }
     }
-
 
 
     @FXML
@@ -206,6 +209,12 @@ public class GameController implements Initializable {
         System.out.println("10");
         /*TextField.addEventHandler();{
         }*/
-        ChatArea.appendText( sendMessageRes.getMsg().getFrom() + " : " + sendMessageRes.getMsg().getMessage() + "\n");
+        TicTacToeClient.showSystemNotification("Message Notification",
+                sendMessageRes.getMsg().getFrom() + " sent you a message.",
+                TrayIcon.MessageType.INFO);
+        ChatArea.appendText(sendMessageRes.getMsg().getFrom() + " : " + sendMessageRes.getMsg().getMessage() + "\n");
+
     }
+
+
 }
