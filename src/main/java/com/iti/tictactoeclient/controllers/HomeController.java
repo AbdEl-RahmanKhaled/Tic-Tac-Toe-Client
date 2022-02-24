@@ -99,7 +99,10 @@ public class HomeController implements Initializable {
             TableRow<Invitation> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    showInvitationConfirmation();
+                    //if(tInvitation.getSelectionModel().getSelectedItem().getType()== Invitation.GAME_INVITATION)
+                        showInvitationConfirmation();
+                   // else
+                       // sh
                 }
             });
             return row;
