@@ -181,7 +181,7 @@ public class ServerListener extends Thread {
         try {
             System.out.println("1");
             MessageNotification messageNotification = TicTacToeClient.mapper.readValue(json, MessageNotification.class);
-            Platform.runLater(() ->TicTacToeClient.gameController.handleResponse(messageNotification));
+            Platform.runLater(() ->TicTacToeClient.gameController.handleMessageNotification(messageNotification));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

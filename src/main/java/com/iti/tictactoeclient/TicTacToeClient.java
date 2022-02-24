@@ -1,8 +1,10 @@
 package com.iti.tictactoeclient;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iti.tictactoeclient.controllers.*;
 import com.iti.tictactoeclient.helpers.ServerListener;
+import com.iti.tictactoeclient.requests.UpdateInGameStatusReq;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -168,6 +170,16 @@ public class TicTacToeClient extends Application {
         alert.setHeaderText(message);
         alert.setContentText("");
         alert.showAndWait();
+    }
+
+    public static void sendUpdateInGameStatus(boolean isInGame) {
+        UpdateInGameStatusReq updateInGameStatusReq = new UpdateInGameStatusReq(isInGame);
+        try {
+            String jRequest = TicTacToeClient.mapper.writeValueAsString(updateInGameStatusReq);
+            ServerListener.sendRequest(jRequest);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     public static boolean showConfirmation(String title, String message, String btn1, String btn2) {
