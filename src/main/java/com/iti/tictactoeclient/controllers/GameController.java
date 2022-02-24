@@ -18,7 +18,7 @@ import com.iti.tictactoeclient.responses.SendMessageRes;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,10 +34,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.util.Duration;
 
+import javax.swing.event.DocumentEvent;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.EventListener;
 import java.util.Map;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -73,12 +77,34 @@ public class GameController implements Initializable {
     private TextField TextField;
 
     @FXML
+    private TextField jimmy;
+
+    @FXML
     private Button b1, b2, b3, b4, b5, b6, b7, b8, b9;
 
     @FXML
     public int flag1 = 0, flag2 = 0, flag3 = 0, flag4 = 0, flag5 = 0, flag6 = 0, flag7 = 0, flag8 = 0, flag9 = 0;
     @FXML
     public Image img;
+    @FXML
+    public void keyPressed(){
+
+    }
+   /* public class Handler implements ActionListener{
+        @Override
+        public Handler(){
+            TextField.adda
+        }
+        public void actionPerformed(ActionEvent e) {
+            String s;
+            if (e.getSource()==TextField){
+                s = String.format("user is typing , %s" , e.getActionCommand() );
+            }
+        }
+    }*/
+
+
+
 
     @FXML
     protected void onActionPause() {
@@ -95,11 +121,12 @@ public class GameController implements Initializable {
 
     @FXML
     protected void onActionChatsender() {
-        System.out.println("70");
         if (IsValidateMessage()) {
             Message message = new Message();
+            //setting message and message sender
             message.setMessage(TextField.getText().trim());
             message.setFrom(TicTacToeClient.homeController.getMyPlayerFullInfo().getName());
+            //message appearing on chatarea
             ChatArea.appendText(TicTacToeClient.homeController.getMyPlayerFullInfo().getName() + " : " + TextField.getText().trim() + "\n");
             SendMessageReq sendMessageReq = new SendMessageReq();
             sendMessageReq.setMessage(message);
@@ -115,6 +142,8 @@ public class GameController implements Initializable {
             System.out.println("not a valid msg");
         }
     }
+
+
 
 
     @FXML
@@ -199,6 +228,7 @@ public class GameController implements Initializable {
     }
 
     private boolean IsValidateMessage() {
+        //to validate if text in fieldtext is empty
         if (TextField.getText().trim().equals("")) {
             return false;
         }
@@ -206,12 +236,11 @@ public class GameController implements Initializable {
     }
 
     public void handleResponse(SendMessageRes sendMessageRes) {
-        System.out.println("10");
-        /*TextField.addEventHandler();{
-        }*/
+        //sending notification of message
         TicTacToeClient.showSystemNotification("Message Notification",
-                sendMessageRes.getMsg().getFrom() + " sent you a message.",
+                sendMessageRes.getMsg().getFrom() + " sent you a message : " + sendMessageRes.getMsg().getMessage() ,
                 TrayIcon.MessageType.INFO);
+        //message appearing on chatarea
         ChatArea.appendText(sendMessageRes.getMsg().getFrom() + " : " + sendMessageRes.getMsg().getMessage() + "\n");
 
     }
