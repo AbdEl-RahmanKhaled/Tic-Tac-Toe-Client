@@ -90,7 +90,7 @@ public class GameController implements Initializable {
         scale.play();
     }
     String btn1 ,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9;
-    boolean playerTurn  = false;
+   public static boolean playerTurn  = false;
 //      int counter = 0 ;
     @FXML
     protected void button1() {
@@ -109,49 +109,69 @@ public class GameController implements Initializable {
     @FXML
     protected void button2() {
         b2.setGraphic(new ImageView(img));
-        if(b2.getText().equals("")) {
+        if(b2.getText().equals("") && playerTurn == false) {
             b2.setText("X");
+            playerTurn = true;
             btn2 = b2.getText();
             System.out.println(btn2);
+        }else{
+            b2.setText("O");
+            playerTurn = false;
         }
     }
 
     @FXML
     protected void button3() {
-        if(b3.getText().equals("")) {
+        if(b3.getText().equals("") && playerTurn == false) {
             b3.setGraphic(new ImageView(img));
             b3.setText("X");
+            playerTurn = true;
             btn3 = b3.getText();
             System.out.println(btn3);
+        }else{
+            b3.setText("O");
+            playerTurn = false;
         }
     }
 
     @FXML
     protected void button4() {
         b4.setGraphic(new ImageView(img));
-        if(b4.getText().equals("")) {
+        if(b4.getText().equals("") && playerTurn == false) {
             b4.setText("X");
+            playerTurn = true;
             btn4 = b4.getText();
             System.out.println(btn4);
+        }else{
+            b4.setText("O");
+            playerTurn = false;
         }
     }
 
     @FXML
     protected void button5() {
-        if(b5.getText().equals("")) {
+        if(b5.getText().equals("") && playerTurn == false) {
             b5.setGraphic(new ImageView(img));
             b5.setText("X");
+            playerTurn = true;
             btn5 = b5.getText();
             System.out.println(btn5);
+        }else{
+            b5.setText("O");
+            playerTurn = false;
         }
     }
     @FXML
     protected void button6() {
         b6.setGraphic(new ImageView(img));
-        if(b6.getText().equals("")) {
+        if(b6.getText().equals("") && playerTurn == false) {
             b6.setText("X");
+            playerTurn = true;
             btn6 = b6.getText();
             System.out.println(btn6);
+        }else{
+            b6.setText("O");
+            playerTurn = false;
         }
     }
 
@@ -159,30 +179,42 @@ public class GameController implements Initializable {
     @FXML
     protected void button7() {
         b7.setGraphic(new ImageView(img));
-        if(b7.getText().equals("")) {
+        if(b7.getText().equals("") && playerTurn == false) {
             b7.setText("X");
+            playerTurn = true;
             btn7 = b7.getText();
             System.out.println(btn7);
+        }else{
+            b7.setText("O");
+            playerTurn = false;
         }
     }
 
     @FXML
     protected void button8() {
         b8.setGraphic(new ImageView(img));
-        if(b8.getText().equals("")) {
+        if(b8.getText().equals("") && playerTurn == false) {
             b8.setText("X");
+            playerTurn = true;
             btn8 = b8.getText();
             System.out.println(btn8);
+        }else{
+            b8.setText("O");
+            playerTurn = false;
         }
     }
 
     @FXML
     protected void button9() {
         b9.setGraphic(new ImageView(img));
-        if(b9.getText().equals("")) {
+        if(b9.getText().equals("") && playerTurn == false) {
             b9.setText("X");
+            playerTurn = true;
             btn9 = b9.getText();
             System.out.println(btn9);
+        }else{
+            b9.setText("O");
+            playerTurn = false;
         }
     }
 
