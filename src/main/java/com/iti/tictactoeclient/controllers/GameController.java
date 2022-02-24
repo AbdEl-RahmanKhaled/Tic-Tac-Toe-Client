@@ -100,7 +100,7 @@ public class GameController implements Initializable {
         playerTurn = true;
         btn1 = b1.getText();
         System.out.println(btn1);
-        }else{
+        }else if(!b1.getText().equals("X")){
             b1.setText("O");
             playerTurn = false;
         }
@@ -114,7 +114,7 @@ public class GameController implements Initializable {
             playerTurn = true;
             btn2 = b2.getText();
             System.out.println(btn2);
-        }else{
+        }else if(!b2.getText().equals("X")){
             b2.setText("O");
             playerTurn = false;
         }
@@ -128,7 +128,7 @@ public class GameController implements Initializable {
             playerTurn = true;
             btn3 = b3.getText();
             System.out.println(btn3);
-        }else{
+        }else if(!b3.getText().equals("X")){
             b3.setText("O");
             playerTurn = false;
         }
@@ -142,7 +142,7 @@ public class GameController implements Initializable {
             playerTurn = true;
             btn4 = b4.getText();
             System.out.println(btn4);
-        }else{
+        }else if(!b4.getText().equals("X")){
             b4.setText("O");
             playerTurn = false;
         }
@@ -156,7 +156,7 @@ public class GameController implements Initializable {
             playerTurn = true;
             btn5 = b5.getText();
             System.out.println(btn5);
-        }else{
+        }else if(!b5.getText().equals("X")){
             b5.setText("O");
             playerTurn = false;
         }
@@ -169,7 +169,7 @@ public class GameController implements Initializable {
             playerTurn = true;
             btn6 = b6.getText();
             System.out.println(btn6);
-        }else{
+        }else if(!b6.getText().equals("X")){
             b6.setText("O");
             playerTurn = false;
         }
@@ -184,7 +184,7 @@ public class GameController implements Initializable {
             playerTurn = true;
             btn7 = b7.getText();
             System.out.println(btn7);
-        }else{
+        }else if(!b7.getText().equals("X")){
             b7.setText("O");
             playerTurn = false;
         }
@@ -198,7 +198,7 @@ public class GameController implements Initializable {
             playerTurn = true;
             btn8 = b8.getText();
             System.out.println(btn8);
-        }else{
+        }else if(!b8.getText().equals("X")){
             b8.setText("O");
             playerTurn = false;
         }
@@ -207,12 +207,12 @@ public class GameController implements Initializable {
     @FXML
     protected void button9() {
         b9.setGraphic(new ImageView(img));
-        if(b9.getText().equals("") && playerTurn == false) {
+        if(b9.getText().equals("") && playerTurn == false ) {
             b9.setText("X");
             playerTurn = true;
             btn9 = b9.getText();
             System.out.println(btn9);
-        }else{
+        }else if(!b9.getText().equals("X")){
             b9.setText("O");
             playerTurn = false;
         }
