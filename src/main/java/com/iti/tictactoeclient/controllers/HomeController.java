@@ -157,6 +157,7 @@ public class HomeController implements Initializable {
                 // create the json
                 String jRequest = TicTacToeClient.mapper.writeValueAsString(acceptInvitationReq);
                 ServerListener.sendRequest(jRequest);
+                //TicTacToeClient.gameController.setCompetitor(invitation.getPlayer());
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }

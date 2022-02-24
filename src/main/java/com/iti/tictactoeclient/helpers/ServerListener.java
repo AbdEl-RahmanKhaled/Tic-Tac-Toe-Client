@@ -5,10 +5,7 @@ import com.iti.tictactoeclient.TicTacToeClient;
 import com.iti.tictactoeclient.models.Player;
 import com.iti.tictactoeclient.notification.*;
 import com.iti.tictactoeclient.requests.BackFromOfflineReq;
-import com.iti.tictactoeclient.responses.GetMatchHistoryRes;
-import com.iti.tictactoeclient.responses.InviteToGameRes;
-import com.iti.tictactoeclient.responses.LoginRes;
-import com.iti.tictactoeclient.responses.Response;
+import com.iti.tictactoeclient.responses.*;
 import javafx.application.Platform;
 import org.json.JSONObject;
 
@@ -83,6 +80,8 @@ public class ServerListener extends Thread {
         types.put(Notification.NOTIFICATION_GAME_INVITATION, this::gameInvitation);
         types.put(Notification.NOTIFICATION_START_GAME, this::startGame);
         types.put(Notification.NOTIFICATION_ASK_TO_PAUSE, this::askToPauseNotification);
+        types.put(Notification.NOTIFICATION_MESSAGE, this::sendMessageRes);
+
         types.put(Notification.NOTIFICATION_FINISH_GAME, this::finishGameNotification);
         types.put(Notification.NOTIFICATION_PAUSE_GAME, this::pauseGameNotification);
         types.put(Notification.NOTIFICATION_COMPETITOR_CONNECTION_ISSUE, this::competitorConnectionIssueNotification);
@@ -177,6 +176,15 @@ public class ServerListener extends Thread {
 
     private void askToPauseNotification(String json) {
         Platform.runLater(() -> TicTacToeClient.gameController.notifyAskToPause());
+    }
+    private void sendMessageRes(String json) {
+        try {
+            System.out.println("1");
+            MessageNotification messageNotification = TicTacToeClient.mapper.readValue(json, MessageNotification.class);
+            Platform.runLater(() ->TicTacToeClient.gameController.handleResponse(messageNotification));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     private void getMatchHistory(String json) {

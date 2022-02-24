@@ -3,6 +3,7 @@ package com.iti.tictactoeclient.responses;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SignUpRes extends Response {
+
     public SignUpRes() {
         this.type = RESPONSE_SIGN_UP;
     }
