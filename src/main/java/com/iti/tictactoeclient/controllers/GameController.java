@@ -9,6 +9,7 @@ import com.iti.tictactoeclient.notification.FinishGameNotification;
 import com.iti.tictactoeclient.requests.AskToPauseReq;
 import com.iti.tictactoeclient.requests.RejectToPauseReq;
 import com.iti.tictactoeclient.requests.SaveMatchReq;
+import com.iti.tictactoeclient.requests.UpdateInGameStatusReq;
 import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -209,6 +210,33 @@ public class GameController implements Initializable {
         TicTacToeClient.showSystemNotification(title, msg, TrayIcon.MessageType.INFO);
         TicTacToeClient.showAlert(title, msg, Alert.AlertType.INFORMATION);
         backToHome();
+    }
+
+    public void competitorConnectionIssue() {
+        String title = "Competitor Connection Issue";
+        String msg = "It seems your competitor disconnected from the server.";
+        TicTacToeClient.showSystemNotification(title, msg, TrayIcon.MessageType.WARNING);
+        TicTacToeClient.confirmationBtn1Txt = "Save Game";
+        TicTacToeClient.confirmationBtn2Txt = "End Game";
+        if (TicTacToeClient.showConfirmation(title, msg)) {
+            match.setStatus(Match.STATUS_PAUSED);
+            saveMatch();
+        } else {
+            sendUpdateInGameStatus(false);
+        }
+        TicTacToeClient.confirmationBtn1Txt = "Accept";
+        TicTacToeClient.confirmationBtn2Txt = "Reject";
+        backToHome();
+    }
+
+    public void sendUpdateInGameStatus(boolean isInGame) {
+        UpdateInGameStatusReq updateInGameStatusReq = new UpdateInGameStatusReq(isInGame);
+        try {
+            String jRequest = TicTacToeClient.mapper.writeValueAsString(updateInGameStatusReq);
+            ServerListener.sendRequest(jRequest);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     public void handleFinishGame(FinishGameNotification finishGameNotification) {

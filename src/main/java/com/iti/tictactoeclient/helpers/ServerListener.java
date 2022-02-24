@@ -85,6 +85,11 @@ public class ServerListener extends Thread {
         types.put(Notification.NOTIFICATION_ASK_TO_PAUSE, this::askToPauseNotification);
         types.put(Notification.NOTIFICATION_FINISH_GAME, this::finishGameNotification);
         types.put(Notification.NOTIFICATION_PAUSE_GAME, this::pauseGameNotification);
+        types.put(Notification.NOTIFICATION_COMPETITOR_CONNECTION_ISSUE, this::competitorConnectionIssueNotification);
+    }
+
+    private void competitorConnectionIssueNotification(String json) {
+        Platform.runLater(() -> TicTacToeClient.gameController.competitorConnectionIssue());
     }
 
     private void askToPauseResponse(String json) {
