@@ -90,7 +90,7 @@ public class GameController implements Initializable {
         scale.play();
     }
     String btn1 ,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9;
-    static  int counter = 0 ;
+      int counter = 0 ;
     @FXML
     protected void button1() {
         b1.setGraphic(new ImageView(img));
@@ -139,12 +139,7 @@ public class GameController implements Initializable {
     @FXML
     protected void button6() {
         b6.setGraphic(new ImageView(img));
-        //if(player)
-//        public static void placePiece(char[][] gameBoard,int pos, String user){
-//            char symbol = ' ';
-//            if(user.equals("player")){symbol = 'X'}
-//            else if (user.equals("computer")){symbol = 'O'}
-//        }
+
         b6.setText("x");
         btn6 = b6.getText();
         System.out.println(btn6);
@@ -186,6 +181,45 @@ public class GameController implements Initializable {
 
 
 
+    public String checkWinner() {
+        for (int a = 0; a < 8; a++) {
+            String line = null;
+            switch (a) {
+                case 0:
+                    line = b1.getText() +b2.getText() + b3.getText();
+                    break;
+                case 1:
+                    line = b4.getText() + b5.getText() + b6.getText();
+                    break;
+                case 2:
+                    line = b7.getText() + b8.getText() + b9.getText();
+                    break;
+                case 3:
+                    line = b1.getText() + b4.getText() + b7.getText();
+                    break;
+                case 4:
+                    line = b2.getText() + b5.getText() + b8.getText();
+                    break;
+                case 5:
+                    line = b3.getText() +b6.getText() + b9.getText();
+                    break;
+                case 6:
+                    line = b1.getText() + b5.getText() + b9.getText();
+                    break;
+                case 7:
+                    line = b3.getText() + b5.getText() + b7.getText();
+                    break;
+            }
+            if (line.equals("XXX")) {
+                return "X";
+            } else if (line.equals("OOO")) {
+                return "O";
+            }
+        }
+
+        final var done = "done";
+        return done;
+}
 
 
 }
