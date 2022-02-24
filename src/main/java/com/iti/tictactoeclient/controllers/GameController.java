@@ -91,10 +91,17 @@ public class GameController implements Initializable {
     }
     String btn1 ,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9;
    public static boolean playerTurn  = false;
-//      int counter = 0 ;
+    public static boolean computerWon  = false;
+    public static boolean playerWon  = false;
+    public static boolean playerAgain  = false;
+
+
+
+    //      int counter = 0 ;
     @FXML
     protected void button1() {
         b1.setGraphic(new ImageView(img) );
+
         if(b1.getText().equals("") && playerTurn == false){
         b1.setText("X");
         playerTurn = true;
@@ -104,11 +111,13 @@ public class GameController implements Initializable {
             b1.setText("O");
             playerTurn = false;
         }
+        checkButton();
     }
 
     @FXML
     protected void button2() {
         b2.setGraphic(new ImageView(img));
+
         if(b2.getText().equals("") && playerTurn == false) {
             b2.setText("X");
             playerTurn = true;
@@ -118,12 +127,15 @@ public class GameController implements Initializable {
             b2.setText("O");
             playerTurn = false;
         }
+        checkButton();
     }
 
     @FXML
     protected void button3() {
+        b3.setGraphic(new ImageView(img));
+
         if(b3.getText().equals("") && playerTurn == false) {
-            b3.setGraphic(new ImageView(img));
+
             b3.setText("X");
             playerTurn = true;
             btn3 = b3.getText();
@@ -132,11 +144,13 @@ public class GameController implements Initializable {
             b3.setText("O");
             playerTurn = false;
         }
+        checkButton();
     }
 
     @FXML
     protected void button4() {
         b4.setGraphic(new ImageView(img));
+
         if(b4.getText().equals("") && playerTurn == false) {
             b4.setText("X");
             playerTurn = true;
@@ -146,12 +160,15 @@ public class GameController implements Initializable {
             b4.setText("O");
             playerTurn = false;
         }
+        checkButton();
     }
 
     @FXML
     protected void button5() {
+        b5.setGraphic(new ImageView(img));
+
         if(b5.getText().equals("") && playerTurn == false) {
-            b5.setGraphic(new ImageView(img));
+
             b5.setText("X");
             playerTurn = true;
             btn5 = b5.getText();
@@ -160,10 +177,12 @@ public class GameController implements Initializable {
             b5.setText("O");
             playerTurn = false;
         }
+        checkButton();
     }
     @FXML
     protected void button6() {
         b6.setGraphic(new ImageView(img));
+
         if(b6.getText().equals("") && playerTurn == false) {
             b6.setText("X");
             playerTurn = true;
@@ -173,12 +192,14 @@ public class GameController implements Initializable {
             b6.setText("O");
             playerTurn = false;
         }
+        checkButton();
     }
 
 
     @FXML
-    protected void button7() {
+    protected void button7(){
         b7.setGraphic(new ImageView(img));
+
         if(b7.getText().equals("") && playerTurn == false) {
             b7.setText("X");
             playerTurn = true;
@@ -188,6 +209,7 @@ public class GameController implements Initializable {
             b7.setText("O");
             playerTurn = false;
         }
+        checkButton();
     }
 
     @FXML
@@ -202,6 +224,8 @@ public class GameController implements Initializable {
             b8.setText("O");
             playerTurn = false;
         }
+        checkButton();
+
     }
 
     @FXML
@@ -216,6 +240,7 @@ public class GameController implements Initializable {
             b9.setText("O");
             playerTurn = false;
         }
+        checkButton();
     }
 
     public void showPauseNotification(PlayerFullInfo playerFullInfo) {
@@ -265,5 +290,35 @@ public class GameController implements Initializable {
         return done;
 }
 
-
+public void playNewGame(){
+        if(computerWon == true || playerWon == true){
+            System.out.println("do you want to play again");
+            if(playerAgain == true) {
+                b1.setText("");
+                b2.setText("");
+                b3.setText("");
+                b4.setText("");
+                b5.setText("");
+                b6.setText("");
+                b7.setText("");
+                b8.setText("");
+                b9.setText("");
+            }
+        }
+    }
+    protected void checkButton(){
+        if(checkWinner() == "X"){
+            computerWon =true;
+            playerWon =true;
+            playerAgain = true;
+            playNewGame();
+            System.out.println("X is winner");
+        }else if (checkWinner() == "O"){
+            computerWon =true;
+            playerWon =true;
+            playerAgain = true;
+            playNewGame();
+            System.out.println("O is winner");
+        }
+    }
 }
