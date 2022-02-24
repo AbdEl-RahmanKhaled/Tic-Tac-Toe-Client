@@ -11,6 +11,7 @@ import com.iti.tictactoeclient.requests.RejectToPauseReq;
 import com.iti.tictactoeclient.requests.SaveMatchReq;
 import com.iti.tictactoeclient.requests.UpdateInGameStatusReq;
 import javafx.animation.ScaleTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -51,6 +52,9 @@ public class GameController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
+
+
+
 
     public void showAnimation() {
         File backFile = new File("images/7.png");
@@ -142,9 +146,13 @@ public class GameController implements Initializable {
     }
 
     public void startMatch(Match match) {
+        this.match = match;
+        init();
+    }
+
+    private void init(){
         sent = viewMode = false;
         positions = new ArrayList<>();
-        this.match = match;
     }
 
     @FXML
@@ -156,7 +164,7 @@ public class GameController implements Initializable {
         String msg = "Your competitor would like to pause this game now.";
         String title = "Ask To Pause";
         TicTacToeClient.showSystemNotification(title, msg, TrayIcon.MessageType.INFO);
-        if (TicTacToeClient.showConfirmation(title, msg)) {
+        if (TicTacToeClient.showConfirmation(title, msg, "Accept", "Reject")) {
             match.setStatus(Match.STATUS_PAUSED);
             saveMatch();
             backToHome();
@@ -184,13 +192,9 @@ public class GameController implements Initializable {
     public void handleAskToPauseResponse() {
         String title = "Rejected Pause Request";
         String msg = "It seems your competitor can not pause the match";
-        TicTacToeClient.confirmationBtn1Txt = "Continue Game";
-        TicTacToeClient.confirmationBtn2Txt = "Finish Game";
-        if (!TicTacToeClient.showConfirmation(title, msg)) {
+        if (!TicTacToeClient.showConfirmation(title, msg, "Continue Game", "Finish Game")) {
             finishMatch();
         }
-        TicTacToeClient.confirmationBtn1Txt = "Accept";
-        TicTacToeClient.confirmationBtn2Txt = "Reject";
     }
 
     private void finishMatch() {
@@ -216,16 +220,12 @@ public class GameController implements Initializable {
         String title = "Competitor Connection Issue";
         String msg = "It seems your competitor disconnected from the server.";
         TicTacToeClient.showSystemNotification(title, msg, TrayIcon.MessageType.WARNING);
-        TicTacToeClient.confirmationBtn1Txt = "Save Game";
-        TicTacToeClient.confirmationBtn2Txt = "End Game";
-        if (TicTacToeClient.showConfirmation(title, msg)) {
+        if (TicTacToeClient.showConfirmation(title, msg, "Save Game", "End Game")) {
             match.setStatus(Match.STATUS_PAUSED);
             saveMatch();
         } else {
             sendUpdateInGameStatus(false);
         }
-        TicTacToeClient.confirmationBtn1Txt = "Accept";
-        TicTacToeClient.confirmationBtn2Txt = "Reject";
         backToHome();
     }
 

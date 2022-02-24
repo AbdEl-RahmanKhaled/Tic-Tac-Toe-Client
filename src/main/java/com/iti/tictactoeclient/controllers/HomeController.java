@@ -150,7 +150,7 @@ public class HomeController implements Initializable {
     }
 
     private void confirmGameInvitation(Invitation invitation) {
-        if (TicTacToeClient.showConfirmation(invitation.getType(), invitation.getName() + " invite you to a game.")) {
+        if (TicTacToeClient.showConfirmation(invitation.getType(), invitation.getName() + " invite you to a game.", "Accept", "Reject")) {
             // accept the invitation
             AcceptInvitationReq acceptInvitationReq = new AcceptInvitationReq(new Player(playersFullInfo.get(invitation.getPlayer().getDb_id())));
             try {
@@ -227,6 +227,7 @@ public class HomeController implements Initializable {
         TicTacToeClient.gameController.startMatch(match);
         TicTacToeClient.openGameView();
     }
+
 
     public void onMatchButton() {
         try {

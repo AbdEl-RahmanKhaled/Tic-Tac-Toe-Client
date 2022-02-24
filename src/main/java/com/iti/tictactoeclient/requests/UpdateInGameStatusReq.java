@@ -7,11 +7,13 @@ public class UpdateInGameStatusReq extends Request {
     private boolean inGame;
 
     public UpdateInGameStatusReq() {
+
         super(ACTION_UPDATE_IN_GAME_STATUS);
     }
 
     public UpdateInGameStatusReq(boolean inGame) {
         this.inGame = inGame;
+        this.action = ACTION_UPDATE_IN_GAME_STATUS;
     }
 
     public UpdateInGameStatusReq(@JsonProperty("action") String action,

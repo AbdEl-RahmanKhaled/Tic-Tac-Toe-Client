@@ -170,10 +170,10 @@ public class TicTacToeClient extends Application {
         alert.showAndWait();
     }
 
-    public static boolean showConfirmation(String title, String message) {
+    public static boolean showConfirmation(String title, String message, String btn1, String btn2) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "",
-                new ButtonType(confirmationBtn1Txt, ButtonBar.ButtonData.OK_DONE),
-                new ButtonType(confirmationBtn2Txt, ButtonBar.ButtonData.CANCEL_CLOSE));
+                new ButtonType(btn1, ButtonBar.ButtonData.OK_DONE),
+                new ButtonType(btn2, ButtonBar.ButtonData.CANCEL_CLOSE));
         alert.setTitle(title);
         alert.setHeaderText(message);
         alert.setContentText("");
