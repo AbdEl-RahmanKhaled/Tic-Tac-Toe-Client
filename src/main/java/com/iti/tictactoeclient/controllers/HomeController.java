@@ -7,7 +7,6 @@ import com.iti.tictactoeclient.models.Invitation;
 import com.iti.tictactoeclient.models.Match;
 import com.iti.tictactoeclient.models.Player;
 import com.iti.tictactoeclient.models.PlayerFullInfo;
-import com.iti.tictactoeclient.notification.AskToResumeNotification;
 import com.iti.tictactoeclient.requests.AcceptInvitationReq;
 import com.iti.tictactoeclient.requests.GetMatchHistoryReq;
 import com.iti.tictactoeclient.requests.InviteToGameReq;
@@ -39,14 +38,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
-
-    public Map<Integer, PlayerFullInfo> getPlayersFullInfo() {
-        return playersFullInfo;
-    }
-
-    public void setPlayersFullInfo(Map<Integer, PlayerFullInfo> playersFullInfo) {
-        this.playersFullInfo = playersFullInfo;
-    }
 
     private Map<Integer, PlayerFullInfo> playersFullInfo;
     private PlayerFullInfo myPlayerFullInfo;
@@ -99,25 +90,11 @@ public class HomeController implements Initializable {
             TableRow<Invitation> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    //if(tInvitation.getSelectionModel().getSelectedItem().getType()== Invitation.GAME_INVITATION)
-                        showInvitationConfirmation();
-                   // else
-                       // sh
+                    showInvitationConfirmation();
                 }
             });
             return row;
         });
-
-    }
-
-    public void addResumeReq(AskToResumeNotification askToResumeNotification){
-        Invitation invitation=new Invitation(askToResumeNotification.getPlayer(), Invitation.RESUME_INVITATION);
-        invitation.setName(playersFullInfo.get(askToResumeNotification.getPlayer().getDb_id()).getName());
-        invitations.put(askToResumeNotification.getPlayer().getDb_id(), invitation);
-        fillInvitationsTable();
-        TicTacToeClient.showSystemNotification("Game Invitation",
-                playersFullInfo.get(askToResumeNotification.getPlayer().getDb_id()).getName() + " sent you game invitation.",
-                MessageType.INFO);
     }
 
     // to show animation when view loaded
@@ -131,7 +108,7 @@ public class HomeController implements Initializable {
         computer.setImage(cumputerim);
 
         File user = new File("images/player.png");
-        Image userim= new Image(user.toURI().toString());
+        Image userim = new Image(user.toURI().toString());
         userimg.setImage(userim);
         FadeTransition fade = new FadeTransition();
         fade.setNode(imgLogo);
@@ -173,19 +150,20 @@ public class HomeController implements Initializable {
     }
 
     private void confirmGameInvitation(Invitation invitation) {
-        if (TicTacToeClient.showConfirmation(invitation.getType(), invitation.getName() + " invite you to a game.","Accept","Decline")) {
+        if (TicTacToeClient.showConfirmation(invitation.getType(), invitation.getName() + " invite you to a game.", "Accept", "Reject")) {
             // accept the invitation
-            AcceptInvitationReq acceptInvitationReq = new AcceptInvitationReq(invitation.getPlayer());
+            AcceptInvitationReq acceptInvitationReq = new AcceptInvitationReq(new Player(playersFullInfo.get(invitation.getPlayer().getDb_id())));
             try {
                 // create the json
                 String jRequest = TicTacToeClient.mapper.writeValueAsString(acceptInvitationReq);
                 ServerListener.sendRequest(jRequest);
+                //TicTacToeClient.gameController.setCompetitor(invitation.getPlayer());
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
         } else {
             // Reject the invitation
-            RejectInvitationReq rejectInvitationReq = new RejectInvitationReq(invitation.getPlayer());
+            RejectInvitationReq rejectInvitationReq = new RejectInvitationReq(new Player(playersFullInfo.get(invitation.getPlayer().getDb_id())));
             try {
                 String jRequest = TicTacToeClient.mapper.writeValueAsString(rejectInvitationReq);
                 ServerListener.sendRequest(jRequest);
@@ -205,10 +183,10 @@ public class HomeController implements Initializable {
         // if one selected from table
         if (playerFullInfo == null) {
             TicTacToeClient.showAlert("Error", "You have to select a player first", Alert.AlertType.ERROR);
-        // if selected player is in game
+            // if selected player is in game
         } else if (playerFullInfo.isInGame()) {
             TicTacToeClient.showAlert("Error", "You have to select a player which is not in game", Alert.AlertType.ERROR);
-        // if selected player is offline
+            // if selected player is offline
         } else if (playerFullInfo.getStatus().equals(PlayerFullInfo.OFFLINE)) {
             TicTacToeClient.showAlert("Error", "You have to select an online player", Alert.AlertType.ERROR);
         } else {
@@ -220,16 +198,8 @@ public class HomeController implements Initializable {
 
     @FXML
     public void ComputerButton() {
-        TicTacToeClient.showAlert("sdv", "dvsdvd", Alert.AlertType.ERROR);
-        System.out.println(TicTacToeClient.showConfirmation("tessst", "message", "Accept","Decline"));
+        TicTacToeClient.openGameView();
     }
-
-    @FXML
-    public void LogoutButton() {
-//    TicTacToeClient.openLoginView();
-        TicTacToeClient.showSystemNotification("Tic Tac Toe", "test notification", MessageType.INFO);
-    }
-
 
     public void notifyGameInvitation(Player player) {
         // check if received this notification before
@@ -255,8 +225,10 @@ public class HomeController implements Initializable {
 
     public void startGame(Match match) {
         sent.clear();
+        TicTacToeClient.gameController.startMatch(match);
         TicTacToeClient.openGameView();
     }
+
 
     public void onMatchButton() {
         try {
@@ -275,6 +247,7 @@ public class HomeController implements Initializable {
         this.playersFullInfo = playersFullInfo;
         playersFullInfo.remove(myPlayerFullInfo.getDb_id());
         fillView();
+        sent.clear();
     }
 
     private void fillView() {
@@ -309,12 +282,5 @@ public class HomeController implements Initializable {
 
     public PlayerFullInfo getPlayerFullInfo(int id) {
         return playersFullInfo.get(id);
-    }
-    public Map<Integer, Player> getSent() {
-        return sent;
-    }
-
-    public void setSent(Map<Integer, Player> sent) {
-        this.sent = sent;
     }
 }

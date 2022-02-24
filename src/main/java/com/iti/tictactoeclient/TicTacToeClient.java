@@ -1,8 +1,10 @@
 package com.iti.tictactoeclient;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iti.tictactoeclient.controllers.*;
 import com.iti.tictactoeclient.helpers.ServerListener;
+import com.iti.tictactoeclient.requests.UpdateInGameStatusReq;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -23,7 +25,7 @@ import java.net.URL;
 
 public class TicTacToeClient extends Application {
     private static Stage mainStage;
-    private static Scene sceneRegister, sceneHome, sceneGame, sceneLogin , sceneMatch;
+    private static Scene sceneRegister, sceneHome, sceneGame, sceneLogin, sceneMatch;
     private URL url;
     private String css;
     public static RegisterController registerController;
@@ -35,6 +37,7 @@ public class TicTacToeClient extends Application {
     public static final ObjectMapper mapper = new ObjectMapper();
     private static TrayIcon trayIcon;
     private SystemTray tray;
+    public static String confirmationBtn1Txt, confirmationBtn2Txt;
 
     @Override
     public void init() throws Exception {
@@ -43,6 +46,8 @@ public class TicTacToeClient extends Application {
         initTray();
         serverListener.setDaemon(true);
         serverListener.start();
+        confirmationBtn1Txt = "Accept";
+        confirmationBtn2Txt = "Reject";
     }
 
     @Override
@@ -50,8 +55,8 @@ public class TicTacToeClient extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(TicTacToeClient.class.getResource("Login.fxml"));
         sceneLogin = new Scene(fxmlLoader.load());
         loginController = fxmlLoader.getController();
-         url = this.getClass().getResource("Style.css");
-         css = url.toExternalForm();
+        url = this.getClass().getResource("Style.css");
+        css = url.toExternalForm();
         sceneLogin.getStylesheets().add(css);
         File iconfile = new File("images/7.png");
         Image icon = new Image(iconfile.toURI().toString());
@@ -167,21 +172,13 @@ public class TicTacToeClient extends Application {
         alert.showAndWait();
     }
 
-    public static boolean showResumeAlert(String title, String message){
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(message);
-        alert.setContentText("");
-        ButtonType buttonOk = new ButtonType("Ok");
-        ButtonType buttonCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-
-        alert.getButtonTypes().setAll(buttonOk, buttonCancel);
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == buttonOk){
-            return true;
-        } else {
-           return false;
+    public static void sendUpdateInGameStatus(boolean isInGame) {
+        UpdateInGameStatusReq updateInGameStatusReq = new UpdateInGameStatusReq(isInGame);
+        try {
+            String jRequest = TicTacToeClient.mapper.writeValueAsString(updateInGameStatusReq);
+            ServerListener.sendRequest(jRequest);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
         }
     }
 
