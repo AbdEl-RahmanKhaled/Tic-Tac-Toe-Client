@@ -186,17 +186,21 @@ public class GameController implements Initializable {
         TicTacToeClient.confirmationBtn1Txt = "Continue Game";
         TicTacToeClient.confirmationBtn2Txt = "Finish Game";
         if (!TicTacToeClient.showConfirmation(title, msg)) {
-            match.setStatus(Match.STATUS_FINISHED);
-            if (match.getPlayer1_id() == TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id()) {
-                match.setWinner(match.getPlayer2_id());
-            } else {
-                match.setWinner(match.getPlayer1_id());
-            }
-            saveMatch();
-            backToHome();
+            finishMatch();
         }
         TicTacToeClient.confirmationBtn1Txt = "Accept";
         TicTacToeClient.confirmationBtn2Txt = "Reject";
+    }
+
+    private void finishMatch() {
+        match.setStatus(Match.STATUS_FINISHED);
+        if (match.getPlayer1_id() == TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id()) {
+            match.setWinner(match.getPlayer2_id());
+        } else {
+            match.setWinner(match.getPlayer1_id());
+        }
+        saveMatch();
+        backToHome();
     }
 
     public void handlePauseGame() {
