@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.iti.tictactoeclient.TicTacToeClient;
 import com.iti.tictactoeclient.helpers.ServerListener;
 import com.iti.tictactoeclient.models.Match;
+import com.iti.tictactoeclient.models.Player;
+import com.iti.tictactoeclient.models.PlayerFullInfo;
 import com.iti.tictactoeclient.models.Position;
 import com.iti.tictactoeclient.notification.FinishGameNotification;
 import com.iti.tictactoeclient.requests.AskToPauseReq;
@@ -18,6 +20,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -25,6 +28,7 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
 import java.awt.*;
+import java.util.List;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -41,6 +45,7 @@ public class GameController implements Initializable {
 
     @FXML
     private ImageView backgroundimg;
+
 
     @FXML
     private TextField TextField;
@@ -60,12 +65,11 @@ public class GameController implements Initializable {
     protected void onActionExite() {
 //     TicTacToeClient.openHomeView();
     }
-
     @FXML
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize (URL url, ResourceBundle resourceBundle){
     }
 
-    public void showAnimation() {
+    public void showAnimation(){
         File backFile = new File("images/7.png");
         Image background = new Image(backFile.toURI().toString());
         backgroundimg.setImage(background);
@@ -136,74 +140,59 @@ public class GameController implements Initializable {
         b2.setGraphic(new ImageView(img));
 
     }
-
     @FXML
     protected void button3() {
         b3.setGraphic(new ImageView(img));
 
     }
-
     @FXML
     protected void button4() {
         b4.setGraphic(new ImageView(img));
 
     }
-
     @FXML
     protected void button5() {
         b5.setGraphic(new ImageView(img));
 
     }
-
     @FXML
     protected void button6() {
         b6.setGraphic(new ImageView(img));
 
     }
-
     @FXML
     protected void button7() {
         b7.setGraphic(new ImageView(img));
 
     }
-
     @FXML
     protected void button8() {
         b8.setGraphic(new ImageView(img));
 
     }
-
-    public void startMatch(Match match) {
-        this.match = match;
-        init();
-    }
-
-    private void init() {
-        sent = viewMode = false;
-        positions = new ArrayList<>();
-    }
-
     @FXML
     protected void button9() {
         b9.setGraphic(new ImageView(img));
     }
 
-    public void notifyAskToPause() {
-        String msg = "Your competitor would like to pause this game now.";
-        String title = "Ask To Pause";
-        TicTacToeClient.showSystemNotification(title, msg, TrayIcon.MessageType.INFO);
-        if (TicTacToeClient.showConfirmation(title, msg, "Accept", "Reject")) {
-            match.setStatus(Match.STATUS_PAUSED);
-            saveMatch();
-            backToHome();
-        } else {
-            RejectToPauseReq rejectToPauseReq = new RejectToPauseReq();
-            try {
-                String jRequest = TicTacToeClient.mapper.writeValueAsString(rejectToPauseReq);
-                ServerListener.sendRequest(jRequest);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
+    public void showPauseNotification(PlayerFullInfo playerFullInfo){
+        TicTacToeClient.showSystemNotification("Pause","wants to pause game", TrayIcon.MessageType.INFO);
+    }
+
+    public void confirmResume(ResumeGameNotification resumeGameNotification){
+        TicTacToeClient.openGameView();
+        List<Position>positions =resumeGameNotification.getPositions();
+        Match match =resumeGameNotification.getMatch();
+
+    }
+
+    public void acceptResumeGame(Player player, Match match){
+        AcceptToResumeReq acceptToResumeReq=new AcceptToResumeReq(player,match);
+        try {
+            String jRequest = TicTacToeClient.mapper.writeValueAsString(acceptToResumeReq);
+            ServerListener.sendRequest(jRequest);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
         }
     }
 

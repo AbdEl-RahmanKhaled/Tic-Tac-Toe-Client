@@ -7,6 +7,7 @@ import com.iti.tictactoeclient.models.Invitation;
 import com.iti.tictactoeclient.models.Match;
 import com.iti.tictactoeclient.models.Player;
 import com.iti.tictactoeclient.models.PlayerFullInfo;
+import com.iti.tictactoeclient.notification.AskToResumeNotification;
 import com.iti.tictactoeclient.requests.AcceptInvitationReq;
 import com.iti.tictactoeclient.requests.GetMatchHistoryReq;
 import com.iti.tictactoeclient.requests.InviteToGameReq;
@@ -38,6 +39,14 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
+
+    public Map<Integer, PlayerFullInfo> getPlayersFullInfo() {
+        return playersFullInfo;
+    }
+
+    public void setPlayersFullInfo(Map<Integer, PlayerFullInfo> playersFullInfo) {
+        this.playersFullInfo = playersFullInfo;
+    }
 
     private Map<Integer, PlayerFullInfo> playersFullInfo;
     private PlayerFullInfo myPlayerFullInfo;
@@ -90,12 +99,44 @@ public class HomeController implements Initializable {
             TableRow<Invitation> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    showInvitationConfirmation();
+                    if(tInvitation.getSelectionModel().getSelectedItem().getType() == Invitation.GAME_INVITATION)
+                        showInvitationConfirmation();
+                    else
+                        responedToResume();
                 }
             });
             return row;
         });
+
     }
+
+    public void addResumeReq(AskToResumeNotification askToResumeNotification){
+        Invitation invitation=new Invitation(askToResumeNotification.getPlayer(), Invitation.RESUME_INVITATION);
+        invitation.setName(playersFullInfo.get(askToResumeNotification.getPlayer().getDb_id()).getName());
+        invitations.put(askToResumeNotification.getPlayer().getDb_id(), invitation);
+        fillInvitationsTable();
+        TicTacToeClient.showSystemNotification("Game Invitation",
+                playersFullInfo.get(askToResumeNotification.getPlayer().getDb_id()).getName() + "jimmy sent you game invitation.",
+                MessageType.INFO);
+    }
+     public void responedToResume()
+     {
+         if(TicTacToeClient.showConfirmation("ShowNotification","Do you want to resume game ?","Accept","Reject"))
+         {
+             Player player = tInvitation.getSelectionModel().getSelectedItem().getPlayer();
+             Match match = tInvitation.getSelectionModel().getSelectedItem().getMatch();
+             AcceptToResumeReq acceptToResumeReq = new AcceptToResumeReq(player, match);
+             Platform.runLater(()-> TicTacToeClient.openGameView());
+             TicTacToeClient.gameController.fillGrid();
+
+             try {
+                 String jRequest = TicTacToeClient.mapper.writeValueAsString(acceptToResumeReq);
+                ServerListener.sendRequest(jRequest);
+             } catch (JsonProcessingException e) {
+                 e.printStackTrace();
+             }
+         }
+     }
 
     // to show animation when view loaded
     public void showAnimation() {
@@ -201,6 +242,13 @@ public class HomeController implements Initializable {
         TicTacToeClient.openGameView();
     }
 
+    @FXML
+    public void LogoutButton() {
+//    TicTacToeClient.openLoginView();
+        TicTacToeClient.showSystemNotification("Tic Tac Toe", "test notification", MessageType.INFO);
+    }
+
+
     public void notifyGameInvitation(Player player) {
         // check if received this notification before
         if (invitations.get(player.getDb_id()) == null) {
@@ -228,7 +276,6 @@ public class HomeController implements Initializable {
         TicTacToeClient.gameController.startMatch(match);
         TicTacToeClient.openGameView();
     }
-
 
     public void onMatchButton() {
         try {
