@@ -234,9 +234,8 @@ public class HomeController implements Initializable {
 
 
     @FXML
-    public void ComputerButton() {
-        TicTacToeClient.showAlert("sdv", "dvsdvd", Alert.AlertType.ERROR);
-        System.out.println(TicTacToeClient.showConfirmation("tessst", "message", "Accept","Decline"));
+    public void ComputerButton(){
+        TicTacToeClient.openGameVsComputerView();
     }
 
     @FXML
