@@ -1,8 +1,10 @@
 package com.iti.tictactoeclient;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iti.tictactoeclient.controllers.*;
 import com.iti.tictactoeclient.helpers.ServerListener;
+import com.iti.tictactoeclient.requests.UpdateInGameStatusReq;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -23,7 +25,7 @@ import java.net.URL;
 
 public class TicTacToeClient extends Application {
     private static Stage mainStage;
-    private static Scene sceneRegister, sceneHome, sceneGame, sceneLogin , sceneMatch;
+    private static Scene sceneRegister, sceneHome, sceneGame, sceneLogin , sceneMatch,sceneGameVsComputer;
     private URL url;
     private String css;
     public static RegisterController registerController;
@@ -31,6 +33,7 @@ public class TicTacToeClient extends Application {
     public static GameController gameController;
     public static LoginController loginController;
     public static MatchController matchController;
+    public static GameVsComputerController gameVsComputerController;
     private static final ServerListener serverListener = new ServerListener();
     public static final ObjectMapper mapper = new ObjectMapper();
     private static TrayIcon trayIcon;
@@ -50,8 +53,8 @@ public class TicTacToeClient extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(TicTacToeClient.class.getResource("Login.fxml"));
         sceneLogin = new Scene(fxmlLoader.load());
         loginController = fxmlLoader.getController();
-         url = this.getClass().getResource("Style.css");
-         css = url.toExternalForm();
+        url = this.getClass().getResource("Style.css");
+        css = url.toExternalForm();
         sceneLogin.getStylesheets().add(css);
         File iconfile = new File("images/7.png");
         Image icon = new Image(iconfile.toURI().toString());
@@ -88,6 +91,14 @@ public class TicTacToeClient extends Application {
             url = this.getClass().getResource("Style.css");
             css = url.toExternalForm();
             sceneGame.getStylesheets().add(css);
+
+            // GameVsComputer View
+            FXMLLoader fxmlLoaderGameVsComputer = new FXMLLoader(TicTacToeClient.class.getResource("GameVsComputer.fxml"));
+            sceneGameVsComputer = new Scene(fxmlLoaderGameVsComputer.load());
+            gameVsComputerController = fxmlLoaderGameVsComputer.getController();
+            url = this.getClass().getResource("Style.css");
+            css = url.toExternalForm();
+            sceneGameVsComputer.getStylesheets().add(css);
 
 
             // Match View
@@ -167,10 +178,20 @@ public class TicTacToeClient extends Application {
         alert.showAndWait();
     }
 
-    public static boolean showConfirmation(String title, String message) {
+    public static void sendUpdateInGameStatus(boolean isInGame) {
+        UpdateInGameStatusReq updateInGameStatusReq = new UpdateInGameStatusReq(isInGame);
+        try {
+            String jRequest = TicTacToeClient.mapper.writeValueAsString(updateInGameStatusReq);
+            ServerListener.sendRequest(jRequest);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean showConfirmation(String title, String message, String btn1, String btn2) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "",
-                new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE),
-                new ButtonType("Reject", ButtonBar.ButtonData.CANCEL_CLOSE));
+                new ButtonType(btn1, ButtonBar.ButtonData.OK_DONE),
+                new ButtonType(btn2, ButtonBar.ButtonData.CANCEL_CLOSE));
         alert.setTitle(title);
         alert.setHeaderText(message);
         alert.setContentText("");
@@ -213,6 +234,16 @@ public class TicTacToeClient extends Application {
         mainStage.getIcons().add(icon);
         mainStage.show();
         gameController.showAnimation();
+    }
+    public static void openGameVsComputerView() {
+        mainStage.hide();
+        mainStage.setScene(sceneGameVsComputer);
+        mainStage.setTitle("TicTacToe");
+        File iconfile = new File("images/7.png");
+        Image icon = new Image(iconfile.toURI().toString());
+        mainStage.getIcons().add(icon);
+        gameVsComputerController.showAnimation();
+        mainStage.show();
     }
 
     public static void openLoginView() {

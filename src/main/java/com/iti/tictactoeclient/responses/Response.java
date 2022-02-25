@@ -8,8 +8,8 @@ public class Response {
     public static final String RESPONSE_INVITE_TO_GAME = "inviteToGameRes"; // home done
     public static final String RESPONSE_LOGIN = "loginRes"; // login done
     public static final String RESPONSE_SIGN_UP = "signupRes"; // register done
-    public static final String RESPONSE_ASK_TO_PAUSE = "askToPauseRes"; // game
-    public static final String RESPONSE_ASK_TO_RESUME = "askToResumeRes"; // match n
+    public static final String RESPONSE_ASK_TO_PAUSE = "askToPauseRes"; // game done
+    public static final String RESPONSE_ASK_TO_RESUME = "askToResumeRes"; // match n done
     public static final String RESPONSE_GET_MATCH_HISTORY = "getMatchHistoryRes"; // history done
 
     protected String message, status, type;
@@ -37,7 +37,6 @@ public class Response {
     public String getMessage() {
         return message;
     }
-
     public void setMessage(String message) {
         this.message = message;
     }

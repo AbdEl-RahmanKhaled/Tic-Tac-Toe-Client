@@ -173,7 +173,7 @@
             <Image url="@../../../../../../images/computer.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="userimg" layoutX="378.0" layoutY="361.0">
+      <ImageView fx:id="userimg"  fitHeight="85.0" fitWidth="85.0"  layoutX="378.0" layoutY="361.0">
          <image>
             <Image url="@../../../../../../images/player.png" />
          </image>
