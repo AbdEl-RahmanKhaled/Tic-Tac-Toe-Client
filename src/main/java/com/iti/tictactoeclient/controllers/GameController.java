@@ -89,6 +89,7 @@ public class GameController implements Initializable {
         scale.setAutoReverse(true);
         scale.play();
     }
+    /////////////////////////////////////////////////////////////
     String btn1 ,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9;
    public static boolean playerTurn  = false;
     public static boolean computerWon  = false;
@@ -197,20 +198,20 @@ public class GameController implements Initializable {
 
 
     @FXML
-    protected void button7(){
-        b7.setGraphic(new ImageView(img));
+        protected void button7(){
+            b7.setGraphic(new ImageView(img));
 
-        if(b7.getText().equals("") && playerTurn == false) {
-            b7.setText("X");
-            playerTurn = true;
-            btn7 = b7.getText();
-            System.out.println(btn7);
-        }else if(!b7.getText().equals("X")){
-            b7.setText("O");
-            playerTurn = false;
+            if(b7.getText().equals("") && playerTurn == false) {
+                b7.setText("X");
+                playerTurn = true;
+                btn7 = b7.getText();
+                System.out.println(btn7);
+            }else if(!b7.getText().equals("X")){
+                b7.setText("O");
+                playerTurn = false;
+            }
+            checkButton();
         }
-        checkButton();
-    }
 
     @FXML
     protected void button8() {
@@ -290,22 +291,22 @@ public class GameController implements Initializable {
         return done;
 }
 
-public void playNewGame(){
-        if(computerWon == true || playerWon == true){
-            System.out.println("do you want to play again");
-            if(playerAgain == true) {
-                b1.setText("");
-                b2.setText("");
-                b3.setText("");
-                b4.setText("");
-                b5.setText("");
-                b6.setText("");
-                b7.setText("");
-                b8.setText("");
-                b9.setText("");
+    public void playNewGame(){
+            if(computerWon == true || playerWon == true){
+                System.out.println("do you want to play again");
+                if(playerAgain == true) {
+                    b1.setText("");
+                    b2.setText("");
+                    b3.setText("");
+                    b4.setText("");
+                    b5.setText("");
+                    b6.setText("");
+                    b7.setText("");
+                    b8.setText("");
+                    b9.setText("");
+                }
             }
         }
-    }
     protected void checkButton(){
         if(checkWinner() == "X"){
             computerWon =true;
