@@ -125,7 +125,6 @@ public class GameController implements Initializable {
             TicTacToeClient.showSystemNotification("Message Error",
                     " You can't enter an empty message ",
                             TrayIcon.MessageType.ERROR);
-            //showAlert("Invalid message", "You can't send an empty message" , Alert.AlertType.ERROR);
             System.out.println("not a valid msg");
         }
     }
