@@ -108,7 +108,7 @@ public class GameController implements Initializable {
             sendMessageReq.setMessage(message);
             try {
                 //transforming from object to string json
-                String jRequest = mapper.writeValueAsString(sendMessageReq);
+                String jRequest = TicTacToeClient.mapper.writeValueAsString(sendMessageReq);
                 //sending the request
                 ServerListener.sendRequest(jRequest);
                 //clearing text field

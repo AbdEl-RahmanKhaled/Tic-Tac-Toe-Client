@@ -124,8 +124,6 @@ public class HomeController implements Initializable {
              Match match = tInvitation.getSelectionModel().getSelectedItem().getMatch();
              AcceptToResumeReq acceptToResumeReq = new AcceptToResumeReq(player, match);
              Platform.runLater(()-> TicTacToeClient.openGameView());
-             TicTacToeClient.gameController.fillGrid();
-
              try {
                  String jRequest = TicTacToeClient.mapper.writeValueAsString(acceptToResumeReq);
                 ServerListener.sendRequest(jRequest);
