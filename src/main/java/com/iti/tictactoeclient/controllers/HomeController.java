@@ -34,14 +34,6 @@ import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
 
-    public Map<Integer, PlayerFullInfo> getPlayersFullInfo() {
-        return playersFullInfo;
-    }
-
-    public void setPlayersFullInfo(Map<Integer, PlayerFullInfo> playersFullInfo) {
-        this.playersFullInfo = playersFullInfo;
-    }
-
     private Map<Integer, PlayerFullInfo> playersFullInfo;
     private PlayerFullInfo myPlayerFullInfo;
     private Map<Integer, Invitation> invitations;
@@ -93,7 +85,7 @@ public class HomeController implements Initializable {
             TableRow<Invitation> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    if(tInvitation.getSelectionModel().getSelectedItem().getType() == Invitation.GAME_INVITATION)
+                    if(tInvitation.getSelectionModel().getSelectedItem().getType().equals(Invitation.GAME_INVITATION))
                         showInvitationConfirmation();
                     else
                         respondToResumeReq();
@@ -122,7 +114,6 @@ public class HomeController implements Initializable {
          if(TicTacToeClient.showConfirmation("ShowNotification","Do you want to resume game ?","Accept","Reject"))
          {
              AcceptToResumeReq acceptToResumeReq = new AcceptToResumeReq(player, match);
-             //Platform.runLater(()-> TicTacToeClient.openGameView());
              try {
                  String jRequest = TicTacToeClient.mapper.writeValueAsString(acceptToResumeReq);
                 ServerListener.sendRequest(jRequest);

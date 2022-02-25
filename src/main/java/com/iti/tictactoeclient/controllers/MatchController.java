@@ -69,38 +69,36 @@ public class MatchController implements Initializable {
         MatchTable.setRowFactory(tv -> {
             TableRow<MatchTable> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && (!row.isEmpty()) && (Objects.equals(MatchTable.getSelectionModel().getSelectedItem().getStatus().toLowerCase(Locale.ROOT), com.iti.tictactoeclient.models.MatchTable.STATUS_PAUSED)) ) {
-                    MatchTable rowData = row.getItem();
+                if (event.getClickCount() == 2 && (!row.isEmpty()) && (Objects.equals(MatchTable.getSelectionModel().getSelectedItem().getStatus().toLowerCase(Locale.ROOT), com.iti.tictactoeclient.models.MatchTable.STATUS_PAUSED))) {
                     selectMatchToResume();
                 }
             });
-            return row ;
+            return row;
         });
 
     }
 
-    private void selectMatchToResume(){
+    private void selectMatchToResume() {
         int db_id;
-        MatchTable matchTable= MatchTable.getSelectionModel().getSelectedItem();
+        MatchTable matchTable = MatchTable.getSelectionModel().getSelectedItem();
         if (Objects.equals(matchTable.getStatus().toLowerCase(Locale.ROOT), com.iti.tictactoeclient.models.MatchTable.STATUS_PAUSED)) {
-            if(matchTable.getPlayer1_id()==TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id()){
-                db_id=matchTable.getPlayer2_id();
+            if (matchTable.getPlayer1_id() == TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id()) {
+                db_id = matchTable.getPlayer2_id();
+            } else {
+                db_id = matchTable.getPlayer1_id();
             }
-            else{
-                db_id=matchTable.getPlayer1_id();
-            }
-            long s_id= TicTacToeClient.homeController.getPlayersFullInfo().get(db_id).getS_id();
-            boolean answer=TicTacToeClient.showConfirmation("Resume game", "Send Resume Request?", "Ok", "Cancel");
+            long s_id = TicTacToeClient.homeController.getPlayerFullInfo(db_id).getS_id();
+            boolean answer = TicTacToeClient.showConfirmation("Resume game", "Send Resume Request?", "Ok", "Cancel");
             System.out.println(answer);
-            if(answer){
-                Player player=new Player(db_id, s_id);
-                Match match=new Match();
+            if (answer) {
+                Player player = new Player(db_id, s_id);
+                Match match = new Match();
                 match.setM_id(matchTable.getM_id());
-                AskToResumeReq askToResumeReq=new AskToResumeReq();
+                AskToResumeReq askToResumeReq = new AskToResumeReq();
                 askToResumeReq.setPlayer(player);
                 askToResumeReq.setMatch(match);
                 try {
-                    String jRequest=TicTacToeClient.mapper.writeValueAsString(askToResumeReq);
+                    String jRequest = TicTacToeClient.mapper.writeValueAsString(askToResumeReq);
                     ServerListener.sendRequest(jRequest);
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
@@ -109,22 +107,6 @@ public class MatchController implements Initializable {
             }
         }
     }
-
-    //    public void fromLogin(PlayerFullInfo myPlayerFullInfo, Map<Integer, PlayerFullInfo> playersFullInfo) {
-//        this.myPlayerFullInfo = myPlayerFullInfo;
-//        this.playersFullInfo = playersFullInfo;
-//        playersFullInfo.remove(myPlayerFullInfo.getDb_id());
-//        System.out.println(playersFullInfo);
-//        fillView();
-//    }
-//
-//    private void fillView() {
-//        cPlayerName.setCellValueFactory(new PropertyValueFactory<>("name"));
-//        cStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
-//        tPlayers.getItems().setAll(playersFullInfo.values());
-//        lblName.setText(myPlayerFullInfo.getName());
-//        lblScore.setText(String.valueOf(myPlayerFullInfo.getPoints()));
-//    }
     public void handleResponse(List<MatchTable> matchList) {
         MatchTable.getItems().clear();
         MatchTable.getItems().setAll(matchList);
