@@ -22,6 +22,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Border;
 import javafx.util.Duration;
 
 import java.awt.*;
@@ -32,6 +33,7 @@ import java.util.ResourceBundle;
 import java.util.List;
 
 import static com.iti.tictactoeclient.TicTacToeClient.mapper;
+import static com.iti.tictactoeclient.TicTacToeClient.showAlert;
 
 public class GameController implements Initializable {
 
@@ -53,6 +55,7 @@ public class GameController implements Initializable {
 
     @FXML
     public int flag1 = 0, flag2 = 0, flag3 = 0, flag4 = 0, flag5 = 0, flag6 = 0, flag7 = 0, flag8 = 0, flag9 = 0;
+
     @FXML
     public Image img;
 
@@ -102,19 +105,27 @@ public class GameController implements Initializable {
             //setting message and message sender
             message.setMessage(TextField.getText().trim());
             message.setFrom(TicTacToeClient.homeController.getMyPlayerFullInfo().getName());
-            //message appearing on chatarea
+            //message appearing on chat area
             ChatArea.appendText(TicTacToeClient.homeController.getMyPlayerFullInfo().getName() + " : " + TextField.getText().trim() + "\n");
+            //creating request for the server
             SendMessageReq sendMessageReq = new SendMessageReq();
             sendMessageReq.setMessage(message);
             try {
-                System.out.println("2");
+                //transforming from object to string json
                 String jRequest = mapper.writeValueAsString(sendMessageReq);
+                //sending the request
                 ServerListener.sendRequest(jRequest);
+                //clearing text field
                 TextField.clear();
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
         } else {
+            //sending error message notification
+            TicTacToeClient.showSystemNotification("Message Error",
+                    " You can't enter an empty message ",
+                            TrayIcon.MessageType.ERROR);
+            //showAlert("Invalid message", "You can't send an empty message" , Alert.AlertType.ERROR);
             System.out.println("not a valid msg");
         }
     }
@@ -124,53 +135,92 @@ public class GameController implements Initializable {
         TicTacToeClient.openHomeView();
     }
 
+    @FXML
+    private boolean computerTurn = false;
+    private boolean playerTurn = true;
+
+    @FXML
+    private void turn(){
+        if(playerTurn)
+        {
+            img = new Image("D:\\downloads\\icons8-o-70.png");
+            playerTurn=false;
+            computerTurn=true;
+        }
+        else if(computerTurn)
+        {
+            img = new Image("D:\\downloads\\icons8-x-70.png");
+            playerTurn=true;
+            computerTurn=false;
+        }
+    }
+
+   /*@FXML
+    private boolean turn() {
+        if (playerTurn) {
+            img = new Image("D:\\downloads\\icons8-o-70.png");
+            playerTurn = false;
+            computerTurn = true;
+            return true;
+        } else {
+            playerTurn = true;
+            computerTurn = false;
+            return false;
+        }
+    }*/
 
     @FXML
     protected void button1() {
+        turn();
         b1.setGraphic(new ImageView(img));
-
     }
 
     @FXML
     protected void button2() {
+        turn();
         b2.setGraphic(new ImageView(img));
-
     }
 
     @FXML
     protected void button3() {
+        turn();
         b3.setGraphic(new ImageView(img));
-
     }
 
     @FXML
     protected void button4() {
+        turn();
         b4.setGraphic(new ImageView(img));
-
     }
 
     @FXML
     protected void button5() {
+        turn();
         b5.setGraphic(new ImageView(img));
-
     }
 
     @FXML
     protected void button6() {
+        turn();
         b6.setGraphic(new ImageView(img));
-
     }
 
     @FXML
     protected void button7() {
+        turn();
         b7.setGraphic(new ImageView(img));
-
     }
 
     @FXML
     protected void button8() {
+        turn();
         b8.setGraphic(new ImageView(img));
+    }
 
+    @FXML
+    protected void button9() {
+        turn();
+        b9.setGraphic(new ImageView(img));
     }
 
     public void startMatch(Match match) {
@@ -181,11 +231,6 @@ public class GameController implements Initializable {
     private void init() {
         sent = viewMode = false;
         positions = new ArrayList<>();
-    }
-
-    @FXML
-    protected void button9() {
-        b9.setGraphic(new ImageView(img));
     }
 
     public void notifyAskToPause() {
@@ -225,7 +270,21 @@ public class GameController implements Initializable {
         }
     }
 
+   /* private void clear(){
+        Image img1 = null;
+        b1.setGraphic(new ImageView(img1));
+        b2.setGraphic(new ImageView(img1));
+        b3.setGraphic(new ImageView(img1));
+        b4.setGraphic(new ImageView(img1));
+        b5.setGraphic(new ImageView(img1));
+        b6.setGraphic(new ImageView(img1));
+        b7.setGraphic(new ImageView(img1));
+        b8.setGraphic(new ImageView(img1));
+        b9.setGraphic(new ImageView(img1));
+    }*/
+
     private void finishMatch() {
+        //clear();
         match.setStatus(Match.STATUS_FINISHED);
         if (match.getPlayer1_id() == TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id()) {
             match.setWinner(match.getPlayer2_id());
@@ -256,8 +315,6 @@ public class GameController implements Initializable {
         }
         backToHome();
     }
-
-
 
     public void handleFinishGame(FinishGameNotification finishGameNotification) {
         showMatchResult(finishGameNotification.getWinner());
