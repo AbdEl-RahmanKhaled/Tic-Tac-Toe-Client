@@ -17,10 +17,7 @@ import javafx.util.Duration;
 import java.io.File;
 import java.net.URL;
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class MatchController implements Initializable {
     @FXML
@@ -72,7 +69,7 @@ public class MatchController implements Initializable {
         MatchTable.setRowFactory(tv -> {
             TableRow<MatchTable> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && (!row.isEmpty()) && (Objects.equals(MatchTable.getSelectionModel().getSelectedItem().getStatus(), com.iti.tictactoeclient.models.MatchTable.STATUS_PAUSED)) ) {
+                if (event.getClickCount() == 2 && (!row.isEmpty()) && (Objects.equals(MatchTable.getSelectionModel().getSelectedItem().getStatus().toLowerCase(Locale.ROOT), com.iti.tictactoeclient.models.MatchTable.STATUS_PAUSED)) ) {
                     MatchTable rowData = row.getItem();
                     selectMatchToResume();
                 }
@@ -85,7 +82,7 @@ public class MatchController implements Initializable {
     private void selectMatchToResume(){
         int db_id;
         MatchTable matchTable= MatchTable.getSelectionModel().getSelectedItem();
-        if (Objects.equals(matchTable.getStatus(), com.iti.tictactoeclient.models.MatchTable.STATUS_PAUSED)) {
+        if (Objects.equals(matchTable.getStatus().toLowerCase(Locale.ROOT), com.iti.tictactoeclient.models.MatchTable.STATUS_PAUSED)) {
             if(matchTable.getPlayer1_id()==TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id()){
                 db_id=matchTable.getPlayer2_id();
             }

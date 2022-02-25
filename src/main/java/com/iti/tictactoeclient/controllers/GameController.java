@@ -8,13 +8,10 @@ import com.iti.tictactoeclient.models.Player;
 import com.iti.tictactoeclient.models.PlayerFullInfo;
 import com.iti.tictactoeclient.models.Position;
 import com.iti.tictactoeclient.notification.FinishGameNotification;
-import com.iti.tictactoeclient.requests.AskToPauseReq;
-import com.iti.tictactoeclient.requests.RejectToPauseReq;
-import com.iti.tictactoeclient.requests.SaveMatchReq;
-import com.iti.tictactoeclient.requests.UpdateInGameStatusReq;
+import com.iti.tictactoeclient.notification.ResumeGameNotification;
+import com.iti.tictactoeclient.requests.*;
 import com.iti.tictactoeclient.models.Message;
 import com.iti.tictactoeclient.notification.MessageNotification;
-import com.iti.tictactoeclient.requests.SendMessageReq;
 import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -28,13 +25,12 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
 import java.awt.*;
-import java.util.List;
+import java.util.*;
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
 import java.util.List;
 
+import static com.iti.tictactoeclient.TicTacToeClient.homeController;
 import static com.iti.tictactoeclient.TicTacToeClient.mapper;
 
 public class GameController implements Initializable {
@@ -42,6 +38,7 @@ public class GameController implements Initializable {
     private boolean sent, viewMode;
     private Match match;
     private List<Position> positions;
+    private Map<String,Button> buttons;
 
     @FXML
     private ImageView backgroundimg;
@@ -65,11 +62,13 @@ public class GameController implements Initializable {
     protected void onActionExite() {
 //     TicTacToeClient.openHomeView();
     }
+
     @FXML
-    public void initialize (URL url, ResourceBundle resourceBundle){
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        initButtons();
     }
 
-    public void showAnimation(){
+    public void showAnimation() {
         File backFile = new File("images/7.png");
         Image background = new Image(backFile.toURI().toString());
         backgroundimg.setImage(background);
@@ -82,6 +81,19 @@ public class GameController implements Initializable {
         scale.setByX(0.4);
         scale.setAutoReverse(true);
         scale.play();
+    }
+
+    private void initButtons(){
+        buttons = new HashMap<>();
+        buttons.put("b1", b1);
+        buttons.put("b2", b2);
+        buttons.put("b3", b3);
+        buttons.put("b4", b4);
+        buttons.put("b5", b5);
+        buttons.put("b6", b6);
+        buttons.put("b7", b7);
+        buttons.put("b8", b8);
+        buttons.put("b9", b9);
     }
 
     @FXML
@@ -140,59 +152,87 @@ public class GameController implements Initializable {
         b2.setGraphic(new ImageView(img));
 
     }
+
     @FXML
     protected void button3() {
         b3.setGraphic(new ImageView(img));
 
     }
+
     @FXML
     protected void button4() {
         b4.setGraphic(new ImageView(img));
 
     }
+
     @FXML
     protected void button5() {
         b5.setGraphic(new ImageView(img));
 
     }
+
     @FXML
     protected void button6() {
         b6.setGraphic(new ImageView(img));
 
     }
+
     @FXML
     protected void button7() {
         b7.setGraphic(new ImageView(img));
 
     }
+
     @FXML
     protected void button8() {
         b8.setGraphic(new ImageView(img));
 
     }
+
     @FXML
     protected void button9() {
         b9.setGraphic(new ImageView(img));
     }
 
-    public void showPauseNotification(PlayerFullInfo playerFullInfo){
-        TicTacToeClient.showSystemNotification("Pause","wants to pause game", TrayIcon.MessageType.INFO);
+    public void showPauseNotification(PlayerFullInfo playerFullInfo) {
+        TicTacToeClient.showSystemNotification("Pause", "wants to pause game", TrayIcon.MessageType.INFO);
     }
 
-    public void confirmResume(ResumeGameNotification resumeGameNotification){
+    public void confirmResume(ResumeGameNotification resumeGameNotification) {
+        init();
         TicTacToeClient.openGameView();
-        List<Position>positions =resumeGameNotification.getPositions();
-        Match match =resumeGameNotification.getMatch();
+        List<Position> positions = resumeGameNotification.getPositions();
+        Match match = resumeGameNotification.getMatch();
+        fillGrid(positions, match);
 
     }
 
-    public void acceptResumeGame(Player player, Match match){
-        AcceptToResumeReq acceptToResumeReq=new AcceptToResumeReq(player,match);
+    public void acceptResumeGame(Player player, Match match) {
+        AcceptToResumeReq acceptToResumeReq = new AcceptToResumeReq(player, match);
         try {
             String jRequest = TicTacToeClient.mapper.writeValueAsString(acceptToResumeReq);
             ServerListener.sendRequest(jRequest);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void notifyAskToPause() {
+        String msg = "Your competitor would like to pause this game now.";
+        String title = "Ask To Pause";
+        TicTacToeClient.showSystemNotification(title, msg, TrayIcon.MessageType.INFO);
+        if (TicTacToeClient.showConfirmation(title, msg, "Accept", "Reject")) {
+            match.setStatus(Match.STATUS_PAUSED);
+            saveMatch();
+            backToHome();
+        } else {
+            RejectToPauseReq rejectToPauseReq = new RejectToPauseReq();
+            try {
+                String jRequest = TicTacToeClient.mapper.writeValueAsString(rejectToPauseReq);
+                ServerListener.sendRequest(jRequest);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -247,7 +287,6 @@ public class GameController implements Initializable {
     }
 
 
-
     public void handleFinishGame(FinishGameNotification finishGameNotification) {
         showMatchResult(finishGameNotification.getWinner());
     }
@@ -293,5 +332,26 @@ public class GameController implements Initializable {
         match = null;
         positions.clear();
         TicTacToeClient.openHomeView();
+    }
+
+    public void startMatch(Match match) {
+        this.match = match;
+        init();
+    }
+
+    private void init() {
+        sent = viewMode = false;
+        positions = new ArrayList<>();
+    }
+
+    private void fillGrid(List<Position> positions, Match match) {
+        String choice;
+        for (int i=0; i<positions.size(); i++){
+            if(positions.get(i).getPlayer_id()==match.getPlayer1_id())
+                choice = match.getP1_choice();
+            else
+                choice = match.getP2_choice();
+            buttons.get(positions.get(i).getPosition()).setText(choice);
+        }
     }
 }

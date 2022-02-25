@@ -82,7 +82,8 @@ public class ServerListener extends Thread {
         types.put(Notification.NOTIFICATION_START_GAME, this::startGame);
         types.put(Notification.NOTIFICATION_ASK_TO_PAUSE, this::askToPauseNotification);
         types.put(Notification.NOTIFICATION_MESSAGE, this::sendMessageRes);
-
+        types.put(Notification.NOTIFICATION_ASK_TO_RESUME, this::askToResume);
+        types.put(Notification.NOTIFICATION_RESUME_GAME, this::resumeGame);
         types.put(Notification.NOTIFICATION_FINISH_GAME, this::finishGameNotification);
         types.put(Notification.NOTIFICATION_PAUSE_GAME, this::pauseGameNotification);
         types.put(Notification.NOTIFICATION_COMPETITOR_CONNECTION_ISSUE, this::competitorConnectionIssueNotification);
@@ -112,8 +113,7 @@ public class ServerListener extends Thread {
     private void resumeGame(String json){
         try {
             ResumeGameNotification resumeGameNotification= TicTacToeClient.mapper.readValue(json,ResumeGameNotification.class);
-            Platform.runLater(()->
-                    TicTacToeClient.gameController.confirmResume(resumeGameNotification));
+            Platform.runLater(()-> TicTacToeClient.gameController.confirmResume(resumeGameNotification));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
