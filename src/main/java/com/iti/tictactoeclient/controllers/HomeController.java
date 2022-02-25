@@ -138,6 +138,8 @@ public class HomeController implements Initializable {
                  e.printStackTrace();
              }
          }
+         invitations.remove(player.getDb_id());
+         fillInvitationsTable();
      }
 
     // to show animation when view loaded
