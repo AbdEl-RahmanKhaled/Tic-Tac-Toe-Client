@@ -3,16 +3,15 @@ package com.iti.tictactoeclient.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.iti.tictactoeclient.TicTacToeClient;
 import com.iti.tictactoeclient.helpers.ServerListener;
+import com.iti.tictactoeclient.helpers.game.GameEngine;
 import com.iti.tictactoeclient.models.Match;
 import com.iti.tictactoeclient.models.Player;
-import com.iti.tictactoeclient.models.PlayerFullInfo;
 import com.iti.tictactoeclient.models.Position;
 import com.iti.tictactoeclient.notification.FinishGameNotification;
 import com.iti.tictactoeclient.notification.ResumeGameNotification;
 import com.iti.tictactoeclient.requests.AskToPauseReq;
 import com.iti.tictactoeclient.requests.RejectToPauseReq;
 import com.iti.tictactoeclient.requests.SaveMatchReq;
-import com.iti.tictactoeclient.notification.ResumeGameNotification;
 import com.iti.tictactoeclient.requests.*;
 import com.iti.tictactoeclient.models.Message;
 import com.iti.tictactoeclient.notification.MessageNotification;
@@ -22,14 +21,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
-import java.awt.*;
+import java.awt.TrayIcon;
 import java.util.*;
 import java.io.File;
 import java.net.URL;
@@ -37,10 +35,15 @@ import java.util.List;
 
 public class GameController implements Initializable {
 
-    private boolean sent, viewMode;
+    private boolean sent;
     private Match match;
     private List<Position> positions;
-    private Map<String,Button> buttons;
+    private Map<String, Button> buttons;
+    private static final GameEngine gameEngine = new GameEngine();
+    private Image imgX, imgO;
+    private Image imgChoice;
+    private char txtChoice;
+    private boolean myTurn = true;
 
     @FXML
     private ImageView backgroundimg;
@@ -56,19 +59,15 @@ public class GameController implements Initializable {
     private Button b1, b2, b3, b4, b5, b6, b7, b8, b9;
 
     @FXML
-    public int flag1 = 0, flag2 = 0, flag3 = 0, flag4 = 0, flag5 = 0, flag6 = 0, flag7 = 0, flag8 = 0, flag9 = 0;
-
-    @FXML
-    public Image img;
-
-    @FXML
     protected void onActionExite() {
-//     TicTacToeClient.openHomeView();
+        TicTacToeClient.openHomeView();
     }
 
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initButtons();
+        imgX = new Image(new File("images/x.png").toURI().toString());
+        imgO = new Image(new File("images/o.png").toURI().toString());
     }
 
     public void showAnimation() {
@@ -86,7 +85,7 @@ public class GameController implements Initializable {
         rotateTransition.play();
     }
 
-    private void initButtons(){
+    private void initButtons() {
         buttons = new HashMap<>();
         buttons.put("b1", b1);
         buttons.put("b2", b2);
@@ -101,7 +100,7 @@ public class GameController implements Initializable {
 
     @FXML
     protected void onActionAskToPause() {
-        if (!sent && !viewMode) {
+        if (!sent) {
             try {
                 AskToPauseReq askToPauseReq = new AskToPauseReq();
                 String jRequest = TicTacToeClient.mapper.writeValueAsString(askToPauseReq);
@@ -140,7 +139,7 @@ public class GameController implements Initializable {
             //sending error message notification
             TicTacToeClient.showSystemNotification("Message Error",
                     " You can't enter an empty message ",
-                            TrayIcon.MessageType.ERROR);
+                    TrayIcon.MessageType.ERROR);
             System.out.println("not a valid msg");
         }
     }
@@ -150,23 +149,14 @@ public class GameController implements Initializable {
         TicTacToeClient.openHomeView();
     }
 
-    @FXML
-    private boolean computerTurn = false;
-    private boolean playerTurn = true;
-
-    @FXML
-    private void turn(){
-        if(playerTurn)
-        {
-            img = new Image("images/icons8-o-70.png");
-            playerTurn=false;
-            computerTurn=true;
-        }
-        else if(computerTurn)
-        {
-            img = new Image("images/icons8-x-70.png");
-            playerTurn=true;
-            computerTurn=false;
+    private void turn() {
+        myTurn = !myTurn;
+        if (txtChoice == Match.CHOICE_X) {
+            txtChoice = Match.CHOICE_O;
+            imgChoice = imgO;
+        } else {
+            txtChoice = Match.CHOICE_X;
+            imgChoice = imgX;
         }
     }
 
@@ -186,61 +176,74 @@ public class GameController implements Initializable {
 
     @FXML
     protected void button1() {
-        turn();
-        b1.setGraphic(new ImageView(img));
+        placeMove(b1, "b1");
     }
 
     @FXML
     protected void button2() {
-        turn();
-        b2.setGraphic(new ImageView(img));
+        placeMove(b2, "b2");
     }
 
     @FXML
     protected void button3() {
-        turn();
-        b3.setGraphic(new ImageView(img));
+        placeMove(b3, "b3");
     }
 
     @FXML
     protected void button4() {
-        turn();
-        b4.setGraphic(new ImageView(img));
+        placeMove(b4, "b4");
     }
 
     @FXML
     protected void button5() {
-        turn();
-        b5.setGraphic(new ImageView(img));
+        placeMove(b5, "b5");
+
     }
 
     @FXML
     protected void button6() {
-        turn();
-        b6.setGraphic(new ImageView(img));
+        placeMove(b6, "b6");
+
     }
 
     @FXML
     protected void button7() {
-        turn();
-        b7.setGraphic(new ImageView(img));
+        placeMove(b7, "b7");
+
     }
 
     @FXML
     protected void button8() {
-        turn();
-        b8.setGraphic(new ImageView(img));
+        placeMove(b8, "b8");
+
     }
 
     @FXML
     protected void button9() {
-        turn();
-        b9.setGraphic(new ImageView(img));
+        placeMove(b9, "b9");
+    }
+
+    private void placeMove(Button b, String btnId) {
+        System.out.println(b.getText().equals(""));
+        if (myTurn && b.getText().equals("")) {
+            Position position = new Position();
+            position.setM_id(match.getM_id());
+            position.setPlayer_id(TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id());
+            position.setPosition(btnId);
+            UpdateBoardReq updateBoardReq = new UpdateBoardReq(position);
+            try {
+                String jRequest = TicTacToeClient.mapper.writeValueAsString(updateBoardReq);
+                ServerListener.sendRequest(jRequest);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void startMatch(Match match) {
         this.match = match;
         init();
+        firstTurn();
     }
 
     public void confirmResume(ResumeGameNotification resumeGameNotification) {
@@ -251,9 +254,19 @@ public class GameController implements Initializable {
         fillGrid(positions, match);
 
     }
+
     private void init() {
-        sent = viewMode = false;
+        sent = false;
         positions = new ArrayList<>();
+
+    }
+
+    private void firstTurn() {
+        myTurn = (match.getPlayer1_id() == TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id() && match.getP1_choice().equals(String.valueOf(Match.CHOICE_X)))
+                || (match.getPlayer2_id() == TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id() && match.getP2_choice().equals(String.valueOf(Match.CHOICE_X)));
+
+        txtChoice = Match.CHOICE_X;
+        imgChoice = imgX;
     }
 
     public void acceptResumeGame(Player player, Match match) {
@@ -353,6 +366,26 @@ public class GameController implements Initializable {
         showMatchResult(finishGameNotification.getWinner());
     }
 
+    public void handleUpdateBoard(Position position) {
+        buttons.get(position.getPosition()).setGraphic(new ImageView(imgChoice));
+        buttons.get(position.getPosition()).setText(String.valueOf(txtChoice));
+        positions.add(position);
+        if (gameEngine.checkWinner(String.valueOf(txtChoice), buttons) && myTurn) {
+            match.setWinner(TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id());
+            match.setStatus(Match.STATUS_FINISHED);
+            saveMatch();
+            TicTacToeClient.showAlert("Winner", "Winner", Alert.AlertType.INFORMATION);
+            backToHome();
+        } else if (positions.size() == 9 && myTurn) {
+            match.setStatus(Match.STATUS_FINISHED);
+            saveMatch();
+            TicTacToeClient.showAlert("Game Over.......", "Game Over", Alert.AlertType.INFORMATION);
+            backToHome();
+        }
+
+        turn();
+    }
+
     private boolean IsValidateMessage() {
         //to validate if text in fieldtext is empty
         if (TextField.getText().trim().equals("")) {
@@ -398,8 +431,8 @@ public class GameController implements Initializable {
 
     private void fillGrid(List<Position> positions, Match match) {
         String choice;
-        for (int i=0; i<positions.size(); i++){
-            if(positions.get(i).getPlayer_id()==match.getPlayer1_id())
+        for (int i = 0; i < positions.size(); i++) {
+            if (positions.get(i).getPlayer_id() == match.getPlayer1_id())
                 choice = match.getP1_choice();
             else
                 choice = match.getP2_choice();
