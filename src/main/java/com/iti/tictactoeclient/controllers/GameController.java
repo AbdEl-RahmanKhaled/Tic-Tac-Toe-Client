@@ -9,7 +9,6 @@ import com.iti.tictactoeclient.notification.FinishGameNotification;
 import com.iti.tictactoeclient.requests.AskToPauseReq;
 import com.iti.tictactoeclient.requests.RejectToPauseReq;
 import com.iti.tictactoeclient.requests.SaveMatchReq;
-import com.iti.tictactoeclient.requests.UpdateInGameStatusReq;
 import com.iti.tictactoeclient.models.Message;
 import com.iti.tictactoeclient.notification.MessageNotification;
 import com.iti.tictactoeclient.requests.SendMessageReq;
@@ -22,7 +21,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Border;
 import javafx.util.Duration;
 
 import java.awt.*;
@@ -33,7 +31,6 @@ import java.util.ResourceBundle;
 import java.util.List;
 
 import static com.iti.tictactoeclient.TicTacToeClient.mapper;
-import static com.iti.tictactoeclient.TicTacToeClient.showAlert;
 
 public class GameController implements Initializable {
 
@@ -142,13 +139,13 @@ public class GameController implements Initializable {
     private void turn(){
         if(playerTurn)
         {
-            img = new Image("D:\\downloads\\icons8-o-70.png");
+            img = new Image("images/icons8-o-70.png");
             playerTurn=false;
             computerTurn=true;
         }
         else if(computerTurn)
         {
-            img = new Image("D:\\downloads\\icons8-x-70.png");
+            img = new Image("images/icons8-x-70.png");
             playerTurn=true;
             computerTurn=false;
         }
