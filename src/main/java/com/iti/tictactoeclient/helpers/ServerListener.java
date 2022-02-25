@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.iti.tictactoeclient.TicTacToeClient;
 import com.iti.tictactoeclient.models.Player;
 import com.iti.tictactoeclient.notification.*;
+import com.iti.tictactoeclient.requests.AcceptToResumeReq;
 import com.iti.tictactoeclient.requests.BackFromOfflineReq;
 import com.iti.tictactoeclient.responses.*;
 import javafx.application.Platform;
@@ -81,10 +82,22 @@ public class ServerListener extends Thread {
         types.put(Notification.NOTIFICATION_START_GAME, this::startGame);
         types.put(Notification.NOTIFICATION_ASK_TO_PAUSE, this::askToPauseNotification);
         types.put(Notification.NOTIFICATION_MESSAGE, this::sendMessageRes);
-
+        types.put(Notification.NOTIFICATION_ASK_TO_RESUME, this::askToResume);
+        types.put(Notification.NOTIFICATION_RESUME_GAME, this::resumeGame);
         types.put(Notification.NOTIFICATION_FINISH_GAME, this::finishGameNotification);
         types.put(Notification.NOTIFICATION_PAUSE_GAME, this::pauseGameNotification);
         types.put(Notification.NOTIFICATION_COMPETITOR_CONNECTION_ISSUE, this::competitorConnectionIssueNotification);
+    }
+
+    private void resumeGame(String json){
+        try {
+            ResumeGameNotification resumeGameNotification= TicTacToeClient.mapper.readValue(json,ResumeGameNotification.class);
+            Platform.runLater(()->
+                    TicTacToeClient.gameController.confirmResume(resumeGameNotification));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void competitorConnectionIssueNotification(String json) {
@@ -108,6 +121,14 @@ public class ServerListener extends Thread {
         }
     }
 
+    private void askToResume(String json){
+        try {
+            AskToResumeNotification askToResumeNotification=TicTacToeClient.mapper.readValue(json, AskToResumeNotification.class);
+            Platform.runLater(() -> TicTacToeClient.homeController.addResumeReq(askToResumeNotification));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
     private void startGame(String json) {
         try {
             StartGameNotification startGameNotification = TicTacToeClient.mapper.readValue(json, StartGameNotification.class);

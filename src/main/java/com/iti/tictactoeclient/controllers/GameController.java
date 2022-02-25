@@ -6,13 +6,14 @@ import com.iti.tictactoeclient.helpers.ServerListener;
 import com.iti.tictactoeclient.models.Match;
 import com.iti.tictactoeclient.models.Position;
 import com.iti.tictactoeclient.notification.FinishGameNotification;
+import com.iti.tictactoeclient.notification.ResumeGameNotification;
 import com.iti.tictactoeclient.requests.AskToPauseReq;
 import com.iti.tictactoeclient.requests.RejectToPauseReq;
 import com.iti.tictactoeclient.requests.SaveMatchReq;
 import com.iti.tictactoeclient.models.Message;
 import com.iti.tictactoeclient.notification.MessageNotification;
 import com.iti.tictactoeclient.requests.SendMessageReq;
-import javafx.animation.ScaleTransition;
+import javafx.animation.RotateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -24,13 +25,11 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
 import java.awt.*;
+import java.util.List;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.List;
-
-import static com.iti.tictactoeclient.TicTacToeClient.mapper;
 
 public class GameController implements Initializable {
 
@@ -71,13 +70,13 @@ public class GameController implements Initializable {
         backgroundimg.setImage(background);
         ChatArea.setEditable(false);
 
-        ScaleTransition scale = new ScaleTransition();
-        scale.setNode(backgroundimg);
-        scale.setDuration(Duration.millis(1000));
-        scale.setCycleCount(2);
-        scale.setByX(0.4);
-        scale.setAutoReverse(true);
-        scale.play();
+        RotateTransition rotateTransition = new RotateTransition();
+        rotateTransition.setNode(backgroundimg);
+        rotateTransition.setDuration(Duration.millis(1000));
+        rotateTransition.setCycleCount(2);
+        rotateTransition.setByAngle(360);
+        rotateTransition.setAutoReverse(true);
+        rotateTransition.play();
     }
 
     @FXML
@@ -223,7 +222,12 @@ public class GameController implements Initializable {
         this.match = match;
         init();
     }
+    public void confirmResume(ResumeGameNotification resumeGameNotification){
+        TicTacToeClient.openGameView();
+        List<Position>positions =resumeGameNotification.getPositions();
+        Match match =resumeGameNotification.getMatch();
 
+    }
     private void init() {
         sent = viewMode = false;
         positions = new ArrayList<>();
