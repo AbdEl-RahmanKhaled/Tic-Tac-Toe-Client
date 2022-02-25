@@ -4,12 +4,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.iti.tictactoeclient.TicTacToeClient;
 import com.iti.tictactoeclient.helpers.ServerListener;
 import com.iti.tictactoeclient.models.Match;
+import com.iti.tictactoeclient.models.Player;
+import com.iti.tictactoeclient.models.PlayerFullInfo;
 import com.iti.tictactoeclient.models.Position;
 import com.iti.tictactoeclient.notification.FinishGameNotification;
 import com.iti.tictactoeclient.notification.ResumeGameNotification;
 import com.iti.tictactoeclient.requests.AskToPauseReq;
 import com.iti.tictactoeclient.requests.RejectToPauseReq;
 import com.iti.tictactoeclient.requests.SaveMatchReq;
+import com.iti.tictactoeclient.notification.ResumeGameNotification;
+import com.iti.tictactoeclient.requests.*;
 import com.iti.tictactoeclient.models.Message;
 import com.iti.tictactoeclient.notification.MessageNotification;
 import com.iti.tictactoeclient.requests.SendMessageReq;
@@ -18,6 +22,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -25,20 +30,21 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
 import java.awt.*;
-import java.util.List;
+import java.util.*;
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
+import java.util.List;
 
 public class GameController implements Initializable {
 
     private boolean sent, viewMode;
     private Match match;
     private List<Position> positions;
+    private Map<String,Button> buttons;
 
     @FXML
     private ImageView backgroundimg;
+
 
     @FXML
     private TextField TextField;
@@ -62,6 +68,7 @@ public class GameController implements Initializable {
 
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        initButtons();
     }
 
     public void showAnimation() {
@@ -77,6 +84,19 @@ public class GameController implements Initializable {
         rotateTransition.setByAngle(360);
         rotateTransition.setAutoReverse(true);
         rotateTransition.play();
+    }
+
+    private void initButtons(){
+        buttons = new HashMap<>();
+        buttons.put("b1", b1);
+        buttons.put("b2", b2);
+        buttons.put("b3", b3);
+        buttons.put("b4", b4);
+        buttons.put("b5", b5);
+        buttons.put("b6", b6);
+        buttons.put("b7", b7);
+        buttons.put("b8", b8);
+        buttons.put("b9", b9);
     }
 
     @FXML
@@ -222,15 +242,28 @@ public class GameController implements Initializable {
         this.match = match;
         init();
     }
-    public void confirmResume(ResumeGameNotification resumeGameNotification){
+
+    public void confirmResume(ResumeGameNotification resumeGameNotification) {
+        init();
         TicTacToeClient.openGameView();
-        List<Position>positions =resumeGameNotification.getPositions();
-        Match match =resumeGameNotification.getMatch();
+        List<Position> positions = resumeGameNotification.getPositions();
+        Match match = resumeGameNotification.getMatch();
+        fillGrid(positions, match);
 
     }
     private void init() {
         sent = viewMode = false;
         positions = new ArrayList<>();
+    }
+
+    public void acceptResumeGame(Player player, Match match) {
+        AcceptToResumeReq acceptToResumeReq = new AcceptToResumeReq(player, match);
+        try {
+            String jRequest = TicTacToeClient.mapper.writeValueAsString(acceptToResumeReq);
+            ServerListener.sendRequest(jRequest);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     public void notifyAskToPause() {
@@ -284,7 +317,6 @@ public class GameController implements Initializable {
     }*/
 
     private void finishMatch() {
-        //clear();
         match.setStatus(Match.STATUS_FINISHED);
         if (match.getPlayer1_id() == TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id()) {
             match.setWinner(match.getPlayer2_id());
@@ -315,6 +347,7 @@ public class GameController implements Initializable {
         }
         backToHome();
     }
+
 
     public void handleFinishGame(FinishGameNotification finishGameNotification) {
         showMatchResult(finishGameNotification.getWinner());
@@ -361,5 +394,16 @@ public class GameController implements Initializable {
         match = null;
         positions.clear();
         TicTacToeClient.openHomeView();
+    }
+
+    private void fillGrid(List<Position> positions, Match match) {
+        String choice;
+        for (int i=0; i<positions.size(); i++){
+            if(positions.get(i).getPlayer_id()==match.getPlayer1_id())
+                choice = match.getP1_choice();
+            else
+                choice = match.getP2_choice();
+            buttons.get(positions.get(i).getPosition()).setText(choice);
+        }
     }
 }
