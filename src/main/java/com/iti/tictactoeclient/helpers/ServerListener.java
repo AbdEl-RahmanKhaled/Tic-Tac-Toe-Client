@@ -1,6 +1,7 @@
 package com.iti.tictactoeclient.helpers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.iti.tictactoeclient.TicTacToeClient;
 import com.iti.tictactoeclient.controllers.LoginController;
 import com.iti.tictactoeclient.models.Player;
@@ -76,6 +77,7 @@ public class ServerListener extends Thread {
         types.put(Response.RESPONSE_INVITE_TO_GAME, this::inviteToGameResponse);
         types.put(Response.RESPONSE_SIGN_UP, this::signUpRes);
         types.put(Response.RESPONSE_GET_MATCH_HISTORY, this::getMatchHistory);
+        types.put(Response.RESPONSE_ASK_TO_RESUME, this::rejectToResumeGame);
 
         types.put(Notification.NOTIFICATION_UPDATE_STATUS, this::updateStatus);
         types.put(Notification.NOTIFICATION_GAME_INVITATION, this::gameInvitation);
@@ -124,6 +126,17 @@ public class ServerListener extends Thread {
         try {
             AskToResumeNotification askToResumeNotification=TicTacToeClient.mapper.readValue(json, AskToResumeNotification.class);
             Platform.runLater(() -> TicTacToeClient.homeController.addResumeReq(askToResumeNotification));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void rejectToResumeGame(String json){
+        try{
+            AskToResumeRes askToResumeRes = TicTacToeClient.mapper.readValue(json, AskToResumeRes.class);
+            if(askToResumeRes.getStatus().equals(Response.STATUS_ERROR)){
+                Platform.runLater(() -> TicTacToeClient.homeController.declineResume(askToResumeRes));
+            }
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

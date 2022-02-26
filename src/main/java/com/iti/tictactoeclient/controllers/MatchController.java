@@ -69,46 +69,45 @@ public class MatchController implements Initializable {
         MatchTable.setRowFactory(tv -> {
             TableRow<MatchTable> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && (!row.isEmpty()) && (Objects.equals(MatchTable.getSelectionModel().getSelectedItem().getStatus().toLowerCase(Locale.ROOT), com.iti.tictactoeclient.models.MatchTable.STATUS_PAUSED)) ) {
+                if (event.getClickCount() == 2 && (!row.isEmpty()) && (Objects.equals(MatchTable.getSelectionModel().getSelectedItem().getStatus().toLowerCase(Locale.ROOT), com.iti.tictactoeclient.models.MatchTable.STATUS_PAUSED))) {
                     MatchTable rowData = row.getItem();
                     selectMatchToResume();
                 }
             });
-            return row ;
+            return row;
         });
 
     }
 
-    private void selectMatchToResume(){
+    private void selectMatchToResume() {
         int db_id;
-        MatchTable matchTable= MatchTable.getSelectionModel().getSelectedItem();
+        MatchTable matchTable = MatchTable.getSelectionModel().getSelectedItem();
         if (Objects.equals(matchTable.getStatus().toLowerCase(Locale.ROOT), com.iti.tictactoeclient.models.MatchTable.STATUS_PAUSED)) {
-            if(matchTable.getPlayer1_id()==TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id()){
-                db_id=matchTable.getPlayer2_id();
+            if (matchTable.getPlayer1_id() == TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id()) {
+                db_id = matchTable.getPlayer2_id();
+            } else {
+                db_id = matchTable.getPlayer1_id();
             }
-            else{
-                db_id=matchTable.getPlayer1_id();
-            }
-            long s_id= TicTacToeClient.homeController.getPlayersFullInfo().get(db_id).getS_id();
-            if(s_id!=-1) {
-                boolean answer = TicTacToeClient.showConfirmation("Resume game", "Send Resume Request?", "Ok", "Cancel");
-                System.out.println(answer);
-                if (answer) {
-                    Player player = new Player(db_id, s_id);
-                    Match match = new Match();
-                    match.setM_id(matchTable.getM_id());
-                    AskToResumeReq askToResumeReq = new AskToResumeReq();
-                    askToResumeReq.setPlayer(player);
-                    askToResumeReq.setMatch(match);
-                    try {
-                        String jRequest = TicTacToeClient.mapper.writeValueAsString(askToResumeReq);
-                        ServerListener.sendRequest(jRequest);
-                    } catch (JsonProcessingException e) {
-                        e.printStackTrace();
-                    }
+            long s_id = TicTacToeClient.homeController.getPlayersFullInfo().get(db_id).getS_id();
 
+            boolean answer = TicTacToeClient.showConfirmation("Resume game", "Send Resume Request?", "Ok", "Cancel");
+            System.out.println(answer);
+            if (answer) {
+                Player player = new Player(db_id, s_id);
+                Match match = new Match();
+                match.setM_id(matchTable.getM_id());
+                AskToResumeReq askToResumeReq = new AskToResumeReq();
+                askToResumeReq.setPlayer(player);
+                askToResumeReq.setMatch(match);
+                try {
+                    String jRequest = TicTacToeClient.mapper.writeValueAsString(askToResumeReq);
+                    ServerListener.sendRequest(jRequest);
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
                 }
+
             }
+
         }
     }
 

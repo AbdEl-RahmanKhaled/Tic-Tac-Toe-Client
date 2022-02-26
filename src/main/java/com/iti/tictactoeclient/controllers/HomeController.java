@@ -9,6 +9,7 @@ import com.iti.tictactoeclient.models.Player;
 import com.iti.tictactoeclient.models.PlayerFullInfo;
 import com.iti.tictactoeclient.notification.AskToResumeNotification;
 import com.iti.tictactoeclient.requests.*;
+import com.iti.tictactoeclient.responses.AskToResumeRes;
 import com.iti.tictactoeclient.responses.InviteToGameRes;
 import com.iti.tictactoeclient.responses.Response;
 import javafx.animation.FadeTransition;
@@ -186,6 +187,10 @@ public class HomeController implements Initializable {
         }
     }
 
+    public void declineResume(AskToResumeRes askToResumeRes){
+        TicTacToeClient.showSystemNotification("Resume Game, Declined!", getPlayerFullInfo(askToResumeRes.getPlayer().getDb_id()).getName()+" cannot resume game right now.", MessageType.INFO);
+    }
+
     // to confirm user
     private void showInvitationConfirmation() {
         Invitation invitation = tInvitation.getSelectionModel().getSelectedItem();
@@ -195,7 +200,7 @@ public class HomeController implements Initializable {
     }
 
     private void confirmGameInvitation(Invitation invitation) {
-        if (TicTacToeClient.showConfirmation(invitation.getType(), invitation.getName() + " invite you to a game.", "Accept", "Reject")) {
+        if (TicTacToeClient.showConfirmation(invitation.getType(), invitation.getName() + " invite you to a game.", "Accept", "Decline")) {
             // accept the invitation
             AcceptInvitationReq acceptInvitationReq = new AcceptInvitationReq(new Player(playersFullInfo.get(invitation.getPlayer().getDb_id())));
             try {
