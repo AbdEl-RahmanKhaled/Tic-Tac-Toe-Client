@@ -78,8 +78,8 @@
                 </Button>
             </children>
         </GridPane>
-        <TextField fx:id="TextField" layoutX="708.0" layoutY="522.0" prefHeight="31.0" prefWidth="195.0" />
-        <Button fx:id="SendButton" layoutX="905.0" layoutY="522.0" mnemonicParsing="false" onAction="#onActionChatsender" prefHeight="31.0" prefWidth="63.0" style="-fx-background-color: linear-gradient(to right, #b92b27, #db5652);" text="Send" textFill="#e8e865">
+        <TextField fx:id="TextField" layoutX="708.0" layoutY="531.0" prefHeight="31.0" prefWidth="195.0" />
+        <Button fx:id="SendButton" layoutX="905.0" layoutY="531.0" mnemonicParsing="false" onAction="#onActionChatsender" prefHeight="31.0" prefWidth="63.0" style="-fx-background-color: linear-gradient(to right, #b92b27, #db5652);" text="Send" textFill="#e8e865">
             <font>
                 <Font name="Times New Roman" size="15.0" />
             </font>
@@ -94,7 +94,7 @@
                 <Font name="Times New Roman Bold" size="18.0" />
             </font>
         </Button>
-        <TextArea fx:id="ChatArea" blendMode="OVERLAY" layoutX="708.0" layoutY="118.0" prefHeight="389.0" prefWidth="260.0" style="-fx-background-radius: 10;" />
+        <TextArea fx:id="ChatArea" blendMode="OVERLAY" layoutX="708.0" layoutY="127.0" prefHeight="389.0" prefWidth="260.0" style="-fx-background-radius: 10;" />
         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="23.0" layoutY="344.0" prefHeight="21.0" prefWidth="155.0" text="Label" textAlignment="CENTER" textFill="#e8e865">
          <font>
             <Font size="17.0" />
