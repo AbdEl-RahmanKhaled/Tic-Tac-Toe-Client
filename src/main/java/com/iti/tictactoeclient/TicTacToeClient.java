@@ -13,6 +13,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -25,7 +26,7 @@ import java.net.URL;
 
 public class TicTacToeClient extends Application {
     private static Stage mainStage;
-    private static Scene sceneRegister, sceneHome, sceneGame, sceneLogin , sceneMatch,sceneGameVsComputer;
+    private static Scene sceneRegister, sceneHome, sceneGame, sceneLogin, sceneMatch, sceneGameVsComputer;
     private URL url;
     private String css;
     public static RegisterController registerController;
@@ -178,6 +179,18 @@ public class TicTacToeClient extends Application {
         alert.showAndWait();
     }
 
+    public static void showAlert(String title, String message, Image img, Alert.AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(message);
+        ImageView imageView = new ImageView(img);
+        imageView.setFitWidth(200);
+        imageView.setFitHeight(150);
+        alert.setGraphic(imageView);
+        alert.setContentText("");
+        alert.showAndWait();
+    }
+
     public static void sendUpdateInGameStatus(boolean isInGame) {
         UpdateInGameStatusReq updateInGameStatusReq = new UpdateInGameStatusReq(isInGame);
         try {
@@ -235,6 +248,7 @@ public class TicTacToeClient extends Application {
         mainStage.show();
         gameController.showAnimation();
     }
+
     public static void openGameVsComputerView() {
         mainStage.hide();
         mainStage.setScene(sceneGameVsComputer);

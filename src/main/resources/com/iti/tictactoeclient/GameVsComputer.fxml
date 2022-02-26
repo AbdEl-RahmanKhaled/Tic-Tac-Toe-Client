@@ -86,24 +86,23 @@
             </font>
         </Button>
         <AmbientLight color="CHARTREUSE" layoutX="74.0" layoutY="78.0" lightOn="true" />
-      <ImageView fx:id="computer" fitHeight="80.0" fitWidth="74.0" layoutX="549.0" layoutY="240.0">
+      <ImageView fitHeight="101.0" fitWidth="103.0" layoutX="31.0" layoutY="230.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../../images/computer.png" />
+            <Image url="@../../../imgs/player.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="userimg" layoutX="40.0" layoutY="240.0">
+      <ImageView fitHeight="95.0" fitWidth="82.0" layoutX="540.0" layoutY="236.0" pickOnBounds="true">
          <image>
-            <Image url="@../../../../../../images/player.png" />
+            <Image url="@../../../imgs/computer.png" />
          </image>
       </ImageView>
-      <ImageView layoutX="45.0" layoutY="345.0" fx:id="xImg">
+      <ImageView fitHeight="66.0" fitWidth="72.0" layoutX="49.0" layoutY="345.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../../images/x.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="oImg" layoutX="551.0" layoutY="345.0">
+            <Image url="@../../../imgs/x.png" />
+         </image></ImageView>
+      <ImageView fitHeight="66.0" fitWidth="72.0" layoutX="548.0" layoutY="345.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../../images/o.png" />
+            <Image url="@../../../imgs/o.png" />
          </image>
       </ImageView>
 

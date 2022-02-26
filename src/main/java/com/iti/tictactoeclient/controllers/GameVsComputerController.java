@@ -30,7 +30,7 @@ public class GameVsComputerController implements Initializable {
     private boolean myTurn;
 
     @FXML
-    private ImageView computer, userimg, xImg, oImg, backgroundimg;
+    private ImageView backgroundimg;
 
     @FXML
     private Button b1, b2, b3, b4, b5, b6, b7, b8, b9;
@@ -92,7 +92,7 @@ public class GameVsComputerController implements Initializable {
             if (aiGameEngine.checkWinner(String.valueOf(Match.CHOICE_X), buttons)) {
                 TicTacToeClient.showAlert("Winner", "Winner", Alert.AlertType.INFORMATION);
             } else if (aiGameEngine.getAvailableCells().isEmpty()) {
-                TicTacToeClient.showAlert("Game Over", "Game Over", Alert.AlertType.INFORMATION);
+                TicTacToeClient.showAlert("Game Over", "Game Over", new Image(new File("images/winner.gif").toURI().toString()), Alert.AlertType.INFORMATION);
             } else {
                 aiTurn();
             }
@@ -122,7 +122,7 @@ public class GameVsComputerController implements Initializable {
         if (aiGameEngine.checkWinner(String.valueOf(Match.CHOICE_O), buttons)) {
             TicTacToeClient.showAlert("Loser", "Loser", Alert.AlertType.INFORMATION);
         } else if (aiGameEngine.getAvailableCells().isEmpty()) {
-            TicTacToeClient.showAlert("Game Over", "Game Over", Alert.AlertType.INFORMATION);
+            TicTacToeClient.showAlert("Game Over", "Game Over", new Image(new File("images/7.png").toURI().toString()), Alert.AlertType.INFORMATION);
         } else {
             myTurn = true;
         }
@@ -158,20 +158,7 @@ public class GameVsComputerController implements Initializable {
         File backFile = new File("images/7.png");
         Image background = new Image(backFile.toURI().toString());
         backgroundimg.setImage(background);
-        File cumputer = new File("images/computer.png");
-        Image cumputerim = new Image(cumputer.toURI().toString());
-        computer.setImage(cumputerim);
 
-        File user = new File("images/player.png");
-        Image userim = new Image(user.toURI().toString());
-        userimg.setImage(userim);
-        File x = new File("images/x.png");
-        Image ximage = new Image(x.toURI().toString());
-        xImg.setImage(ximage);
-
-        File o = new File("images/o.png");
-        Image oimage = new Image(o.toURI().toString());
-        oImg.setImage(oimage);
         RotateTransition rotateTransition = new RotateTransition();
         rotateTransition.setNode(backgroundimg);
         rotateTransition.setDuration(Duration.millis(1000));

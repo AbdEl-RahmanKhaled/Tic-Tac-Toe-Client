@@ -59,11 +59,6 @@ public class GameController implements Initializable {
     private Button b1, b2, b3, b4, b5, b6, b7, b8, b9;
 
     @FXML
-    protected void onActionExite() {
-        TicTacToeClient.openHomeView();
-    }
-
-    @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initButtons();
         imgX = new Image(new File("images/x.png").toURI().toString());
@@ -144,10 +139,6 @@ public class GameController implements Initializable {
         }
     }
 
-    @FXML
-    protected void onActionFinish() {
-        TicTacToeClient.openHomeView();
-    }
 
     private void turn() {
         myTurn = !myTurn;
@@ -328,6 +319,15 @@ public class GameController implements Initializable {
         b8.setGraphic(new ImageView(img1));
         b9.setGraphic(new ImageView(img1));
     }*/
+
+    @FXML
+    protected void onActionFinish() {
+        if (TicTacToeClient.showConfirmation("Finish Match", "Are you sure you want to finish this match? \n" +
+                "HINT: you will lose the match.", "Yes", "No")){
+            finishMatch();
+        }
+
+    }
 
     private void finishMatch() {
         match.setStatus(Match.STATUS_FINISHED);
