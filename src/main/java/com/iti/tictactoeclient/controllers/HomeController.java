@@ -118,7 +118,7 @@ public class HomeController implements Initializable {
      {
          Player player = tInvitation.getSelectionModel().getSelectedItem().getPlayer();
          Match match = tInvitation.getSelectionModel().getSelectedItem().getMatch();
-         if(TicTacToeClient.showConfirmation("ShowNotification","Do you want to resume game ?","Accept","Reject"))
+         if(TicTacToeClient.showConfirmation("ShowNotification","Do you want to resume game ?","Accept","Decline"))
          {
              AcceptToResumeReq acceptToResumeReq = new AcceptToResumeReq(player, match);
              //Platform.runLater(()-> TicTacToeClient.openGameView());

@@ -90,22 +90,24 @@ public class MatchController implements Initializable {
                 db_id=matchTable.getPlayer1_id();
             }
             long s_id= TicTacToeClient.homeController.getPlayersFullInfo().get(db_id).getS_id();
-            boolean answer=TicTacToeClient.showConfirmation("Resume game", "Send Resume Request?", "Ok", "Cancel");
-            System.out.println(answer);
-            if(answer){
-                Player player=new Player(db_id, s_id);
-                Match match=new Match();
-                match.setM_id(matchTable.getM_id());
-                AskToResumeReq askToResumeReq=new AskToResumeReq();
-                askToResumeReq.setPlayer(player);
-                askToResumeReq.setMatch(match);
-                try {
-                    String jRequest=TicTacToeClient.mapper.writeValueAsString(askToResumeReq);
-                    ServerListener.sendRequest(jRequest);
-                } catch (JsonProcessingException e) {
-                    e.printStackTrace();
-                }
+            if(s_id!=-1) {
+                boolean answer = TicTacToeClient.showConfirmation("Resume game", "Send Resume Request?", "Ok", "Cancel");
+                System.out.println(answer);
+                if (answer) {
+                    Player player = new Player(db_id, s_id);
+                    Match match = new Match();
+                    match.setM_id(matchTable.getM_id());
+                    AskToResumeReq askToResumeReq = new AskToResumeReq();
+                    askToResumeReq.setPlayer(player);
+                    askToResumeReq.setMatch(match);
+                    try {
+                        String jRequest = TicTacToeClient.mapper.writeValueAsString(askToResumeReq);
+                        ServerListener.sendRequest(jRequest);
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
 
+                }
             }
         }
     }
