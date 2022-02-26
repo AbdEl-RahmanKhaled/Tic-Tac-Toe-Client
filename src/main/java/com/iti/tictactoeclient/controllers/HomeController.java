@@ -85,7 +85,7 @@ public class HomeController implements Initializable {
             TableRow<Invitation> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    if(tInvitation.getSelectionModel().getSelectedItem().getType().equals(Invitation.GAME_INVITATION))
+                    if (tInvitation.getSelectionModel().getSelectedItem().getType().equals(Invitation.GAME_INVITATION))
                         showInvitationConfirmation();
                     else
                         respondToResumeReq();
@@ -96,7 +96,7 @@ public class HomeController implements Initializable {
 
     }
 
-    public void addResumeReq(AskToResumeNotification askToResumeNotification){
+    public void addResumeReq(AskToResumeNotification askToResumeNotification) {
         if (invitations.get(askToResumeNotification.getPlayer().getDb_id()) == null) {
             Invitation invitation = new Invitation(Invitation.RESUME_INVITATION, askToResumeNotification.getPlayer(), askToResumeNotification.getMatch());
             invitation.setName(playersFullInfo.get(askToResumeNotification.getPlayer().getDb_id()).getName());
@@ -107,12 +107,11 @@ public class HomeController implements Initializable {
                     MessageType.INFO);
         }
     }
-    public void respondToResumeReq()
-    {
+
+    public void respondToResumeReq() {
         Player player = tInvitation.getSelectionModel().getSelectedItem().getPlayer();
         Match match = tInvitation.getSelectionModel().getSelectedItem().getMatch();
-        if(TicTacToeClient.showConfirmation("ShowNotification","Do you want to resume game ?","Accept","Reject"))
-        {
+        if (TicTacToeClient.showConfirmation("ShowNotification", "Do you want to resume game ?", "Accept", "Reject")) {
             AcceptToResumeReq acceptToResumeReq = new AcceptToResumeReq(player, match);
             try {
                 String jRequest = TicTacToeClient.mapper.writeValueAsString(acceptToResumeReq);
@@ -120,8 +119,7 @@ public class HomeController implements Initializable {
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
-        }
-        else{
+        } else {
             RejectToResumeReq rejectToResumeReq = new RejectToResumeReq(player);
             try {
                 String jRequest = TicTacToeClient.mapper.writeValueAsString(rejectToResumeReq);
@@ -234,8 +232,14 @@ public class HomeController implements Initializable {
 
 
     @FXML
-    public void ComputerButton(){
-        TicTacToeClient.gameVsComputerController.startGame();
+    public void ComputerButton() {
+        if (TicTacToeClient.showConfirmation("Level", "Please Select a level", "Easy", "Hard")) {
+            TicTacToeClient.gameVsComputerController.startGame(true);
+        } else {
+            TicTacToeClient.gameVsComputerController.startGame(false);
+        }
+
+
         TicTacToeClient.openGameVsComputerView();
         TicTacToeClient.gameVsComputerController.showAnimation();
     }
@@ -280,7 +284,6 @@ public class HomeController implements Initializable {
         }
     }
 
-
     public void fromLogin(PlayerFullInfo myPlayerFullInfo, Map<Integer, PlayerFullInfo> playersFullInfo) {
         this.myPlayerFullInfo = myPlayerFullInfo;
         this.playersFullInfo = playersFullInfo;
@@ -298,7 +301,6 @@ public class HomeController implements Initializable {
     private void fillPlayersTable() {
         tPlayers.getItems().clear();
         tPlayers.getItems().setAll(playersFullInfo.values());
-
         tPlayers.getSortOrder().add(cStatus);
     }
 
@@ -308,11 +310,20 @@ public class HomeController implements Initializable {
     }
 
     public void updateStatus(PlayerFullInfo playerFullInfo) {
-        if (!playerFullInfo.getStatus().equals(playersFullInfo.get(playerFullInfo.getDb_id()).getStatus()) && playerFullInfo.getStatus().equals(PlayerFullInfo.ONLINE)) {
-            TicTacToeClient.showSystemNotification("Status Updated", "Player " + playerFullInfo.getName() + " now is online.", MessageType.INFO);
+        if (playersFullInfo != null) {
+            if (playerFullInfo.getDb_id() == myPlayerFullInfo.getDb_id()) {
+
+                lblScore.setText(String.valueOf(playerFullInfo.getPoints()));
+            } else {
+                if (!playerFullInfo.getStatus().equals(playersFullInfo.get(playerFullInfo.getDb_id()).getStatus())
+                        && playerFullInfo.getStatus().equals(PlayerFullInfo.ONLINE)) {
+                    TicTacToeClient.showSystemNotification("Status Updated", "Player " + playerFullInfo.getName() + " now is online.", MessageType.INFO);
+                }
+
+                playersFullInfo.put(playerFullInfo.getDb_id(), playerFullInfo);
+                fillPlayersTable();
+            }
         }
-        playersFullInfo.put(playerFullInfo.getDb_id(), playerFullInfo);
-        fillPlayersTable();
     }
 
     public PlayerFullInfo getMyPlayerFullInfo() {
@@ -320,6 +331,9 @@ public class HomeController implements Initializable {
     }
 
     public PlayerFullInfo getPlayerFullInfo(int id) {
+        if (myPlayerFullInfo.getDb_id() == id) {
+            return myPlayerFullInfo;
+        }
         return playersFullInfo.get(id);
     }
 }

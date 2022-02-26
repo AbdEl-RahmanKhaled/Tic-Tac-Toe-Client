@@ -9,7 +9,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: linear-gradient(to right, #b92b27, #1565c0);;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iti.tictactoeclient.controllers.HomeController">
    <children>
-      <Label id="Redressed" layoutX="386.0" layoutY="300.0" prefHeight="24.0" prefWidth="85.0" text="Score:">
+      <Label id="Redressed" layoutX="365.0" layoutY="286.0" prefHeight="24.0" prefWidth="85.0" text="Score:">
          <textFill>
             <LinearGradient endX="0.41666664499225037" endY="1.0" startX="0.3825757584788583">
                <stops>
@@ -30,7 +30,7 @@
             <Font size="21.0" />
          </font>
       </Label>
-      <Label id="Redressed" layoutX="376.0" layoutY="239.0" prefHeight="35.0" prefWidth="146.0" text="Player name :">
+      <Label id="Redressed" layoutX="365.0" layoutY="239.0" prefHeight="35.0" prefWidth="146.0" text="Player name :">
          <textFill>
             <LinearGradient endX="0.41666664499225037" endY="1.0" startX="0.3825757584788583">
                <stops>
@@ -51,7 +51,7 @@
             <Font size="21.0" />
          </font>
       </Label>
-      <ImageView fx:id="imgLogo" fitHeight="121.0" fitWidth="200.0" layoutX="418.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgLogo" fitHeight="121.0" fitWidth="200.0" layoutX="402.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../../../images/7.png" />
          </image>
@@ -74,7 +74,7 @@
          <font>
             <Font name="Times New Roman" size="17.0" />
          </font></Button>
-      <Label id="Redressed" fx:id="ChoosePlayers" layoutX="681.0" layoutY="79.0" prefHeight="29.0" prefWidth="187.0" style="-fx-font-family: https://fonts.gstatic.com&quot; crossorigin;" text="Choose Players ">
+      <Label id="Redressed" fx:id="ChoosePlayers" layoutX="681.0" layoutY="79.0" prefHeight="35.0" prefWidth="222.0" style="-fx-font-family: https://fonts.gstatic.com&quot; crossorigin;" text="Choose Player">
          <textFill>
             <LinearGradient endX="0.41666664499225037" endY="1.0" startX="0.3825757584788583">
                <stops>
@@ -95,7 +95,7 @@
             <Font name="Times New Roman" size="31.0" />
          </font>
       </Label>
-      <Label id="Redressed" fx:id="lblName" layoutX="505.0" layoutY="239.0" prefHeight="35.0" prefWidth="152.0">
+      <Label id="Redressed" fx:id="lblName" layoutX="484.0" layoutY="239.0" prefHeight="35.0" prefWidth="152.0">
          <textFill>
             <LinearGradient endX="0.41666664499225037" endY="1.0" startX="0.3825757584788583">
                <stops>
@@ -116,7 +116,7 @@
             <Font name="Times New Roman" size="17.0" />
          </font>
       </Label>
-      <Label id="Redressed" fx:id="lblScore" layoutX="461.0" layoutY="306.0" prefHeight="24.0" prefWidth="140.0">
+      <Label id="Redressed" fx:id="lblScore" layoutX="450.0" layoutY="290.0" prefHeight="24.0" prefWidth="140.0">
          <textFill>
             <LinearGradient endX="0.41666664499225037" endY="1.0" startX="0.3825757584788583">
                <stops>
@@ -173,7 +173,7 @@
             <Image url="@../../../../../../images/computer.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="userimg"  fitHeight="85.0" fitWidth="85.0"  layoutX="378.0" layoutY="361.0">
+      <ImageView fx:id="userimg" fitHeight="85.0" fitWidth="85.0" layoutX="378.0" layoutY="361.0">
          <image>
             <Image url="@../../../../../../images/player.png" />
          </image>

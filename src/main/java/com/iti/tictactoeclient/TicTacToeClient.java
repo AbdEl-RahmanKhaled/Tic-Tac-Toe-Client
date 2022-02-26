@@ -14,6 +14,8 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -179,16 +181,20 @@ public class TicTacToeClient extends Application {
         alert.showAndWait();
     }
 
-    public static void showAlert(String title, String message, Image img, Alert.AlertType alertType) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(message);
-        ImageView imageView = new ImageView(img);
-        imageView.setFitWidth(200);
-        imageView.setFitHeight(150);
-        alert.setGraphic(imageView);
-        alert.setContentText("");
-        alert.showAndWait();
+    public static void showAlert(String title, String type) {
+
+        FXMLLoader loader = new FXMLLoader(TicTacToeClient.class.getResource(type + ".fxml"));
+        try {
+            Scene scene = new Scene(loader.load());
+            Stage stage = new Stage();
+            stage.setResizable(false);
+            stage.setTitle(title);
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void sendUpdateInGameStatus(boolean isInGame) {

@@ -1,14 +1,9 @@
 package com.iti.tictactoeclient.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.iti.tictactoeclient.TicTacToeClient;
-import com.iti.tictactoeclient.helpers.ServerListener;
 import com.iti.tictactoeclient.helpers.game.AIGameEngine;
 import com.iti.tictactoeclient.models.Match;
-import com.iti.tictactoeclient.models.Position;
-import com.iti.tictactoeclient.requests.UpdateBoardReq;
 import javafx.animation.RotateTransition;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -19,7 +14,6 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.net.URL;
-import java.sql.Timestamp;
 import java.util.*;
 
 public class GameVsComputerController implements Initializable {
@@ -28,6 +22,7 @@ public class GameVsComputerController implements Initializable {
     private static final AIGameEngine aiGameEngine = new AIGameEngine();
     private Image imgX, imgO;
     private boolean myTurn;
+    private boolean isEasy;
 
     @FXML
     private ImageView backgroundimg;
@@ -89,11 +84,7 @@ public class GameVsComputerController implements Initializable {
             buttons.get(btnId).setText(String.valueOf(Match.CHOICE_X));
             buttons.get(btnId).setGraphic(new ImageView(imgX));
             aiGameEngine.setBoard(buttons);
-            if (aiGameEngine.checkWinner(String.valueOf(Match.CHOICE_X), buttons)) {
-                TicTacToeClient.showAlert("Winner", "Winner", Alert.AlertType.INFORMATION);
-            } else if (aiGameEngine.getAvailableCells().isEmpty()) {
-                TicTacToeClient.showAlert("Game Over", "Game Over", new Image(new File("images/winner.gif").toURI().toString()), Alert.AlertType.INFORMATION);
-            } else {
+            if (isGameNotEnded()) {
                 aiTurn();
             }
         }
@@ -102,6 +93,7 @@ public class GameVsComputerController implements Initializable {
     @FXML
     void onActionExit() {
         onActionReset();
+        TicTacToeClient.sendUpdateInGameStatus(false);
         TicTacToeClient.openHomeView();
     }
 
@@ -116,17 +108,32 @@ public class GameVsComputerController implements Initializable {
 
     private void aiTurn() {
         myTurn = false;
-        aiGameEngine.minMax(0, Match.CHOICE_O);
+        if (isEasy) {
+            aiGameEngine.easy();
+        } else {
+            aiGameEngine.minMax(0, Match.CHOICE_O);
+        }
         buttons.get(aiGameEngine.computerMove).setText(String.valueOf(Match.CHOICE_O));
         buttons.get(aiGameEngine.computerMove).setGraphic(new ImageView(imgO));
-        if (aiGameEngine.checkWinner(String.valueOf(Match.CHOICE_O), buttons)) {
-            TicTacToeClient.showAlert("Loser", "Loser", Alert.AlertType.INFORMATION);
-        } else if (aiGameEngine.getAvailableCells().isEmpty()) {
-            TicTacToeClient.showAlert("Game Over", "Game Over", new Image(new File("images/7.png").toURI().toString()), Alert.AlertType.INFORMATION);
-        } else {
+        if (isGameNotEnded()) {
             myTurn = true;
         }
 
+    }
+
+    private boolean isGameNotEnded() {
+        boolean end = false;
+        if (aiGameEngine.checkWinner(String.valueOf(Match.CHOICE_O), buttons)) {
+            end = true;
+            TicTacToeClient.showAlert("Loser", "loser");
+        } else if (aiGameEngine.checkWinner(String.valueOf(Match.CHOICE_X), buttons)) {
+            end = true;
+            TicTacToeClient.showAlert("Winner", "winner");
+        } else if (aiGameEngine.getAvailableCells().isEmpty()) {
+            end = true;
+            TicTacToeClient.showAlert("Game Over", "gameOver");
+        }
+        return !end;
     }
 
     @Override
@@ -150,15 +157,17 @@ public class GameVsComputerController implements Initializable {
     }
 
 
-    public void startGame() {
+    public void startGame(boolean easy) {
         myTurn = true;
+        isEasy = easy;
+        TicTacToeClient.sendUpdateInGameStatus(true);
     }
+
 
     public void showAnimation() {
         File backFile = new File("images/7.png");
         Image background = new Image(backFile.toURI().toString());
         backgroundimg.setImage(background);
-
         RotateTransition rotateTransition = new RotateTransition();
         rotateTransition.setNode(backgroundimg);
         rotateTransition.setDuration(Duration.millis(1000));

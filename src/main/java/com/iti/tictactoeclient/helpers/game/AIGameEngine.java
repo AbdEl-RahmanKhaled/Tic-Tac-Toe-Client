@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class AIGameEngine extends GameEngine {
     private Map<String, Button> board;
@@ -78,6 +79,13 @@ public class AIGameEngine extends GameEngine {
             board.get(position).setText("");
         }
         return turn == Match.CHOICE_O ? max : min;
+    }
+
+    public void easy() {
+        List<String> positions = getAvailableCells();
+        if (positions.size() > 0) {
+            computerMove = getAvailableCells().get(new Random().nextInt(positions.size()));
+        }
     }
 
     public void setBoard(Map<String, Button> board) {

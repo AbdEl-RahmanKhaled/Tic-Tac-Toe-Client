@@ -49,6 +49,10 @@ Button {
 
 }
 
+.data{
+     -fx-background-color: #F00D4B;
+}
+
 #matchText {
     -fx-font-size: 13px;
     -fx-font-family: 'Redressed', cursive;
