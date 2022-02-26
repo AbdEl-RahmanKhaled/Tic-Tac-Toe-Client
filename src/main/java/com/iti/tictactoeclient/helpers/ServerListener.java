@@ -78,6 +78,7 @@ public class ServerListener extends Thread {
         types.put(Response.RESPONSE_SIGN_UP, this::signUpRes);
         types.put(Response.RESPONSE_GET_MATCH_HISTORY, this::getMatchHistory);
         types.put(Response.RESPONSE_ASK_TO_RESUME, this::rejectToResumeGame);
+        types.put(Response.RESPONSE_GET_PAUSED_MATCH, this::getPausedMatch);
 
         types.put(Notification.NOTIFICATION_UPDATE_STATUS, this::updateStatus);
         types.put(Notification.NOTIFICATION_GAME_INVITATION, this::gameInvitation);
@@ -242,6 +243,17 @@ public class ServerListener extends Thread {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void getPausedMatch(String json){
+        try {
+            GetPausedMatchRes getPausedMatchRes = TicTacToeClient.mapper.readValue(json, GetPausedMatchRes.class);
+            Platform.runLater(()->TicTacToeClient.gameController.viewMatchHistory(getPausedMatchRes));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     @Override

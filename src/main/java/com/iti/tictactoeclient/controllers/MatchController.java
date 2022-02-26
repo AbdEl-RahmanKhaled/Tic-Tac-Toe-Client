@@ -5,6 +5,7 @@ import com.iti.tictactoeclient.TicTacToeClient;
 import com.iti.tictactoeclient.helpers.ServerListener;
 import com.iti.tictactoeclient.models.*;
 import com.iti.tictactoeclient.requests.AskToResumeReq;
+import com.iti.tictactoeclient.requests.GetPausedMatchReq;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -66,22 +67,45 @@ public class MatchController implements Initializable {
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
         winnerColumn.setCellValueFactory(new PropertyValueFactory<>("winner"));
 
-        MatchTable.setRowFactory(tv -> {
-            TableRow<MatchTable> row = new TableRow<>();
-            row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && (!row.isEmpty()) && (Objects.equals(MatchTable.getSelectionModel().getSelectedItem().getStatus().toLowerCase(Locale.ROOT), com.iti.tictactoeclient.models.MatchTable.STATUS_PAUSED))) {
-                    MatchTable rowData = row.getItem();
-                    selectMatchToResume();
-                }
-            });
-            return row;
-        });
+//        MatchTable.setRowFactory(tv -> {
+//            TableRow<MatchTable> row = new TableRow<>();
+//            row.setOnMouseClicked(event -> {
+//                if (event.getClickCount() == 2 && (!row.isEmpty()) && (Objects.equals(MatchTable.getSelectionModel().getSelectedItem().getStatus().toLowerCase(Locale.ROOT), com.iti.tictactoeclient.models.MatchTable.STATUS_PAUSED))) {
+//                    MatchTable rowData = row.getItem();
+//                    selectMatchToResume();
+//                }
+//            });
+//            return row;
+//        });
 
     }
 
-    private void selectMatchToResume() {
+    @FXML
+    private void OnViewButton() {
+        try {
+            MatchTable matchTable = MatchTable.getSelectionModel().getSelectedItem();
+            if (matchTable != null) {
+                GetPausedMatchReq getPausedMatchReq = new GetPausedMatchReq(matchTable.getM_id());
+                String jRequest = TicTacToeClient.mapper.writeValueAsString(getPausedMatchReq);
+                ServerListener.sendRequest(jRequest);
+            }
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void OnResumeButton() {
+        if (MatchTable.getSelectionModel().getSelectedItem() != null) {
+            MatchTable matchTable = MatchTable.getSelectionModel().getSelectedItem();
+            askToResumeReq(matchTable);
+        }
+    }
+
+
+
+    private void askToResumeReq(MatchTable matchTable) {
         int db_id;
-        MatchTable matchTable = MatchTable.getSelectionModel().getSelectedItem();
         if (Objects.equals(matchTable.getStatus().toLowerCase(Locale.ROOT), com.iti.tictactoeclient.models.MatchTable.STATUS_PAUSED)) {
             if (matchTable.getPlayer1_id() == TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id()) {
                 db_id = matchTable.getPlayer2_id();
@@ -109,23 +133,9 @@ public class MatchController implements Initializable {
             }
 
         }
+
     }
 
-    //    public void fromLogin(PlayerFullInfo myPlayerFullInfo, Map<Integer, PlayerFullInfo> playersFullInfo) {
-//        this.myPlayerFullInfo = myPlayerFullInfo;
-//        this.playersFullInfo = playersFullInfo;
-//        playersFullInfo.remove(myPlayerFullInfo.getDb_id());
-//        System.out.println(playersFullInfo);
-//        fillView();
-//    }
-//
-//    private void fillView() {
-//        cPlayerName.setCellValueFactory(new PropertyValueFactory<>("name"));
-//        cStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
-//        tPlayers.getItems().setAll(playersFullInfo.values());
-//        lblName.setText(myPlayerFullInfo.getName());
-//        lblScore.setText(String.valueOf(myPlayerFullInfo.getPoints()));
-//    }
     public void handleResponse(List<MatchTable> matchList) {
         MatchTable.getItems().clear();
         MatchTable.getItems().setAll(matchList);

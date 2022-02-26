@@ -12,6 +12,7 @@ import com.iti.tictactoeclient.notification.ResumeGameNotification;
 import com.iti.tictactoeclient.requests.*;
 import com.iti.tictactoeclient.models.Message;
 import com.iti.tictactoeclient.notification.MessageNotification;
+import com.iti.tictactoeclient.responses.GetPausedMatchRes;
 import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -342,6 +343,14 @@ public class GameController implements Initializable {
     private void init() {
         sent = viewMode = false;
         positions = new ArrayList<>();
+    }
+
+    public void viewMatchHistory(GetPausedMatchRes getPausedMatchRes){
+        List<Position> positions = getPausedMatchRes.getPositions();
+        Match match = getPausedMatchRes.getMatch();
+        TicTacToeClient.openGameView();
+        fillGrid(positions,match);
+
     }
 
     private void fillGrid(List<Position> positions, Match match) {

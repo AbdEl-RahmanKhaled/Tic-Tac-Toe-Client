@@ -22,6 +22,7 @@ public class Request {
     public static final String ACTION_ACCEPT_TO_RESUME = "acceptToResume"; // home n done
     public static final String ACTION_GET_MATCH_HISTORY = "getMatchHistory"; // home done
     public static final String ACTION_BACK_FROM_OFFLINE = "backFromOffline"; // server listener done
+    public static final String ACTION_GET_PAUSED_MATCH = "getPausedMatch";
 
 
     public Request() {
