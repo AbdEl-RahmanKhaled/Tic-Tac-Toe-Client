@@ -1,94 +1,140 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: linear-gradient(to right, #b92b27, #1565c0);" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iti.tictactoeclient.controllers.GameController">
-   <children>
-      <ImageView fx:id="backgroundimg" fitHeight="121.0" fitWidth="200.0" layoutX="57.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="603.0" prefWidth="998.0" style="-fx-background-color: linear-gradient(to right, #b92b27, #1565c0);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iti.tictactoeclient.controllers.GameController">
+    <children>
+        <ImageView fx:id="backgroundimg" fitHeight="143.0" fitWidth="195.0" layoutX="260.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../../../../images/7.png" />
+            </image>
+            <effect>
+                <DropShadow blurType="TWO_PASS_BOX" height="73.99" radius="54.989999999999995" width="147.97" />
+            </effect>
+        </ImageView>
+        <GridPane centerShape="false" focusTraversable="true" layoutX="182.0" layoutY="211.0" prefHeight="267.0" prefWidth="351.0" styleClass="grid">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Button fx:id="b1" blendMode="OVERLAY" mnemonicParsing="false" onAction="#button1" prefHeight="83.0" prefWidth="110.0" style="-fx-border-radius: 10; -fx-font-size: 0.1px; -fx-text-fill: #fff0f000;" textFill="TRANSPARENT" textOverrun="WORD_ELLIPSIS" wrapText="true">
+                    <effect>
+                        <InnerShadow />
+                    </effect>
+                    <font>
+                        <Font size="42.0" />
+                    </font>
+                </Button>
+                <Button fx:id="b2" blendMode="OVERLAY" layoutX="14.0" layoutY="16.0" mnemonicParsing="false" onAction="#button2" prefHeight="83.0" prefWidth="110.0" style="-fx-border-radius: 10; -fx-font-size: 0.1px; -fx-text-fill: #fff0f000;" GridPane.columnIndex="1">
+                    <effect>
+                        <InnerShadow />
+                    </effect>
+                </Button>
+                <Button fx:id="b7" blendMode="OVERLAY" layoutX="127.0" layoutY="16.0" mnemonicParsing="false" onAction="#button7" prefHeight="85.0" prefWidth="112.0" style="-fx-border-radius: 10; -fx-font-size: 0.1px; -fx-text-fill: #fff0f000;" GridPane.rowIndex="2">
+                    <effect>
+                        <InnerShadow />
+                    </effect>
+                </Button>
+                <Button fx:id="b4" blendMode="OVERLAY" layoutX="14.0" layoutY="96.0" mnemonicParsing="false" onAction="#button4" prefHeight="82.0" prefWidth="110.0" style="-fx-border-radius: 10; -fx-font-size: 0.1px; -fx-text-fill: #fff0f000;" GridPane.rowIndex="1">
+                    <effect>
+                        <InnerShadow />
+                    </effect>
+                </Button>
+                <Button fx:id="b5" blendMode="OVERLAY" layoutX="14.0" layoutY="176.0" mnemonicParsing="false" onAction="#button5" prefHeight="82.0" prefWidth="110.0" style="-fx-border-radius: 10; -fx-font-size: 0.1px; -fx-text-fill: #fff0f000;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <effect>
+                        <InnerShadow />
+                    </effect>
+                </Button>
+                <Button fx:id="b8" blendMode="OVERLAY" layoutX="127.0" layoutY="96.0" mnemonicParsing="false" onAction="#button8" prefHeight="85.0" prefWidth="110.0" style="-fx-border-radius: 10; -fx-font-size: 0.1px; -fx-text-fill: #fff0f000;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <effect>
+                        <InnerShadow />
+                    </effect>
+                </Button>
+                <Button fx:id="b3" blendMode="OVERLAY" layoutX="127.0" layoutY="176.0" mnemonicParsing="false" onAction="#button3" prefHeight="83.0" prefWidth="110.0" style="-fx-border-radius: 10; -fx-font-size: 0.1px; -fx-text-fill: #fff0f000;" GridPane.columnIndex="2">
+                    <effect>
+                        <InnerShadow />
+                    </effect>
+                </Button>
+                <Button fx:id="b6" blendMode="OVERLAY" layoutX="240.0" layoutY="16.0" mnemonicParsing="false" onAction="#button6" prefHeight="82.0" prefWidth="110.0" style="-fx-border-radius: 10; -fx-font-size: 0.1px; -fx-text-fill: #fff0f000;" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                    <effect>
+                        <InnerShadow />
+                    </effect>
+                </Button>
+                <Button fx:id="b9" blendMode="OVERLAY" layoutX="240.0" layoutY="96.0" mnemonicParsing="false" onAction="#button9" prefHeight="85.0" prefWidth="110.0" style="-fx-border-radius: 10; -fx-font-size: 0.1px; -fx-text-fill: #fff0f000;" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                    <effect>
+                        <InnerShadow />
+                    </effect>
+                </Button>
+            </children>
+        </GridPane>
+        <TextField fx:id="TextField" layoutX="708.0" layoutY="531.0" prefHeight="31.0" prefWidth="195.0" />
+        <Button fx:id="SendButton" defaultButton="true" layoutX="905.0" layoutY="531.0" mnemonicParsing="false" onAction="#onActionChatsender" prefHeight="31.0" prefWidth="63.0" style="-fx-background-color: linear-gradient(to right, #b92b27, #db5652);" text="Send" textFill="#e8e865">
+            <font>
+                <Font name="Times New Roman" size="15.0" />
+            </font>
+        </Button>
+        <Button fx:id="ExirButton" layoutX="371.0" layoutY="529.0" mnemonicParsing="false" onAction="#onActionFinish" prefHeight="31.0" prefWidth="142.0" style="-fx-background-radius: 10; -fx-background-color: linear-gradient(to left, #2e28e8, #2882e8);" text="Finish" textFill="#e8e865">
+            <font>
+                <Font name="Times New Roman Bold" size="18.0" />
+            </font>
+        </Button>
+        <Button fx:id="ExirButton1" layoutX="201.0" layoutY="529.0" mnemonicParsing="false" onAction="#onActionAskToPause" prefHeight="31.0" prefWidth="142.0" style="-fx-background-radius: 10; -fx-background-color: linear-gradient(to right, #2e28e8, #2882e8);" text="Ask to Pause" textFill="#e8e865">
+            <font>
+                <Font name="Times New Roman Bold" size="18.0" />
+            </font>
+        </Button>
+        <TextArea fx:id="ChatArea" blendMode="OVERLAY" layoutX="708.0" layoutY="127.0" prefHeight="389.0" prefWidth="260.0" style="-fx-background-radius: 10;" />
+        <Label fx:id="lblXPlayer" alignment="CENTER" contentDisplay="CENTER" layoutX="23.0" layoutY="344.0" prefHeight="21.0" prefWidth="155.0" text="Label" textAlignment="CENTER" textFill="#e8e865">
+         <font>
+            <Font size="17.0" />
+         </font></Label>
+        <Label fx:id="lblOPlayer" alignment="CENTER" contentDisplay="CENTER" layoutX="531.0" layoutY="344.0" prefHeight="17.0" prefWidth="161.0" text="Label" textFill="#e8e865">
+         <font>
+            <Font size="17.0" />
+         </font></Label>
+      <ImageView fitHeight="98.0" fitWidth="142.0" layoutX="51.0" layoutY="236.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../../images/7.png" />
+            <Image url="@../../../imgs/player.png" />
          </image>
-         <effect>
-            <DropShadow blurType="TWO_PASS_BOX" height="73.99" radius="54.989999999999995" width="147.97" />
-         </effect>
       </ImageView>
-      <GridPane centerShape="false" focusTraversable="true" layoutX="29.0" layoutY="155.0" prefHeight="267.0" prefWidth="349.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Button fx:id="b1" blendMode="OVERLAY" mnemonicParsing="false" onAction="#button1" prefHeight="83.0" prefWidth="110.0" style="-fx-border-radius: 10;" textOverrun="WORD_ELLIPSIS" wrapText="true">
-               <effect>
-                  <InnerShadow />
-               </effect>
-            </Button>
-            <Button fx:id="b2" blendMode="OVERLAY" layoutX="14.0" layoutY="16.0" mnemonicParsing="false" onAction="#button2" prefHeight="83.0" prefWidth="110.0" GridPane.columnIndex="1">
-               <effect>
-                  <InnerShadow />
-               </effect>
-            </Button>
-            <Button fx:id="b7" blendMode="OVERLAY" layoutX="127.0" layoutY="16.0" mnemonicParsing="false" onAction="#button7" prefHeight="85.0" prefWidth="112.0" GridPane.rowIndex="2">
-               <effect>
-                  <InnerShadow />
-               </effect>
-            </Button>
-            <Button fx:id="b4" blendMode="OVERLAY" layoutX="14.0" layoutY="96.0" mnemonicParsing="false" onAction="#button4" prefHeight="82.0" prefWidth="110.0" GridPane.rowIndex="1">
-               <effect>
-                  <InnerShadow />
-               </effect>
-            </Button>
-            <Button fx:id="b5" blendMode="OVERLAY" layoutX="14.0" layoutY="176.0" mnemonicParsing="false" onAction="#button5" prefHeight="82.0" prefWidth="110.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <effect>
-                  <InnerShadow />
-               </effect>
-            </Button>
-            <Button fx:id="b8" blendMode="OVERLAY" layoutX="127.0" layoutY="96.0" mnemonicParsing="false" onAction="#button8" prefHeight="85.0" prefWidth="110.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-               <effect>
-                  <InnerShadow />
-               </effect>
-            </Button>
-            <Button fx:id="b3" blendMode="OVERLAY" layoutX="127.0" layoutY="176.0" mnemonicParsing="false" onAction="#button3" prefHeight="83.0" prefWidth="110.0" GridPane.columnIndex="2">
-               <effect>
-                  <InnerShadow />
-               </effect>
-            </Button>
-            <Button fx:id="b6" blendMode="OVERLAY" layoutX="240.0" layoutY="16.0" mnemonicParsing="false" onAction="#button6" prefHeight="82.0" prefWidth="110.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
-               <effect>
-                  <InnerShadow />
-               </effect>
-            </Button>
-            <Button fx:id="b9" blendMode="OVERLAY" layoutX="240.0" layoutY="96.0" mnemonicParsing="false" onAction="#button9" prefHeight="85.0" prefWidth="110.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
-               <effect>
-                  <InnerShadow />
-               </effect>
-            </Button>
-         </children>
-      </GridPane>
-      <TextField fx:id="TextField" layoutX="424.0" layoutY="503.0" prefHeight="31.0" prefWidth="195.0" />
-      <Button fx:id="SendButton" defaultButton="true" layoutX="627.0" layoutY="501.0" mnemonicParsing="false" onAction="#onActionChatsender" prefHeight="31.0" prefWidth="63.0" style="-fx-background-color: linear-gradient(to right, #b92b27, #db5652);" text="Send" textFill="#e8e865">
+      <ImageView fitHeight="98.0" fitWidth="142.0" layoutX="562.0" layoutY="236.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../imgs/player.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="85.0" fitWidth="82.0" layoutX="59.0" layoutY="376.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../imgs/x.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="85.0" fitWidth="82.0" layoutX="571.0" layoutY="376.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../imgs/o.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="lblYourTurn" alignment="CENTER" contentDisplay="CENTER" layoutX="280.0" layoutY="490.0" prefHeight="21.0" prefWidth="155.0" textAlignment="CENTER" textFill="#e8e865">
          <font>
-            <Font name="Times New Roman" size="15.0" />
-         </font></Button>
-      <Button fx:id="ExirButton" layoutX="227.0" layoutY="501.0" mnemonicParsing="false" onAction="#onActionFinish" prefHeight="31.0" prefWidth="142.0" style="-fx-background-radius: 10; -fx-background-color: linear-gradient(to left, #2e28e8, #2882e8);" text="Finish" textFill="#e8e865">
-         <font>
-            <Font name="Times New Roman Bold" size="18.0" />
-         </font></Button>
-      <Button fx:id="ExirButton1" layoutX="57.0" layoutY="501.0" mnemonicParsing="false" onAction="#onActionAskToPause" prefHeight="31.0" prefWidth="142.0" style="-fx-background-radius: 10; -fx-background-color: linear-gradient(to right, #2e28e8, #2882e8);" text="Ask to Pause" textFill="#e8e865">
-         <font>
-            <Font name="Times New Roman Bold" size="18.0" />
+            <Font size="17.0" />
          </font>
-      </Button>
-      <TextArea fx:id="ChatArea" blendMode="OVERLAY" layoutX="427.0" layoutY="85.0" prefHeight="389.0" prefWidth="260.0" style="-fx-background-radius: 10;" />
-   </children>
+      </Label>
+    </children>
 </Pane>

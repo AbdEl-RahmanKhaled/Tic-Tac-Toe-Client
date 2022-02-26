@@ -79,6 +79,7 @@ public class ServerListener extends Thread {
         types.put(Response.RESPONSE_GET_MATCH_HISTORY, this::getMatchHistory);
         types.put(Response.RESPONSE_ASK_TO_RESUME, this::rejectToResumeGame);
         types.put(Response.RESPONSE_GET_PAUSED_MATCH, this::getPausedMatch);
+        Response.RESPONSE_ASK_TO_PAUSE, this::askToPauseResponse);
 
         types.put(Notification.NOTIFICATION_UPDATE_STATUS, this::updateStatus);
         types.put(Notification.NOTIFICATION_GAME_INVITATION, this::gameInvitation);
@@ -90,6 +91,16 @@ public class ServerListener extends Thread {
         types.put(Notification.NOTIFICATION_FINISH_GAME, this::finishGameNotification);
         types.put(Notification.NOTIFICATION_PAUSE_GAME, this::pauseGameNotification);
         types.put(Notification.NOTIFICATION_COMPETITOR_CONNECTION_ISSUE, this::competitorConnectionIssueNotification);
+        types.put(Notification.NOTIFICATION_UPDATE_BOARD, this::updateBoardNotification);
+    }
+
+    private void updateBoardNotification(String json) {
+        try {
+            UpdateBoardNotification updateBoardNotification = TicTacToeClient.mapper.readValue(json, UpdateBoardNotification.class);
+            Platform.runLater(() -> TicTacToeClient.gameController.handleUpdateBoard(updateBoardNotification.getPosition()));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     private void competitorConnectionIssueNotification(String json) {
@@ -106,8 +117,8 @@ public class ServerListener extends Thread {
 
     private void finishGameNotification(String json) {
         try {
-            ResumeGameNotification resumeGameNotification=TicTacToeClient.mapper.readValue(json, ResumeGameNotification.class);
-            TicTacToeClient.gameController.confirmResume(resumeGameNotification);
+            FinishGameNotification finishGameNotification = TicTacToeClient.mapper.readValue(json, FinishGameNotification.class);
+            Platform.runLater(() -> TicTacToeClient.gameController.handleFinishGame(finishGameNotification));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -211,6 +222,7 @@ public class ServerListener extends Thread {
     private void askToPauseNotification(String json) {
         Platform.runLater(() -> TicTacToeClient.gameController.notifyAskToPause());
     }
+
     private void sendMessageRes(String json) {
         try {
             System.out.println("1");

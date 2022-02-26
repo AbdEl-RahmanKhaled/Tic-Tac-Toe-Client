@@ -25,6 +25,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
+import java.awt.*;
 import java.awt.TrayIcon.MessageType;
 
 import java.io.File;
@@ -33,14 +34,6 @@ import java.util.*;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
-
-    public Map<Integer, PlayerFullInfo> getPlayersFullInfo() {
-        return playersFullInfo;
-    }
-
-    public void setPlayersFullInfo(Map<Integer, PlayerFullInfo> playersFullInfo) {
-        this.playersFullInfo = playersFullInfo;
-    }
 
     private Map<Integer, PlayerFullInfo> playersFullInfo;
     private PlayerFullInfo myPlayerFullInfo;
@@ -119,7 +112,7 @@ public class HomeController implements Initializable {
      {
          Player player = tInvitation.getSelectionModel().getSelectedItem().getPlayer();
          Match match = tInvitation.getSelectionModel().getSelectedItem().getMatch();
-         if(TicTacToeClient.showConfirmation("ShowNotification","Do you want to resume game ?","Accept","Decline"))
+         if(TicTacToeClient.showConfirmation("ShowNotification","Do you want to resume game ?","Accept","Reject"))
          {
              AcceptToResumeReq acceptToResumeReq = new AcceptToResumeReq(player, match);
              //Platform.runLater(()-> TicTacToeClient.openGameView());
@@ -248,13 +241,16 @@ public class HomeController implements Initializable {
 
     @FXML
     public void ComputerButton() {
-        TicTacToeClient.openGameView();
-    }
+        if (TicTacToeClient.showConfirmation("Level", "Please Select a level", "Easy", "Hard")) {
+            TicTacToeClient.gameVsComputerController.startGame(true);
+        } else {
+            TicTacToeClient.gameVsComputerController.startGame(false);
+        }
 
-    @FXML
-    public void LogoutButton() {
-//    TicTacToeClient.openLoginView();
-        TicTacToeClient.showSystemNotification("Tic Tac Toe", "test notification", MessageType.INFO);
+
+
+        TicTacToeClient.openGameVsComputerView();
+        TicTacToeClient.gameVsComputerController.showAnimation();
     }
 
 
@@ -325,11 +321,20 @@ public class HomeController implements Initializable {
     }
 
     public void updateStatus(PlayerFullInfo playerFullInfo) {
-        if (!playerFullInfo.getStatus().equals(playersFullInfo.get(playerFullInfo.getDb_id()).getStatus()) && playerFullInfo.getStatus().equals(PlayerFullInfo.ONLINE)) {
-            TicTacToeClient.showSystemNotification("Status Updated", "Player " + playerFullInfo.getName() + " now is online.", MessageType.INFO);
+        if (playersFullInfo != null) {
+            if (playerFullInfo.getDb_id() == myPlayerFullInfo.getDb_id()) {
+
+                lblScore.setText(String.valueOf(playerFullInfo.getPoints()));
+            } else {
+                if (!playerFullInfo.getStatus().equals(playersFullInfo.get(playerFullInfo.getDb_id()).getStatus())
+                        && playerFullInfo.getStatus().equals(PlayerFullInfo.ONLINE)) {
+                    TicTacToeClient.showSystemNotification("Status Updated", "Player " + playerFullInfo.getName() + " now is online.", MessageType.INFO);
+                }
+
+                playersFullInfo.put(playerFullInfo.getDb_id(), playerFullInfo);
+                fillPlayersTable();
+            }
         }
-        playersFullInfo.put(playerFullInfo.getDb_id(), playerFullInfo);
-        fillPlayersTable();
     }
 
     public PlayerFullInfo getMyPlayerFullInfo() {
@@ -337,6 +342,9 @@ public class HomeController implements Initializable {
     }
 
     public PlayerFullInfo getPlayerFullInfo(int id) {
+        if (myPlayerFullInfo.getDb_id() == id) {
+            return myPlayerFullInfo;
+        }
         return playersFullInfo.get(id);
     }
 }

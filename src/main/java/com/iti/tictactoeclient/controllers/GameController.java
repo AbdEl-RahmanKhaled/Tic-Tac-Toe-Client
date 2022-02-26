@@ -3,12 +3,16 @@ package com.iti.tictactoeclient.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.iti.tictactoeclient.TicTacToeClient;
 import com.iti.tictactoeclient.helpers.ServerListener;
+import com.iti.tictactoeclient.helpers.game.GameEngine;
 import com.iti.tictactoeclient.models.Match;
 import com.iti.tictactoeclient.models.Player;
 import com.iti.tictactoeclient.models.PlayerFullInfo;
 import com.iti.tictactoeclient.models.Position;
 import com.iti.tictactoeclient.notification.FinishGameNotification;
 import com.iti.tictactoeclient.notification.ResumeGameNotification;
+import com.iti.tictactoeclient.requests.AskToPauseReq;
+import com.iti.tictactoeclient.requests.RejectToPauseReq;
+import com.iti.tictactoeclient.requests.SaveMatchReq;
 import com.iti.tictactoeclient.requests.*;
 import com.iti.tictactoeclient.models.Message;
 import com.iti.tictactoeclient.notification.MessageNotification;
@@ -31,19 +35,27 @@ import java.io.File;
 import java.net.URL;
 import java.util.List;
 
-import static com.iti.tictactoeclient.TicTacToeClient.homeController;
-import static com.iti.tictactoeclient.TicTacToeClient.mapper;
-
 public class GameController implements Initializable {
 
-    private boolean sent, viewMode;
+    private boolean sent;
     private Match match;
     private List<Position> positions;
-    private Map<String,Button> buttons;
+    private Map<String, Button> buttons;
+    private Image imgChoice;
+    private char txtChoice;
+    private boolean myTurn = false;
+    private final Image winnerImg = new Image(new File("images/winner.gif").toURI().toString());
+    private final Image loserImg = new Image(new File("images/loser.gif").toURI().toString());
+    private final Image gameOverImg = new Image(new File("images/gameover.gif").toURI().toString());
+    private final Image imgX = new Image(new File("images/x.png").toURI().toString());
+    private final Image imgO = new Image(new File("images/o.png").toURI().toString());
+    private final GameEngine gameEngine = new GameEngine();
 
     @FXML
     private ImageView backgroundimg;
 
+    @FXML
+    protected Label lblXPlayer, lblOPlayer, lblYourTurn;
 
     @FXML
     private TextField TextField;
@@ -53,16 +65,6 @@ public class GameController implements Initializable {
 
     @FXML
     private Button b1, b2, b3, b4, b5, b6, b7, b8, b9;
-
-    @FXML
-    public int flag1 = 0, flag2 = 0, flag3 = 0, flag4 = 0, flag5 = 0, flag6 = 0, flag7 = 0, flag8 = 0, flag9 = 0;
-    @FXML
-    public Image img;
-
-    @FXML
-    protected void onActionExite() {
-//     TicTacToeClient.openHomeView();
-    }
 
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -75,13 +77,13 @@ public class GameController implements Initializable {
         backgroundimg.setImage(background);
         ChatArea.setEditable(false);
 
-        ScaleTransition scale = new ScaleTransition();
-        scale.setNode(backgroundimg);
-        scale.setDuration(Duration.millis(1000));
-        scale.setCycleCount(2);
-        scale.setByX(0.4);
-        scale.setAutoReverse(true);
-        scale.play();
+        RotateTransition rotateTransition = new RotateTransition();
+        rotateTransition.setNode(backgroundimg);
+        rotateTransition.setDuration(Duration.millis(1000));
+        rotateTransition.setCycleCount(2);
+        rotateTransition.setByAngle(360);
+        rotateTransition.setAutoReverse(true);
+        rotateTransition.play();
     }
 
     private void initButtons(){
@@ -99,7 +101,7 @@ public class GameController implements Initializable {
 
     @FXML
     protected void onActionAskToPause() {
-        if (!sent && !viewMode) {
+        if (!sent) {
             try {
                 AskToPauseReq askToPauseReq = new AskToPauseReq();
                 String jRequest = TicTacToeClient.mapper.writeValueAsString(askToPauseReq);
@@ -119,93 +121,169 @@ public class GameController implements Initializable {
             //setting message and message sender
             message.setMessage(TextField.getText().trim());
             message.setFrom(TicTacToeClient.homeController.getMyPlayerFullInfo().getName());
-            //message appearing on chatarea
+            //message appearing on chat area
             ChatArea.appendText(TicTacToeClient.homeController.getMyPlayerFullInfo().getName() + " : " + TextField.getText().trim() + "\n");
+            //creating request for the server
             SendMessageReq sendMessageReq = new SendMessageReq();
             sendMessageReq.setMessage(message);
             try {
-                System.out.println("2");
-                String jRequest = mapper.writeValueAsString(sendMessageReq);
+                //transforming from object to string json
+                String jRequest = TicTacToeClient.mapper.writeValueAsString(sendMessageReq);
+                //sending the request
                 ServerListener.sendRequest(jRequest);
+                //clearing text field
                 TextField.clear();
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
         } else {
+            //sending error message notification
+            TicTacToeClient.showSystemNotification("Message Error",
+                    " You can't enter an empty message ",
+                    TrayIcon.MessageType.ERROR);
             System.out.println("not a valid msg");
         }
     }
 
-    @FXML
-    protected void onActionFinish() {
-        TicTacToeClient.openHomeView();
-    }
 
+    private void turn() {
+        if (txtChoice == Match.CHOICE_X) {
+            txtChoice = Match.CHOICE_O;
+            imgChoice = imgO;
+        } else {
+            txtChoice = Match.CHOICE_X;
+            imgChoice = imgX;
+        }
+    }
 
     @FXML
     protected void button1() {
-        b1.setGraphic(new ImageView(img));
-
+        placeMove("b1");
     }
 
     @FXML
     protected void button2() {
-        b2.setGraphic(new ImageView(img));
-
+        placeMove("b2");
     }
 
     @FXML
     protected void button3() {
-        b3.setGraphic(new ImageView(img));
-
+        placeMove("b3");
     }
 
     @FXML
     protected void button4() {
-        b4.setGraphic(new ImageView(img));
-
+        placeMove("b4");
     }
 
     @FXML
     protected void button5() {
-        b5.setGraphic(new ImageView(img));
+        placeMove("b5");
 
     }
 
     @FXML
     protected void button6() {
-        b6.setGraphic(new ImageView(img));
+        placeMove("b6");
 
     }
 
     @FXML
     protected void button7() {
-        b7.setGraphic(new ImageView(img));
+        placeMove("b7");
 
     }
 
     @FXML
     protected void button8() {
-        b8.setGraphic(new ImageView(img));
+        placeMove("b8");
 
     }
 
     @FXML
     protected void button9() {
-        b9.setGraphic(new ImageView(img));
+        placeMove("b9");
     }
 
-    public void showPauseNotification(PlayerFullInfo playerFullInfo) {
-        TicTacToeClient.showSystemNotification("Pause", "wants to pause game", TrayIcon.MessageType.INFO);
+    private void placeMove(String btnId) {
+        if (myTurn && buttons.get(btnId).getText().equals("")) {
+            myTurn = !myTurn;
+            Position position = new Position();
+            position.setM_id(match.getM_id());
+            position.setPlayer_id(TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id());
+            position.setPosition(btnId);
+            UpdateBoardReq updateBoardReq = new UpdateBoardReq(position);
+            try {
+                String jRequest = TicTacToeClient.mapper.writeValueAsString(updateBoardReq);
+                ServerListener.sendRequest(jRequest);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void startMatch(Match match) {
+        this.match = match;
+        init();
+        firstTurn();
+        setData();
     }
 
     public void confirmResume(ResumeGameNotification resumeGameNotification) {
         init();
         TicTacToeClient.openGameView();
-        List<Position> positions = resumeGameNotification.getPositions();
-        Match match = resumeGameNotification.getMatch();
-        fillGrid(positions, match);
+        positions = resumeGameNotification.getPositions();
+        match = resumeGameNotification.getMatch();
+        fillGrid();
+        turnAfterResume();
+    }
+    private void firstTurn() {
+        myTurn = (match.getPlayer1_id() == TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id() && match.getP1_choice().equals(String.valueOf(Match.CHOICE_X)))
+                || (match.getPlayer2_id() == TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id() && match.getP2_choice().equals(String.valueOf(Match.CHOICE_X)));
 
+        txtChoice = Match.CHOICE_X;
+        imgChoice = imgX;
+        setTurnLabel();
+    }
+
+    private void setTurnLabel() {
+        if (myTurn)
+            lblYourTurn.setText("Your Turn");
+        else
+            lblYourTurn.setText("Competitor Turn");
+    }
+
+    private void turnAfterResume() {
+        if (positions.size() % 2 == 0) {
+            firstTurn();
+        } else {
+            myTurn = (match.getPlayer1_id() == TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id() && match.getP1_choice().equals(String.valueOf(Match.CHOICE_O)))
+                    || (match.getPlayer2_id() == TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id() && match.getP2_choice().equals(String.valueOf(Match.CHOICE_O)));
+
+            txtChoice = Match.CHOICE_O;
+            imgChoice = imgO;
+        }
+        setTurnLabel();
+    }
+
+    private void init() {
+        sent = false;
+        positions = new ArrayList<>();
+
+    }
+
+    private void setData() {
+        String playerX;
+        String playerO;
+        if (match.getP1_choice().equals(String.valueOf(Match.CHOICE_X))) {
+            playerX = TicTacToeClient.homeController.getPlayerFullInfo(match.getPlayer1_id()).getName();
+            playerO = TicTacToeClient.homeController.getPlayerFullInfo(match.getPlayer2_id()).getName();
+        } else {
+            playerX = TicTacToeClient.homeController.getPlayerFullInfo(match.getPlayer2_id()).getName();
+            playerO = TicTacToeClient.homeController.getPlayerFullInfo(match.getPlayer1_id()).getName();
+        }
+        lblXPlayer.setText(playerX);
+        lblOPlayer.setText(playerO);
     }
 
     public void acceptResumeGame(Player player, Match match) {
@@ -255,6 +333,15 @@ public class GameController implements Initializable {
         }
     }
 
+    @FXML
+    protected void onActionFinish() {
+        if (TicTacToeClient.showConfirmation("Finish Match", "Are you sure you want to finish this match? \n" +
+                "HINT: you will lose the match.", "Yes", "No")) {
+            finishMatch();
+        }
+
+    }
+
     private void finishMatch() {
         match.setStatus(Match.STATUS_FINISHED);
         if (match.getPlayer1_id() == TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id()) {
@@ -292,12 +379,38 @@ public class GameController implements Initializable {
         showMatchResult(finishGameNotification.getWinner());
     }
 
-    private boolean IsValidateMessage() {
-        //to validate if text in fieldtext is empty
-        if (TextField.getText().trim().equals("")) {
-            return false;
+    public void handleUpdateBoard(Position position) {
+        buttons.get(position.getPosition()).setGraphic(new ImageView(imgChoice));
+        buttons.get(position.getPosition()).setText(String.valueOf(txtChoice));
+        positions.add(position);
+        checkMatchResult(position.getPlayer_id());
+        turn();
+
+        if (!(position.getPlayer_id() == TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id())) {
+            myTurn = !myTurn;
         }
-        return true;
+
+        setTurnLabel();
+    }
+
+    private void checkMatchResult(int playerId) {
+        if (gameEngine.checkWinner(String.valueOf(txtChoice), buttons) && playerId == TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id()) {
+            match.setWinner(TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id());
+            match.setStatus(Match.STATUS_FINISHED);
+            saveMatch();
+            showMatchResult(playerId);
+            backToHome();
+        } else if (positions.size() == 9 && playerId == TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id()) {
+            match.setStatus(Match.STATUS_FINISHED);
+            saveMatch();
+            showMatchResult(-1);
+            backToHome();
+        }
+    }
+
+    private boolean IsValidateMessage() {
+        //to validate if text in field text is empty
+        return !TextField.getText().trim().equals("");
     }
 
     public void handleMessageNotification(MessageNotification messageNotification) {
@@ -307,24 +420,31 @@ public class GameController implements Initializable {
                         + " sent you a message : " +
                         messageNotification.getMessage().getMessage(),
                 TrayIcon.MessageType.INFO);
-        //message appearing on chatarea
+        //message appearing on chat area
         ChatArea.appendText(messageNotification.getMessage().getFrom()
                 + " : " + messageNotification.getMessage().getMessage() + "\n");
 
     }
 
     private void showMatchResult(int winner) {
-        String title = "Match Result";
+        String title;
+        String img;
         String msg;
         if (winner == -1) {
-            msg = "Game Over.";
+            title = "Game Over";
+            msg = "Game Over";
+            img = "gameOver";
         } else if (winner == TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id()) {
-            msg = "Victory";
+            title = "You Won";
+            msg = "WINNER";
+            img = "winner";
         } else {
-            msg = "You lost the match, good luck next time.";
+            title = "Good luck next time";
+            msg = title;
+            img = "loser";
         }
         TicTacToeClient.showSystemNotification(title, msg, TrayIcon.MessageType.INFO);
-        TicTacToeClient.showAlert(title, msg, Alert.AlertType.INFORMATION);
+        TicTacToeClient.showAlert(title, img);
         backToHome();
     }
 
@@ -333,34 +453,42 @@ public class GameController implements Initializable {
         match = null;
         positions.clear();
         TicTacToeClient.openHomeView();
+        reset();
     }
 
-    public void startMatch(Match match) {
-        this.match = match;
-        init();
+    protected void reset() {
+        for (Button b : buttons.values()) {
+            b.setText("");
+            b.setGraphic(new ImageView());
+        }
+        myTurn = false;
+        lblYourTurn.setText("");
+        lblXPlayer.setText("");
+        lblOPlayer.setText("");
     }
 
-    private void init() {
-        sent = viewMode = false;
-        positions = new ArrayList<>();
-    }
+        public void viewMatchHistory(GetPausedMatchRes getPausedMatchRes){
+            List<Position> positions = getPausedMatchRes.getPositions();
+            Match match = getPausedMatchRes.getMatch();
+            TicTacToeClient.openGameView();
+            fillGrid(positions,match);
 
-    public void viewMatchHistory(GetPausedMatchRes getPausedMatchRes){
-        List<Position> positions = getPausedMatchRes.getPositions();
-        Match match = getPausedMatchRes.getMatch();
-        TicTacToeClient.openGameView();
-        fillGrid(positions,match);
+        }
 
-    }
-
-    private void fillGrid(List<Position> positions, Match match) {
-        String choice;
-        for (int i=0; i<positions.size(); i++){
-            if(positions.get(i).getPlayer_id()==match.getPlayer1_id())
-                choice = match.getP1_choice();
+    private void fillGrid() {
+        String txtChoice;
+        for (Position position : positions) {
+            Image imgChoice = imgO;
+            if (position.getPlayer_id() == match.getPlayer1_id())
+                txtChoice = match.getP1_choice();
             else
-                choice = match.getP2_choice();
-            buttons.get(positions.get(i).getPosition()).setText(choice);
+                txtChoice = match.getP2_choice();
+
+            if (txtChoice.equals(String.valueOf(Match.CHOICE_X)))
+                imgChoice = imgX;
+
+            buttons.get(position.getPosition()).setText(txtChoice);
+            buttons.get(position.getPosition()).setGraphic(new ImageView(imgChoice));
         }
     }
 }
