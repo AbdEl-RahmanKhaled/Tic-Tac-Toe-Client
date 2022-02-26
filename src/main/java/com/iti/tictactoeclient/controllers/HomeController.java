@@ -107,32 +107,32 @@ public class HomeController implements Initializable {
                     MessageType.INFO);
         }
     }
-     public void respondToResumeReq()
-     {
-         Player player = tInvitation.getSelectionModel().getSelectedItem().getPlayer();
-         Match match = tInvitation.getSelectionModel().getSelectedItem().getMatch();
-         if(TicTacToeClient.showConfirmation("ShowNotification","Do you want to resume game ?","Accept","Reject"))
-         {
-             AcceptToResumeReq acceptToResumeReq = new AcceptToResumeReq(player, match);
-             try {
-                 String jRequest = TicTacToeClient.mapper.writeValueAsString(acceptToResumeReq);
+    public void respondToResumeReq()
+    {
+        Player player = tInvitation.getSelectionModel().getSelectedItem().getPlayer();
+        Match match = tInvitation.getSelectionModel().getSelectedItem().getMatch();
+        if(TicTacToeClient.showConfirmation("ShowNotification","Do you want to resume game ?","Accept","Reject"))
+        {
+            AcceptToResumeReq acceptToResumeReq = new AcceptToResumeReq(player, match);
+            try {
+                String jRequest = TicTacToeClient.mapper.writeValueAsString(acceptToResumeReq);
                 ServerListener.sendRequest(jRequest);
-             } catch (JsonProcessingException e) {
-                 e.printStackTrace();
-             }
-         }
-         else{
-             RejectToResumeReq rejectToResumeReq = new RejectToResumeReq(player);
-             try {
-                 String jRequest = TicTacToeClient.mapper.writeValueAsString(rejectToResumeReq);
-                 ServerListener.sendRequest(jRequest);
-             } catch (JsonProcessingException e) {
-                 e.printStackTrace();
-             }
-         }
-         invitations.remove(player.getDb_id());
-         fillInvitationsTable();
-     }
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            RejectToResumeReq rejectToResumeReq = new RejectToResumeReq(player);
+            try {
+                String jRequest = TicTacToeClient.mapper.writeValueAsString(rejectToResumeReq);
+                ServerListener.sendRequest(jRequest);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+        }
+        invitations.remove(player.getDb_id());
+        fillInvitationsTable();
+    }
 
     // to show animation when view loaded
     public void showAnimation() {
@@ -235,7 +235,9 @@ public class HomeController implements Initializable {
 
     @FXML
     public void ComputerButton(){
+        TicTacToeClient.gameVsComputerController.startGame();
         TicTacToeClient.openGameVsComputerView();
+        TicTacToeClient.gameVsComputerController.showAnimation();
     }
 
 
