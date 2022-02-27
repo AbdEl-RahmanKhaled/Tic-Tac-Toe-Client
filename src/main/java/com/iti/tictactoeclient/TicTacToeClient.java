@@ -198,12 +198,14 @@ public class TicTacToeClient extends Application {
     }
 
     public static void sendUpdateInGameStatus(boolean isInGame) {
-        UpdateInGameStatusReq updateInGameStatusReq = new UpdateInGameStatusReq(isInGame);
-        try {
-            String jRequest = TicTacToeClient.mapper.writeValueAsString(updateInGameStatusReq);
-            ServerListener.sendRequest(jRequest);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+        if (homeController.getMyPlayerFullInfo() != null) {
+            UpdateInGameStatusReq updateInGameStatusReq = new UpdateInGameStatusReq(isInGame);
+            try {
+                String jRequest = TicTacToeClient.mapper.writeValueAsString(updateInGameStatusReq);
+                ServerListener.sendRequest(jRequest);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
         }
     }
 
