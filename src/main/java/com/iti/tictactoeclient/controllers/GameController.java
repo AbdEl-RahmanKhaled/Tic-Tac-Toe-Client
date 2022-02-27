@@ -449,6 +449,7 @@ public class GameController implements Initializable {
     private void backToHome() {
         match = null;
         positions.clear();
+        ChatArea.clear();
         TicTacToeClient.openHomeView();
         reset();
     }
