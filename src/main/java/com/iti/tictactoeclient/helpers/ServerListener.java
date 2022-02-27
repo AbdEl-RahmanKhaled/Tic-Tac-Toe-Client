@@ -2,15 +2,14 @@ package com.iti.tictactoeclient.helpers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.iti.tictactoeclient.TicTacToeClient;
-import com.iti.tictactoeclient.controllers.LoginController;
 import com.iti.tictactoeclient.models.Player;
 import com.iti.tictactoeclient.notification.*;
-import com.iti.tictactoeclient.requests.AcceptToResumeReq;
 import com.iti.tictactoeclient.requests.BackFromOfflineReq;
 import com.iti.tictactoeclient.responses.*;
 import javafx.application.Platform;
 import org.json.JSONObject;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -26,10 +25,11 @@ public class ServerListener extends Thread {
     private Socket socket;
     private BufferedReader bufferedReader;
     private Map<String, IType> types;
-    private boolean running;
+    private boolean running, first;
 
     public ServerListener() {
         running = true;
+        first = true;
         initTypes();
         //initConnection();
     }
@@ -41,12 +41,16 @@ public class ServerListener extends Thread {
             printStream = new PrintStream(socket.getOutputStream());
             System.out.println("connected");
             backFromOffline();
+            first = false;
         } catch (Exception ex) {
             System.out.println("Failed to connect");
+            if (first) {
+                first = false;
+                goOffline();
+            }
             try {
                 Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            } catch (InterruptedException ignored) {
             }
             initConnection();
         }
@@ -64,6 +68,7 @@ public class ServerListener extends Thread {
                     types.get(serverType).handleAction(sMessage);
             } catch (Exception e) {
                 if (running) {
+                    goOffline();
                     initConnection();
                 }
             }
@@ -89,6 +94,21 @@ public class ServerListener extends Thread {
         types.put(Notification.NOTIFICATION_PAUSE_GAME, this::pauseGameNotification);
         types.put(Notification.NOTIFICATION_COMPETITOR_CONNECTION_ISSUE, this::competitorConnectionIssueNotification);
         types.put(Notification.NOTIFICATION_UPDATE_BOARD, this::updateBoardNotification);
+    }
+
+    private void goOffline() {
+        if (!first) {
+            Platform.runLater(() -> {
+                TicTacToeClient.showSystemNotification("Disconnected",
+                        "Unfortunately disconnected from the server please check your internet connection",
+                        TrayIcon.MessageType.INFO);
+
+                TicTacToeClient.homeController.offline(true);
+                if (TicTacToeClient.openedScene != TicTacToeClient.scenes.vsComputerS && TicTacToeClient.openedScene != TicTacToeClient.scenes.homeS) {
+                    TicTacToeClient.openHomeView();
+                }
+            });
+        }
     }
 
     private void updateBoardNotification(String json) {
@@ -241,6 +261,15 @@ public class ServerListener extends Thread {
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
+        } else {
+            // show login btn
+            Platform.runLater(() -> {
+                TicTacToeClient.homeController.showHideLoginBtn(false);
+                if (TicTacToeClient.openedScene != TicTacToeClient.scenes.loginS) {
+                    TicTacToeClient.showSystemNotification("Back Online", "You are now online you can Login",
+                            TrayIcon.MessageType.INFO);
+                }
+            });
         }
     }
 
@@ -249,7 +278,7 @@ public class ServerListener extends Thread {
         super.interrupt();
         try {
             running = false;
-            socket.close();
+            if (socket != null) socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

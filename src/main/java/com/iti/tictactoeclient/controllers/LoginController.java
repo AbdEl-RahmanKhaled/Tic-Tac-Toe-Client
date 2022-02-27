@@ -17,6 +17,7 @@ import javafx.scene.image.ImageView;
 import com.iti.tictactoeclient.TicTacToeClient;
 import javafx.util.Duration;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -106,13 +107,25 @@ public class LoginController implements Initializable {
         TicTacToeClient.openRegisterView();
     }
 
+    @FXML
+    protected void onActionGuest() {
+        TicTacToeClient.homeController.offline(true);
+        TicTacToeClient.homeController.showHideLoginBtn(false);
+        TicTacToeClient.openHomeView();
+    }
+
     public void handleResponse(LoginRes loginRes) {
         if (Objects.equals(loginRes.getStatus(), Response.STATUS_OK)) {
             TicTacToeClient.homeController.fromLogin(loginRes.getPlayerFullInfo(), loginRes.getPlayerFullInfoMap());
-            TicTacToeClient.openHomeView();
+            if (TicTacToeClient.openedScene != TicTacToeClient.scenes.homeS && TicTacToeClient.openedScene != TicTacToeClient.scenes.vsComputerS) {
+                TicTacToeClient.openHomeView();
+            } else {
+                TicTacToeClient.showSystemNotification("Back Online", "You are now online", TrayIcon.MessageType.INFO);
+            }
         } else {
             invaliduserTxt.setText(loginRes.getMessage());
         }
     }
+
 
 }

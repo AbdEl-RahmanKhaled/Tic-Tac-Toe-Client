@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<Pane id="RegisterButton2" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: linear-gradient(to right, #b92b27, #1565c0)" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iti.tictactoeclient.controllers.LoginController">
+<Pane id="RegisterButton2" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: linear-gradient(to right, #b92b27, #1565c0)" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iti.tictactoeclient.controllers.LoginController">
    <children>
-      <AnchorPane layoutX="197.0" layoutY="135.0" prefHeight="331.0" prefWidth="307.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+      <AnchorPane layoutX="197.0" layoutY="135.0" prefHeight="369.0" prefWidth="307.0" style="-fx-background-color: white; -fx-background-radius: 20;">
          <children>
             <TextField fx:id="UserNameTxt" layoutX="74.0" layoutY="110.0" prefHeight="34.0" prefWidth="158.0" promptText="User Name" />
             <PasswordField fx:id="PasswordTxt" layoutX="74.0" layoutY="158.0" prefHeight="34.0" prefWidth="158.0" promptText="Password" />
@@ -20,6 +27,11 @@
             <Button id="LoginButton" fx:id="LoginButton" alignment="TOP_CENTER" defaultButton="true" graphicTextGap="2.0" layoutX="75.0" layoutY="229.0" minHeight="35.0" mnemonicParsing="false" onAction="#onLoginButton" prefHeight="0.0" prefWidth="151.0" style="-fx-background-radius: 20; -fx-background-color: linear-gradient(to right, #2e28e8, #2882e8);" stylesheets="@Style.css" text="Log In">
                <font>
                   <Font name="Times New Roman Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button id="RegisterButton" fx:id="btnGuest" layoutX="75.0" layoutY="320.0" minHeight="35.0" mnemonicParsing="false" onAction="#onActionGuest" prefHeight="0.0" prefWidth="151.0" style="-fx-background-radius: 20; -fx-background-color: linear-gradient(to right, #b92b27, #db5652);" stylesheets="@Style.css" text="Guest">
+               <font>
+                  <Font name="Times New Roman Bold" size="17.0" />
                </font>
             </Button>
          </children>

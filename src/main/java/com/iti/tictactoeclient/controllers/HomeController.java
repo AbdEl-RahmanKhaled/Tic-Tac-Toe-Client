@@ -12,10 +12,10 @@ import com.iti.tictactoeclient.requests.*;
 import com.iti.tictactoeclient.responses.InviteToGameRes;
 import com.iti.tictactoeclient.responses.Response;
 import javafx.animation.FadeTransition;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -24,7 +24,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
-import java.awt.*;
 import java.awt.TrayIcon.MessageType;
 
 import java.io.File;
@@ -68,6 +67,9 @@ public class HomeController implements Initializable {
 
     @FXML
     private Label lblName;
+
+    @FXML
+    private Button btnMatches, btnInvite, btnLogin;
 
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -244,6 +246,22 @@ public class HomeController implements Initializable {
         TicTacToeClient.gameVsComputerController.showAnimation();
     }
 
+    @FXML
+    protected void onActionGoLogin() {
+        TicTacToeClient.openLoginView();
+    }
+
+    public void offline(boolean isOffline) {
+        tInvitation.setDisable(isOffline);
+        tPlayers.setDisable(isOffline);
+        btnMatches.setDisable(isOffline);
+        btnInvite.setDisable(isOffline);
+        showHideLoginBtn(isOffline);
+    }
+
+    public void showHideLoginBtn(boolean isOffline){
+        btnLogin.setVisible(myPlayerFullInfo == null && !isOffline);
+    }
 
     public void notifyGameInvitation(Player player) {
         // check if received this notification before
@@ -290,6 +308,7 @@ public class HomeController implements Initializable {
         playersFullInfo.remove(myPlayerFullInfo.getDb_id());
         fillView();
         sent.clear();
+        offline(false);
     }
 
     private void fillView() {
