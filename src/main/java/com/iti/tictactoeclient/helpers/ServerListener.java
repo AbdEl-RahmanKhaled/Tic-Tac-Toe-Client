@@ -1,12 +1,9 @@
 package com.iti.tictactoeclient.helpers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.iti.tictactoeclient.TicTacToeClient;
-import com.iti.tictactoeclient.controllers.LoginController;
 import com.iti.tictactoeclient.models.Player;
 import com.iti.tictactoeclient.notification.*;
-import com.iti.tictactoeclient.requests.AcceptToResumeReq;
 import com.iti.tictactoeclient.requests.BackFromOfflineReq;
 import com.iti.tictactoeclient.responses.*;
 import javafx.application.Platform;
@@ -79,7 +76,7 @@ public class ServerListener extends Thread {
         types.put(Response.RESPONSE_GET_MATCH_HISTORY, this::getMatchHistory);
         types.put(Response.RESPONSE_ASK_TO_RESUME, this::rejectToResumeGame);
         types.put(Response.RESPONSE_GET_PAUSED_MATCH, this::getPausedMatch);
-        Response.RESPONSE_ASK_TO_PAUSE, this::askToPauseResponse);
+        types.put(Response.RESPONSE_ASK_TO_PAUSE, this::askToPauseResponse);
 
         types.put(Notification.NOTIFICATION_UPDATE_STATUS, this::updateStatus);
         types.put(Notification.NOTIFICATION_GAME_INVITATION, this::gameInvitation);
@@ -93,6 +90,8 @@ public class ServerListener extends Thread {
         types.put(Notification.NOTIFICATION_COMPETITOR_CONNECTION_ISSUE, this::competitorConnectionIssueNotification);
         types.put(Notification.NOTIFICATION_UPDATE_BOARD, this::updateBoardNotification);
     }
+
+
 
     private void updateBoardNotification(String json) {
         try {
@@ -237,7 +236,7 @@ public class ServerListener extends Thread {
     private void getMatchHistory(String json){
         try {
             GetMatchHistoryRes getMatchHistoryRes=TicTacToeClient.mapper.readValue(json,GetMatchHistoryRes.class);
-            TicTacToeClient.matchController.handleResponse(getMatchHistoryRes.getMatches());
+            TicTacToeClient.matchController.fillMatchesTable(getMatchHistoryRes.getMatches());
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

@@ -17,6 +17,7 @@ import com.iti.tictactoeclient.requests.*;
 import com.iti.tictactoeclient.models.Message;
 import com.iti.tictactoeclient.notification.MessageNotification;
 import com.iti.tictactoeclient.responses.GetPausedMatchRes;
+import javafx.animation.RotateTransition;
 import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -30,6 +31,7 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
 import java.awt.*;
+import java.sql.Timestamp;
 import java.util.*;
 import java.io.File;
 import java.net.URL;
@@ -467,13 +469,13 @@ public class GameController implements Initializable {
         lblOPlayer.setText("");
     }
 
-        public void viewMatchHistory(GetPausedMatchRes getPausedMatchRes){
-            List<Position> positions = getPausedMatchRes.getPositions();
-            Match match = getPausedMatchRes.getMatch();
-            TicTacToeClient.openGameView();
-            fillGrid(positions,match);
+    public void viewMatchHistory(GetPausedMatchRes getPausedMatchRes) {
+        positions = getPausedMatchRes.getPositions();
+        match = getPausedMatchRes.getMatch();
+        TicTacToeClient.openGameView();
+        fillGrid();
 
-        }
+    }
 
     private void fillGrid() {
         String txtChoice;

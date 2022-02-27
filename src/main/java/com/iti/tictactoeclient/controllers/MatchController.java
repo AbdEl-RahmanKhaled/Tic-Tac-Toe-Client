@@ -17,7 +17,6 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.net.URL;
-import java.sql.Timestamp;
 import java.util.*;
 
 public class MatchController implements Initializable {
@@ -37,6 +36,11 @@ public class MatchController implements Initializable {
     @FXML
     private TableColumn<Match, String> winnerColumn;
 
+    private MatchTable matchTable;
+
+    private List<MatchTable> matchesList;
+
+    private int selectedIndex;
 
     public void showAnimation() {
         File backfile = new File("images/7.png");
@@ -67,23 +71,12 @@ public class MatchController implements Initializable {
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
         winnerColumn.setCellValueFactory(new PropertyValueFactory<>("winner"));
 
-//        MatchTable.setRowFactory(tv -> {
-//            TableRow<MatchTable> row = new TableRow<>();
-//            row.setOnMouseClicked(event -> {
-//                if (event.getClickCount() == 2 && (!row.isEmpty()) && (Objects.equals(MatchTable.getSelectionModel().getSelectedItem().getStatus().toLowerCase(Locale.ROOT), com.iti.tictactoeclient.models.MatchTable.STATUS_PAUSED))) {
-//                    MatchTable rowData = row.getItem();
-//                    selectMatchToResume();
-//                }
-//            });
-//            return row;
-//        });
-
     }
 
     @FXML
     private void OnViewButton() {
         try {
-            MatchTable matchTable = MatchTable.getSelectionModel().getSelectedItem();
+            matchTable = MatchTable.getSelectionModel().getSelectedItem();
             if (matchTable != null) {
                 GetPausedMatchReq getPausedMatchReq = new GetPausedMatchReq(matchTable.getM_id());
                 String jRequest = TicTacToeClient.mapper.writeValueAsString(getPausedMatchReq);
@@ -97,12 +90,11 @@ public class MatchController implements Initializable {
     @FXML
     private void OnResumeButton() {
         if (MatchTable.getSelectionModel().getSelectedItem() != null) {
-            MatchTable matchTable = MatchTable.getSelectionModel().getSelectedItem();
+            matchTable = MatchTable.getSelectionModel().getSelectedItem();
+            selectedIndex = MatchTable.getSelectionModel().getSelectedIndex();
             askToResumeReq(matchTable);
         }
     }
-
-
 
     private void askToResumeReq(MatchTable matchTable) {
         int db_id;
@@ -112,7 +104,7 @@ public class MatchController implements Initializable {
             } else {
                 db_id = matchTable.getPlayer1_id();
             }
-            long s_id = TicTacToeClient.homeController.getPlayersFullInfo().get(db_id).getS_id();
+            long s_id = TicTacToeClient.homeController.getPlayerFullInfo(db_id).getS_id();
 
             boolean answer = TicTacToeClient.showConfirmation("Resume game", "Send Resume Request?", "Ok", "Cancel");
             System.out.println(answer);
@@ -136,7 +128,10 @@ public class MatchController implements Initializable {
 
     }
 
-    public void handleResponse(List<MatchTable> matchList) {
+
+
+    public void fillMatchesTable(List<MatchTable> matchList) {
+        matchesList= matchList;
         MatchTable.getItems().clear();
         MatchTable.getItems().setAll(matchList);
 
