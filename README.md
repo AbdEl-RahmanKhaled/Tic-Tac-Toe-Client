@@ -13,6 +13,7 @@
 * you need to install java
 * you need to install intellij
 * you need to install jdk
+* you need to install JavaFx
 
 
 ## Screenshots
@@ -36,24 +37,28 @@
 # Client Side Features
 * SignIn
 * SignUp
-* play with pc with different difficulty levels
-* play with online friends
+* Play with pc with different difficulty levels
+* Play with online friends
+* The user get notifications when anther user want to play with him and he  can accept or reject
 * have an avatar and score level
+* User get notification when the second player disconnected
+* User can show his/here previous matches
+* User have a part that show his/here notifications in his/here home page
+* User have a list to show  him who is online or offline and who is in game
+* No one can interrupt the user while his/here play a game with invitation
 
  
 
 # Server side Features
-* show a list of all users
-* show players status and score
-* close and start the server
+* Show a list of all users
+* Show players status and score
+* Start and stop the server
 
 # Game-Board-Options
 1. Single player to play vs computer
-2.  Multiplayer to play with a friend on the same machine (you have to run the program twice 
-     and one should be x and the other should be o)
+2.  Multiplayer to play with a friend on the same machine (you have to run the program twice  )
 
-3.  Friends to play through network (the one who choose to be x represents the server
-     and the one who choose to be o represents the client)
+3.  Friends to play through network 
 4.  Achievements to view games and replay 
 
 ## Contributors
