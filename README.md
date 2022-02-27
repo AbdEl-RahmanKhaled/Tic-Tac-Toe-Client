@@ -11,14 +11,20 @@
 ## Install
 
 * you need to install java
-* you need to install netbeans
+* you need to install intellij
 * you need to install jdk
 
 
 ## Screenshots
-![Login layout](https://github.com/AbdEl-RahmanKhaled/Tic-Tac-Toe-Client/blob/test1/images/login.png?raw=true)
+![Login layout](https://github.com/AbdEl-RahmanKhaled/Tic-Tac-Toe-Client/blob/test1/images/login1.png?raw=true)
 
 ![Register layout](https://github.com/AbdEl-RahmanKhaled/Tic-Tac-Toe-Client/blob/test1/images/register.png?raw=true)
+
+![Home layout](https://github.com/AbdEl-RahmanKhaled/Tic-Tac-Toe-Client/blob/test1/images/Home.png?raw=true)
+
+![LevelsVsComp layout](https://github.com/AbdEl-RahmanKhaled/Tic-Tac-Toe-Client/blob/test1/images/VsComp1.png?raw=true)
+
+![VsComp layout](https://github.com/AbdEl-RahmanKhaled/Tic-Tac-Toe-Client/blob/test1/images/VsComp2.png?raw=true)
 
 ## Content
 
@@ -32,15 +38,14 @@
 * SignUp
 * play with pc with different difficulty levels
 * play with online friends
-
 * have an avatar and score level
-* show the highest score in the game
+
  
 
 # Server side Features
 * show a list of all users
 * show players status and score
-* close and reopen the server
+* close and start the server
 
 # Game-Board-Options
 1. Single player to play vs computer
