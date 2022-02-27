@@ -3,6 +3,8 @@ package com.iti.tictactoeclient.controllers;
 import com.iti.tictactoeclient.TicTacToeClient;
 import com.iti.tictactoeclient.helpers.game.AIGameEngine;
 import com.iti.tictactoeclient.models.Match;
+import com.iti.tictactoeclient.models.Position;
+import com.iti.tictactoeclient.responses.GetPausedMatchRes;
 import javafx.animation.RotateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -23,9 +26,17 @@ public class GameVsComputerController implements Initializable {
     private Image imgX, imgO;
     private boolean myTurn;
     private boolean isEasy;
+    private Match match;
+    private List<Position> positions;
 
     @FXML
     private ImageView backgroundimg;
+
+    @FXML
+    private GridPane Grid;
+
+    @FXML
+    private Button exitButton, resetButton;
 
     @FXML
     private Button b1, b2, b3, b4, b5, b6, b7, b8, b9;
@@ -175,6 +186,37 @@ public class GameVsComputerController implements Initializable {
         rotateTransition.setByAngle(360);
         rotateTransition.setAutoReverse(true);
         rotateTransition.play();
+    }
+
+    public void viewMatchHistory(GetPausedMatchRes getPausedMatchRes) {
+        positions = getPausedMatchRes.getPositions();
+        match = getPausedMatchRes.getMatch();
+        TicTacToeClient.openGameVsComputerView();
+        fillGrid();
+        disableScene();
+    }
+
+    private void disableScene(){
+        //exitButton.setDisable(true);
+        resetButton.setDisable(true);
+        Grid.setDisable(true);
+    }
+
+    private void fillGrid() {
+        String txtChoice;
+        for (Position position : positions) {
+            Image imgChoice = imgO;
+            if (position.getPlayer_id() == match.getPlayer1_id())
+                txtChoice = match.getP1_choice();
+            else
+                txtChoice = match.getP2_choice();
+
+            if (txtChoice.equals(String.valueOf(Match.CHOICE_X)))
+                imgChoice = imgX;
+
+            buttons.get(position.getPosition()).setText(txtChoice);
+            buttons.get(position.getPosition()).setGraphic(new ImageView(imgChoice));
+        }
     }
 
 }

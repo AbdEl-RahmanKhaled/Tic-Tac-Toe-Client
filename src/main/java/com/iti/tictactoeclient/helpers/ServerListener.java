@@ -288,7 +288,7 @@ public class ServerListener extends Thread {
     private void getPausedMatch(String json){
         try {
             GetPausedMatchRes getPausedMatchRes = TicTacToeClient.mapper.readValue(json, GetPausedMatchRes.class);
-            Platform.runLater(()->TicTacToeClient.gameController.viewMatchHistory(getPausedMatchRes));
+            Platform.runLater(()->TicTacToeClient.gameVsComputerController.viewMatchHistory(getPausedMatchRes));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

@@ -467,13 +467,6 @@ public class GameController implements Initializable {
         lblOPlayer.setText("");
     }
 
-    public void viewMatchHistory(GetPausedMatchRes getPausedMatchRes) {
-        positions = getPausedMatchRes.getPositions();
-        match = getPausedMatchRes.getMatch();
-        TicTacToeClient.openGameView();
-        fillGrid();
-
-    }
 
     private void fillGrid() {
         String txtChoice;
