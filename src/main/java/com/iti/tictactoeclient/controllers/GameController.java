@@ -42,9 +42,6 @@ public class GameController implements Initializable {
     private Image imgChoice;
     private char txtChoice;
     private boolean myTurn = false;
-    private final Image winnerImg = new Image(new File("images/winner.gif").toURI().toString());
-    private final Image loserImg = new Image(new File("images/loser.gif").toURI().toString());
-    private final Image gameOverImg = new Image(new File("images/gameover.gif").toURI().toString());
     private final Image imgX = new Image(new File("images/x.png").toURI().toString());
     private final Image imgO = new Image(new File("images/o.png").toURI().toString());
     private final GameEngine gameEngine = new GameEngine();

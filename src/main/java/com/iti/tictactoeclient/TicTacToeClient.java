@@ -116,50 +116,52 @@ public class TicTacToeClient extends Application {
 
     private void initTray() {
         //Obtain only one instance of the SystemTray object
-        tray = SystemTray.getSystemTray();
+        if (SystemTray.isSupported()) {
+            tray = SystemTray.getSystemTray();
 
-        //If the icon is a file
-        java.awt.Image image = Toolkit.getDefaultToolkit().getImage("images/7.png");
+            //If the icon is a file
+            java.awt.Image image = Toolkit.getDefaultToolkit().getImage("images/7.png");
 
-        trayIcon = new TrayIcon(image, "Tic Tac Toe Game");
+            trayIcon = new TrayIcon(image, "Tic Tac Toe Game");
 
-        //Let the system resize the image if needed
-        trayIcon.setImageAutoSize(true);
-        //Set tooltip text for the tray icon
-        trayIcon.setToolTip("Tic Tac Toe Game");
-        trayIcon.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                Platform.runLater(() -> {
-                    mainStage.requestFocus();
-                    mainStage.toFront();
-                });
+            //Let the system resize the image if needed
+            trayIcon.setImageAutoSize(true);
+            //Set tooltip text for the tray icon
+            trayIcon.setToolTip("Tic Tac Toe Game");
+            trayIcon.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    Platform.runLater(() -> {
+                        mainStage.requestFocus();
+                        mainStage.toFront();
+                    });
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+
+                }
+            });
+            try {
+                tray.add(trayIcon);
+            } catch (AWTException e) {
+                e.printStackTrace();
             }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
-        try {
-            tray.add(trayIcon);
-        } catch (AWTException e) {
-            e.printStackTrace();
         }
     }
 
