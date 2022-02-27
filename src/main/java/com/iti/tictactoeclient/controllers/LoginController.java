@@ -84,6 +84,11 @@ public class LoginController implements Initializable {
                 e.printStackTrace();
             }
         }
+        else {
+            UserNameTxt.setText("");
+            PasswordTxt.setText("");
+            UserNameTxt.requestFocus();
+        }
     }
 
     private boolean isValidInput() {

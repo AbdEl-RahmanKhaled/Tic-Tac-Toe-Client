@@ -9,6 +9,7 @@ import com.iti.tictactoeclient.models.Player;
 import com.iti.tictactoeclient.models.PlayerFullInfo;
 import com.iti.tictactoeclient.notification.AskToResumeNotification;
 import com.iti.tictactoeclient.requests.*;
+import com.iti.tictactoeclient.responses.AskToResumeRes;
 import com.iti.tictactoeclient.responses.InviteToGameRes;
 import com.iti.tictactoeclient.responses.Response;
 import javafx.animation.FadeTransition;
@@ -87,7 +88,7 @@ public class HomeController implements Initializable {
             TableRow<Invitation> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    if (tInvitation.getSelectionModel().getSelectedItem().getType().equals(Invitation.GAME_INVITATION))
+                    if(tInvitation.getSelectionModel().getSelectedItem().getType() == Invitation.GAME_INVITATION)
                         showInvitationConfirmation();
                     else
                         respondToResumeReq();
@@ -98,7 +99,7 @@ public class HomeController implements Initializable {
 
     }
 
-    public void addResumeReq(AskToResumeNotification askToResumeNotification) {
+    public void addResumeReq(AskToResumeNotification askToResumeNotification){
         if (invitations.get(askToResumeNotification.getPlayer().getDb_id()) == null) {
             Invitation invitation = new Invitation(Invitation.RESUME_INVITATION, askToResumeNotification.getPlayer(), askToResumeNotification.getMatch());
             invitation.setName(playersFullInfo.get(askToResumeNotification.getPlayer().getDb_id()).getName());
@@ -109,30 +110,33 @@ public class HomeController implements Initializable {
                     MessageType.INFO);
         }
     }
-
-    public void respondToResumeReq() {
-        Player player = tInvitation.getSelectionModel().getSelectedItem().getPlayer();
-        Match match = tInvitation.getSelectionModel().getSelectedItem().getMatch();
-        if (TicTacToeClient.showConfirmation("ShowNotification", "Do you want to resume game ?", "Accept", "Reject")) {
-            AcceptToResumeReq acceptToResumeReq = new AcceptToResumeReq(player, match);
-            try {
-                String jRequest = TicTacToeClient.mapper.writeValueAsString(acceptToResumeReq);
+     public void respondToResumeReq()
+     {
+         Player player = tInvitation.getSelectionModel().getSelectedItem().getPlayer();
+         Match match = tInvitation.getSelectionModel().getSelectedItem().getMatch();
+         if(TicTacToeClient.showConfirmation("ShowNotification","Do you want to resume game ?","Accept","Reject"))
+         {
+             AcceptToResumeReq acceptToResumeReq = new AcceptToResumeReq(player, match);
+             //Platform.runLater(()-> TicTacToeClient.openGameView());
+             try {
+                 String jRequest = TicTacToeClient.mapper.writeValueAsString(acceptToResumeReq);
                 ServerListener.sendRequest(jRequest);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
-        } else {
-            RejectToResumeReq rejectToResumeReq = new RejectToResumeReq(player);
-            try {
-                String jRequest = TicTacToeClient.mapper.writeValueAsString(rejectToResumeReq);
-                ServerListener.sendRequest(jRequest);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
-        }
-        invitations.remove(player.getDb_id());
-        fillInvitationsTable();
-    }
+             } catch (JsonProcessingException e) {
+                 e.printStackTrace();
+             }
+         }
+         else{
+             RejectToResumeReq rejectToResumeReq = new RejectToResumeReq(player);
+             try {
+                 String jRequest = TicTacToeClient.mapper.writeValueAsString(rejectToResumeReq);
+                 ServerListener.sendRequest(jRequest);
+             } catch (JsonProcessingException e) {
+                 e.printStackTrace();
+             }
+         }
+         invitations.remove(player.getDb_id());
+         fillInvitationsTable();
+     }
 
     // to show animation when view loaded
     public void showAnimation() {
@@ -178,6 +182,10 @@ public class HomeController implements Initializable {
         }
     }
 
+    public void declineResume(AskToResumeRes askToResumeRes){
+        TicTacToeClient.showSystemNotification("Resume Game, Declined!", getPlayerFullInfo(askToResumeRes.getPlayer().getDb_id()).getName()+" cannot resume game right now.", MessageType.INFO);
+    }
+
     // to confirm user
     private void showInvitationConfirmation() {
         Invitation invitation = tInvitation.getSelectionModel().getSelectedItem();
@@ -187,7 +195,7 @@ public class HomeController implements Initializable {
     }
 
     private void confirmGameInvitation(Invitation invitation) {
-        if (TicTacToeClient.showConfirmation(invitation.getType(), invitation.getName() + " invite you to a game.", "Accept", "Reject")) {
+        if (TicTacToeClient.showConfirmation(invitation.getType(), invitation.getName() + " invite you to a game.", "Accept", "Decline")) {
             // accept the invitation
             AcceptInvitationReq acceptInvitationReq = new AcceptInvitationReq(new Player(playersFullInfo.get(invitation.getPlayer().getDb_id())));
             try {
@@ -240,6 +248,7 @@ public class HomeController implements Initializable {
         } else {
             TicTacToeClient.gameVsComputerController.startGame(false);
         }
+
 
 
         TicTacToeClient.openGameVsComputerView();
@@ -302,6 +311,7 @@ public class HomeController implements Initializable {
         }
     }
 
+
     public void fromLogin(PlayerFullInfo myPlayerFullInfo, Map<Integer, PlayerFullInfo> playersFullInfo) {
         this.myPlayerFullInfo = myPlayerFullInfo;
         this.playersFullInfo = playersFullInfo;
@@ -320,6 +330,7 @@ public class HomeController implements Initializable {
     private void fillPlayersTable() {
         tPlayers.getItems().clear();
         tPlayers.getItems().setAll(playersFullInfo.values());
+
         tPlayers.getSortOrder().add(cStatus);
     }
 

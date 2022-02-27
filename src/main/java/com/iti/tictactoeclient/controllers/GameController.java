@@ -6,6 +6,7 @@ import com.iti.tictactoeclient.helpers.ServerListener;
 import com.iti.tictactoeclient.helpers.game.GameEngine;
 import com.iti.tictactoeclient.models.Match;
 import com.iti.tictactoeclient.models.Player;
+import com.iti.tictactoeclient.models.PlayerFullInfo;
 import com.iti.tictactoeclient.models.Position;
 import com.iti.tictactoeclient.notification.FinishGameNotification;
 import com.iti.tictactoeclient.notification.ResumeGameNotification;
@@ -15,19 +16,22 @@ import com.iti.tictactoeclient.requests.SaveMatchReq;
 import com.iti.tictactoeclient.requests.*;
 import com.iti.tictactoeclient.models.Message;
 import com.iti.tictactoeclient.notification.MessageNotification;
-import com.iti.tictactoeclient.requests.SendMessageReq;
+import com.iti.tictactoeclient.responses.GetPausedMatchRes;
 import javafx.animation.RotateTransition;
+import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
-import java.awt.TrayIcon;
+import java.awt.*;
+import java.sql.Timestamp;
 import java.util.*;
 import java.io.File;
 import java.net.URL;
@@ -64,7 +68,6 @@ public class GameController implements Initializable {
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initButtons();
-
     }
 
     public void showAnimation() {
@@ -82,7 +85,7 @@ public class GameController implements Initializable {
         rotateTransition.play();
     }
 
-    private void initButtons() {
+    private void initButtons(){
         buttons = new HashMap<>();
         buttons.put("b1", b1);
         buttons.put("b2", b2);
@@ -233,27 +236,6 @@ public class GameController implements Initializable {
         fillGrid();
         turnAfterResume();
     }
-
-    private void init() {
-        sent = false;
-        positions = new ArrayList<>();
-
-    }
-
-    private void setData() {
-        String playerX;
-        String playerO;
-        if (match.getP1_choice().equals(String.valueOf(Match.CHOICE_X))) {
-            playerX = TicTacToeClient.homeController.getPlayerFullInfo(match.getPlayer1_id()).getName();
-            playerO = TicTacToeClient.homeController.getPlayerFullInfo(match.getPlayer2_id()).getName();
-        } else {
-            playerX = TicTacToeClient.homeController.getPlayerFullInfo(match.getPlayer2_id()).getName();
-            playerO = TicTacToeClient.homeController.getPlayerFullInfo(match.getPlayer1_id()).getName();
-        }
-        lblXPlayer.setText(playerX);
-        lblOPlayer.setText(playerO);
-    }
-
     private void firstTurn() {
         myTurn = (match.getPlayer1_id() == TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id() && match.getP1_choice().equals(String.valueOf(Match.CHOICE_X)))
                 || (match.getPlayer2_id() == TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id() && match.getP2_choice().equals(String.valueOf(Match.CHOICE_X)));
@@ -281,6 +263,26 @@ public class GameController implements Initializable {
             imgChoice = imgO;
         }
         setTurnLabel();
+    }
+
+    private void init() {
+        sent = false;
+        positions = new ArrayList<>();
+
+    }
+
+    private void setData() {
+        String playerX;
+        String playerO;
+        if (match.getP1_choice().equals(String.valueOf(Match.CHOICE_X))) {
+            playerX = TicTacToeClient.homeController.getPlayerFullInfo(match.getPlayer1_id()).getName();
+            playerO = TicTacToeClient.homeController.getPlayerFullInfo(match.getPlayer2_id()).getName();
+        } else {
+            playerX = TicTacToeClient.homeController.getPlayerFullInfo(match.getPlayer2_id()).getName();
+            playerO = TicTacToeClient.homeController.getPlayerFullInfo(match.getPlayer1_id()).getName();
+        }
+        lblXPlayer.setText(playerX);
+        lblOPlayer.setText(playerO);
     }
 
     public void acceptResumeGame(Player player, Match match) {
@@ -463,6 +465,14 @@ public class GameController implements Initializable {
         lblYourTurn.setText("");
         lblXPlayer.setText("");
         lblOPlayer.setText("");
+    }
+
+    public void viewMatchHistory(GetPausedMatchRes getPausedMatchRes) {
+        positions = getPausedMatchRes.getPositions();
+        match = getPausedMatchRes.getMatch();
+        TicTacToeClient.openGameView();
+        fillGrid();
+
     }
 
     private void fillGrid() {
