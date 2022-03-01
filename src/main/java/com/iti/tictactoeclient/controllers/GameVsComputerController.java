@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -25,18 +26,18 @@ public class GameVsComputerController implements Initializable {
     private static final AIGameEngine aiGameEngine = new AIGameEngine();
     private Image imgX, imgO;
     private boolean myTurn;
-    private boolean isEasy;
+    private boolean isEasy, viewMod;
     private Match match;
     private List<Position> positions;
 
     @FXML
-    private ImageView backgroundimg;
+    private ImageView backgroundimg, imgComputer;
 
     @FXML
-    private GridPane Grid;
+    private Button resetButton;
 
     @FXML
-    private Button exitButton, resetButton;
+    private Label lblXPlayer, lblOPlayer;
 
     @FXML
     private Button b1, b2, b3, b4, b5, b6, b7, b8, b9;
@@ -104,7 +105,7 @@ public class GameVsComputerController implements Initializable {
     @FXML
     void onActionExit() {
         onActionReset();
-        TicTacToeClient.sendUpdateInGameStatus(false);
+        if (!viewMod) TicTacToeClient.sendUpdateInGameStatus(false);
         TicTacToeClient.openHomeView();
     }
 
@@ -115,6 +116,8 @@ public class GameVsComputerController implements Initializable {
             b.setGraphic(new ImageView());
         }
         myTurn = true;
+        lblOPlayer.setText("");
+        lblXPlayer.setText("");
     }
 
     private void aiTurn() {
@@ -170,8 +173,10 @@ public class GameVsComputerController implements Initializable {
 
     public void startGame(boolean easy) {
         myTurn = true;
+        viewMod = false;
         isEasy = easy;
         TicTacToeClient.sendUpdateInGameStatus(true);
+        imgComputer.setImage(new Image(new File("images/computer.png").toURI().toString()));
     }
 
 
@@ -194,12 +199,29 @@ public class GameVsComputerController implements Initializable {
         TicTacToeClient.openGameVsComputerView();
         fillGrid();
         disableScene();
+        setData();
     }
 
-    private void disableScene(){
+    private void setData() {
+        String playerX;
+        String playerO;
+        if (match.getP1_choice().equals(String.valueOf(Match.CHOICE_X))) {
+            playerX = TicTacToeClient.homeController.getPlayerFullInfo(match.getPlayer1_id()).getName();
+            playerO = TicTacToeClient.homeController.getPlayerFullInfo(match.getPlayer2_id()).getName();
+        } else {
+            playerX = TicTacToeClient.homeController.getPlayerFullInfo(match.getPlayer2_id()).getName();
+            playerO = TicTacToeClient.homeController.getPlayerFullInfo(match.getPlayer1_id()).getName();
+        }
+        lblXPlayer.setText(playerX);
+        lblOPlayer.setText(playerO);
+    }
+
+    private void disableScene() {
         //exitButton.setDisable(true);
         resetButton.setDisable(true);
-        Grid.setDisable(true);
+        myTurn = false;
+        viewMod = true;
+        imgComputer.setImage(new Image(new File("images/player.png").toURI().toString()));
     }
 
     private void fillGrid() {
