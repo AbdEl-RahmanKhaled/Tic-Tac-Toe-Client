@@ -15,9 +15,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
+import java.awt.*;
 import java.io.File;
 import java.net.URL;
 import java.util.*;
+import java.util.List;
 
 public class MatchController implements Initializable {
     @FXML
@@ -109,19 +111,22 @@ public class MatchController implements Initializable {
             boolean answer = TicTacToeClient.showConfirmation("Resume game", "Send Resume Request?", "Ok", "Cancel");
             System.out.println(answer);
             if (answer) {
-                Player player = new Player(db_id, s_id);
-                Match match = new Match();
-                match.setM_id(matchTable.getM_id());
-                AskToResumeReq askToResumeReq = new AskToResumeReq();
-                askToResumeReq.setPlayer(player);
-                askToResumeReq.setMatch(match);
-                try {
-                    String jRequest = TicTacToeClient.mapper.writeValueAsString(askToResumeReq);
-                    ServerListener.sendRequest(jRequest);
-                } catch (JsonProcessingException e) {
-                    e.printStackTrace();
+                if (s_id != -1) {
+                    Player player = new Player(db_id, s_id);
+                    Match match = new Match();
+                    match.setM_id(matchTable.getM_id());
+                    AskToResumeReq askToResumeReq = new AskToResumeReq();
+                    askToResumeReq.setPlayer(player);
+                    askToResumeReq.setMatch(match);
+                    try {
+                        String jRequest = TicTacToeClient.mapper.writeValueAsString(askToResumeReq);
+                        ServerListener.sendRequest(jRequest);
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    TicTacToeClient.showSystemNotification("Resume Request", "Your Competitor is offline", TrayIcon.MessageType.WARNING);
                 }
-
             }
 
         }
@@ -129,9 +134,8 @@ public class MatchController implements Initializable {
     }
 
 
-
     public void fillMatchesTable(List<MatchTable> matchList) {
-        matchesList= matchList;
+        matchesList = matchList;
         MatchTable.getItems().clear();
         MatchTable.getItems().setAll(matchList);
 

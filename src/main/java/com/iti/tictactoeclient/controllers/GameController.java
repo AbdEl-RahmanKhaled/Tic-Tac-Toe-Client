@@ -56,6 +56,7 @@ public class GameController implements Initializable {
     @FXML
     protected Label lblXPlayer, lblOPlayer, lblYourTurn;
 
+
     @FXML
     private TextField TextField;
 
@@ -233,6 +234,24 @@ public class GameController implements Initializable {
         TicTacToeClient.openGameView();
         positions = resumeGameNotification.getPositions();
         match = resumeGameNotification.getMatch();
+        if(match.getPlayer1_id() == TicTacToeClient.homeController.getMyPlayerFullInfo().getDb_id()) {
+            if (match.getP1_choice().equals(String.valueOf(Match.CHOICE_X))) {
+                lblXPlayer.setText(TicTacToeClient.homeController.getPlayerFullInfo(match.getPlayer1_id()).getName());
+                lblOPlayer.setText(TicTacToeClient.homeController.getPlayerFullInfo(match.getPlayer2_id()).getName());
+            } else {
+                lblXPlayer.setText(TicTacToeClient.homeController.getPlayerFullInfo(match.getPlayer2_id()).getName());
+                lblOPlayer.setText(TicTacToeClient.homeController.getPlayerFullInfo(match.getPlayer1_id()).getName());
+            }
+        }
+        else {
+            if (match.getP2_choice().equals(String.valueOf(Match.CHOICE_X))) {
+                lblXPlayer.setText(TicTacToeClient.homeController.getPlayerFullInfo(match.getPlayer2_id()).getName());
+                lblOPlayer.setText(TicTacToeClient.homeController.getPlayerFullInfo(match.getPlayer1_id()).getName());
+            } else {
+                lblOPlayer.setText(TicTacToeClient.homeController.getPlayerFullInfo(match.getPlayer2_id()).getName());
+                lblXPlayer.setText(TicTacToeClient.homeController.getPlayerFullInfo(match.getPlayer1_id()).getName());
+            }
+        }
         fillGrid();
         turnAfterResume();
     }
