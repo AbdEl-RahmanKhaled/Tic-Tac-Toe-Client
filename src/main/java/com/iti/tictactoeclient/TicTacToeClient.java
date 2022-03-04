@@ -303,7 +303,4 @@ public class TicTacToeClient extends Application {
         serverListener.interrupt();
     }
 
-    public static void main(String[] args) {
-        launch();
-    }
 }
